@@ -1,0 +1,37 @@
+#include "Bw/Base/Assert.h"
+
+namespace bw
+{
+
+////////////////////////////////////////////////////////////////////////////////
+//  Default library assert handler
+////////////////////////////////////////////////////////////////////////////////
+class DefaultAssertHandler : public AssertHandler
+{
+public:
+	virtual ~DefaultAssertHandler() = default;
+	void operator()(const char* exp, const char* file, int line) override {}
+};
+
+////////////////////////////////////////////////////////////////////////////////
+//  Private variables
+////////////////////////////////////////////////////////////////////////////////
+static DefaultAssertHandler s_defaultAssertHandler;
+static AssertHandler*       s_assertHandler = &s_defaultAssertHandler;
+
+////////////////////////////////////////////////////////////////////////////////
+//  Public functions
+////////////////////////////////////////////////////////////////////////////////
+AssertHandler& GetAssertHandler()
+{
+	return *s_assertHandler;
+}
+
+// -----------------------------------------------------------------------------
+
+void SetAssertHandler(AssertHandler& assertHandler)
+{
+	s_assertHandler = &assertHandler;
+}
+
+}	// namespace bw
