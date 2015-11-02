@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_RUNNER
-#include <catch/catch.hpp>
-#include "BwTests/Base/AllTests.h"
+#include <Catch/Catch.hpp>
+#include "Base/AllTests.h"
 
 int main( int argc, char** argv )
 {

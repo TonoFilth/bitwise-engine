@@ -1,0 +1,16 @@
+#ifndef BW_BASE_STACK_TRACE_H
+#define BW_BASE_STACK_TRACE_H
+
+#include "Bw/Base/Export.h"
+
+namespace bw
+{
+
+////////////////////////////////////////////////////////////////////////////////
+//  Public functions
+////////////////////////////////////////////////////////////////////////////////
+BW_BASE_API int stack_trace(char*** stackFrames);
+
+}   // namespace bw
+
+#endif  // BW_BASE_STACK_TRACE_H

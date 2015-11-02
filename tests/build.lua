@@ -37,8 +37,8 @@ function build_tests(lib, link_libs)
     local lowerName = string.lower(lib)
     local upperName = string.upper(lib)
 
-    local includeDir = INC_DIR .. "/BwTests/" .. lib
-    local srcDir     = SRC_DIR .. "/BwTests/" .. lib
+    local includeDir = INC_DIR .. "/" .. lib
+    local srcDir     = SRC_DIR .. "/" .. lib
 
     local lib_table = create_lib_table(link_libs)
 
@@ -57,10 +57,16 @@ function build_tests(lib, link_libs)
             INC_DIR,
             ENGINE_INC
         }
-
-        defines { "BW_TEST" }
+        defines
+        {
+            "BW_TEST"
+        }
         defines(lib_table["defines"])
         targetname(lowerName .. "-tests")
+
+        -- OS options
+        include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
+        add_os_options()
 
         -- Links sample app with engine static debug libraries
         filter "Debug"
@@ -75,6 +81,10 @@ function build_tests(lib, link_libs)
             {
                 "BW_STATIC_LIB"
             }
+            linkoptions
+            {
+                "-L" .. ENGINE_LIB .. "/static/debug/"
+            }
 
         -- Links sample app with engine static release libraries
         filter "Release"
@@ -88,6 +98,10 @@ function build_tests(lib, link_libs)
             defines
             {
                 "BW_STATIC_LIB"
+            }
+            linkoptions
+            {
+                "-L" .. ENGINE_LIB .. "/static/release/"
             }
 end
 

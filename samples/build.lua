@@ -17,9 +17,9 @@ function create_lib_table(libs)
     local lib_table =
     {
         ["Debug"]       = {},
-        ["Debug_DLL"]   = {},
+        ["Debug_SHD"]   = {},
         ["Release"]     = {},
-        ["Release_DLL"] = {},
+        ["Release_SHD"] = {},
         ["defines"]     = {}
     }
 
@@ -29,8 +29,8 @@ function create_lib_table(libs)
 
         table.insert(lib_table["Debug"],       "bw-" .. lowerName .. "-sd")
         table.insert(lib_table["Release"],     "bw-" .. lowerName .. "-s")
-        table.insert(lib_table["Debug_DLL"],   "bw-" .. lowerName .. "-d")
-        table.insert(lib_table["Release_DLL"], "bw-" .. lowerName)
+        table.insert(lib_table["Debug_SHD"],   "bw-" .. lowerName .. "-d")
+        table.insert(lib_table["Release_SHD"], "bw-" .. lowerName)
         table.insert(lib_table["defines"],     "BW_" .. upperName)
     end
 
@@ -41,8 +41,8 @@ function build_sample(sampleName, libs)
     local lowerName = string.lower(sampleName)
     local upperName = string.upper(sampleName)
 
-    local includeDir = INC_DIR .. "/Bw/Samples/" .. sampleName
-    local srcDir     = SRC_DIR .. "/Bw/Samples/" .. sampleName
+    local includeDir = INC_DIR .. "/" .. sampleName
+    local srcDir     = SRC_DIR .. "/" .. sampleName
 
     local lib_table = create_lib_table(libs)
 
@@ -61,10 +61,16 @@ function build_sample(sampleName, libs)
             INC_DIR,
             ENGINE_INC
         }
-
-        defines { "BW_SAMPLE" }
+        defines
+        {
+            "BW_SAMPLE"
+        }
         defines(lib_table["defines"])
         targetname(sampleName)
+
+        -- OS options
+        include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
+        add_os_options()
 
         -- Links sample app with engine static debug libraries
         filter "Debug"
@@ -72,8 +78,8 @@ function build_sample(sampleName, libs)
             links(lib_table["Debug"])
             libdirs
             {
-                EXT_LIB    .. "/debug",
-                ENGINE_LIB .. "/static/debug"
+                EXT_LIB    .. "/debug/",
+                ENGINE_LIB .. "/static/debug/"
             }
             defines
             {
@@ -95,9 +101,9 @@ function build_sample(sampleName, libs)
             }
 
          -- Links sample app with engine static debug libraries
-        filter "Debug_DLL"
+        filter "Debug_SHD"
             targetdir(BIN_DIR .. "/shared/debug")
-            links(lib_table["Debug_DLL"])
+            links(lib_table["Debug_SHD"])
             libdirs
             {
                 EXT_LIB    .. "/debug",
@@ -105,9 +111,9 @@ function build_sample(sampleName, libs)
             }
 
         -- Links sample app with engine static release libraries
-        filter "Release_DLL"
+        filter "Release_SHD"
             targetdir(BIN_DIR .. "/shared/release")
-            links(lib_table["Release_DLL"])
+            links(lib_table["Release_SHD"])
             libdirs
             {
                 EXT_LIB    .. "/release",
@@ -121,7 +127,7 @@ end
 workspace "Bitwise Engine (Samples)"
 
     -- Standard project configurations
-    configurations { "Debug", "Release", "Debug_DLL", "Release_DLL" }
+    configurations { "Debug", "Release", "Debug_SHD", "Release_SHD" }
 
     -- Project platforms
     platforms { "x64" }
@@ -130,12 +136,12 @@ workspace "Bitwise Engine (Samples)"
     location(BUILD_DIR)
 
     -- Common debug options
-   filter "Debug or Debug_DLL"
+   filter "Debug or Debug_SHD"
         flags { "Symbols" }
         optimize "Off"
 
     -- Common release options
-    filter "Release or Release_DLL"
+    filter "Release or Release_SHD"
         defines { "NDEBUG" }
         optimize "Speed"
 

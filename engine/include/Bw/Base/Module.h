@@ -6,6 +6,7 @@
 #include "Bw/Base/Endianness.h"
 #include "Bw/Base/Export.h"
 #include "Bw/Base/Preprocessor.h"
+#include "Bw/Base/StackTrace.h"
 #include "Bw/Base/Version.h"
 
 namespace bw

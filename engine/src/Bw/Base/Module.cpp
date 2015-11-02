@@ -3,6 +3,8 @@
 
 #if defined(BW_SYSTEM_WINDOWS)
 #	include "Bw/Base/Impl/Windows/AssertHandlerImpl.h"
+#else
+#   include "Bw/Base/Impl/Unix/AssertHandlerImpl.h"
 #endif
 
 namespace bw

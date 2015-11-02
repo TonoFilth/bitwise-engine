@@ -9,6 +9,28 @@ LIB_DIR   = PROJ_DIR   .. "lib"
 INC_DIR   = PROJ_DIR   .. "include"
 SRC_DIR   = PROJ_DIR   .. "src"
 -----------------------------------------
+function add_linux_debug_options()
+    buildoptions
+    {
+        "-Wall",
+        "-Wno-pmf-conversions",
+        "-Wno-deprecated-declarations"
+    }
+    linkoptions
+    {
+        "-rdynamic"
+    }
+end
+-----------------------------------------
+function add_linux_release_options()
+    buildoptions
+    {
+        "-Wall",
+        "-Wno-pmf-conversions",
+        "-Wno-deprecated-declarations"
+    }
+end
+-----------------------------------------
 function build_project(projectName)
     local lowerName = string.lower(projectName)
     local upperName = string.upper(projectName)
@@ -32,16 +54,18 @@ function build_project(projectName)
 
         targetname("bw-" .. lowerName)
 
+        -- OS options
+        include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
+        add_os_options()
+
         -- Static libraries
         filter "Debug or Release"
             kind "StaticLib"
             defines { "BW_STATIC_LIB" }
 
         -- Shared libraries
-        filter "Debug_DLL or Release_DLL"
+        filter "Debug_SHD or Release_SHD"
             kind "SharedLib"
-
-
 
         -- Static debug library config
         filter "Debug"
@@ -54,13 +78,13 @@ function build_project(projectName)
             targetdir(LIB_DIR .. "/static/release")
             
         -- Shared debug library config
-        filter "Debug_DLL"
+        filter "Debug_SHD"
             targetsuffix "-d"
             targetdir(LIB_DIR .. "/shared/debug")
             defines { "BW_" .. upperName .. "_EXPORT" }
 
         -- Shared release library config
-        filter "Release_DLL"
+        filter "Release_SHD"
             targetdir(LIB_DIR .. "/shared/release")
             defines { "BW_" .. upperName .. "_EXPORT" }
 end
@@ -71,7 +95,7 @@ end
 workspace "Bitwise Engine"
 
     -- Standard project configurations
-    configurations { "Debug", "Release", "Debug_DLL", "Release_DLL" }
+    configurations { "Debug", "Release", "Debug_SHD", "Release_SHD" }
 
     -- Project platforms
     platforms { "x64" }
@@ -80,12 +104,12 @@ workspace "Bitwise Engine"
     location(BUILD_DIR)
 
     -- Common debug options
-   filter "Debug or Debug_DLL"
+   filter "Debug or Debug_SHD"
         flags { "Symbols" }
         optimize "Off"
 
     -- Common release options
-    filter "Release or Release_DLL"
+    filter "Release or Release_SHD"
         defines { "NDEBUG" }
         optimize "Speed"
 

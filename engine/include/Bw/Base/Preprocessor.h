@@ -153,6 +153,6 @@
 ////////////////////////////////////////////////////////////////////////////////
 // This macro creates a version string
 ////////////////////////////////////////////////////////////////////////////////
-#define BW_GET_VERSION_STRING(prefix, major, minor, patch, postfix) (prefix ## BW_XSTR(major) ## "." ## BW_XSTR(minor) ## "." ## BW_XSTR(patch) ## postfix)
+#define BW_GET_VERSION_STRING(prefix, major, minor, patch, postfix) prefix BW_XSTR(major) "." BW_XSTR(minor) "." BW_XSTR(patch) postfix
 
 #endif	// BW_BASE_PREPROCESSOR_H
