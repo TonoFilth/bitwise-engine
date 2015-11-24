@@ -1,21 +1,13 @@
 #include <iostream>
 #include <cstdio>
+#include <csignal>
 #include <Bw/Bw.h>
 
 using namespace std;
 
-void test_stack()
+void MySignalHandler(bw::Signal::Enum signal)
 {
-    char** buff = NULL;
-    int nbFrames = bw::stack_trace(&buff);
-
-    cout << "NbFrames: " << nbFrames << endl;
-    cout << "Buff: " << buff << endl;
-
-    for (int i = 0; i < nbFrames; ++i)
-        cout << buff[i] << endl;    
-
-    free(buff);
+	cout << "Signal: " << bw::Signal::ToString(signal) << endl;
 }
 
 int main(int argc, char** argv)
@@ -24,8 +16,17 @@ int main(int argc, char** argv)
 
 	bw::Init();
 
-    test_stack();
+	for (int i = 0; i < bw::Signal::eCOUNT; ++i)
+		bw::SetSignalHandler((bw::Signal::Enum) i, MySignalHandler);
 	
+
+	raise(SIGABRT);
+	raise(SIGFPE);
+	raise(SIGILL);
+	raise(SIGINT);
+	raise(SIGSEGV);
+	raise(SIGTERM);
+
     bw::Shutdown();
 
 	return 0;

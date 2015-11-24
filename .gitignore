@@ -28,6 +28,4 @@
 *.app
 
 # Directories
-Build/
-Bin/
-Lib/
+premake/
