@@ -13,8 +13,8 @@ BUILD_DIR  = PROJ_DIR   .. "build"
 INC_DIR    = PROJ_DIR   .. "include"
 SRC_DIR    = PROJ_DIR   .. "src"
 -----------------------------------------
-function create_lib_table(libs)
-    local lib_table =
+function create_libTable(libs)
+    local libTable =
     {
         ["Debug"]   = {},
         ["Release"] = {},
@@ -25,22 +25,22 @@ function create_lib_table(libs)
         local lowerName = string.lower(lib)
         local upperName = string.upper(lib)
 
-        table.insert(lib_table["Debug"],   "bw-" .. lowerName .. "-sd")
-        table.insert(lib_table["Release"], "bw-" .. lowerName .. "-s")
-        table.insert(lib_table["defines"], "BW_" .. upperName)
+        table.insert(libTable["Debug"],   "bw-" .. lowerName .. "-sd")
+        table.insert(libTable["Release"], "bw-" .. lowerName .. "-s")
+        table.insert(libTable["defines"], "BW_" .. upperName)
     end
 
-    return lib_table
+    return libTable
 end
 -----------------------------------------
-function build_tests(lib, link_libs)
+function build_tests(lib, linkLibs)
     local lowerName = string.lower(lib)
     local upperName = string.upper(lib)
 
-    local includeDir = INC_DIR .. "/" .. lib
-    local srcDir     = SRC_DIR .. "/" .. lib
+    local includeDir = INC_DIR .. "/Bw/Tests/" .. lib
+    local srcDir     = SRC_DIR .. "/Bw/Tests/" .. lib
 
-    local lib_table = create_lib_table(link_libs)
+    local libTable = create_libTable(linkLibs)
 
     project(lowerName .. "-tests")
         kind    "ConsoleApp"
@@ -61,17 +61,17 @@ function build_tests(lib, link_libs)
         {
             "BW_TEST"
         }
-        defines(lib_table["defines"])
+        defines(libTable["defines"])
         targetname(lowerName .. "-tests")
 
         -- OS options
         include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
         add_os_options()
 
-        -- Links sample app with engine static debug libraries
+        -- Links test app with engine static debug libraries
         filter "Debug"
-            targetdir(BIN_DIR .. "/debug")
-            links(lib_table["Debug"])
+            targetdir(BIN_DIR .. "/debug/" .. lib)
+            links(libTable["Debug"])
             libdirs
             {
                 EXT_LIB    .. "/debug",
@@ -81,15 +81,11 @@ function build_tests(lib, link_libs)
             {
                 "BW_STATIC_LIB"
             }
-            linkoptions
-            {
-                "-L" .. ENGINE_LIB .. "/static/debug/"
-            }
 
-        -- Links sample app with engine static release libraries
+        -- Links test app with engine static release libraries
         filter "Release"
-            targetdir(BIN_DIR .. "/release")
-            links(lib_table["Release"])
+            targetdir(BIN_DIR .. "/release/" .. lib)
+            links(libTable["Release"])
             libdirs
             {
                 EXT_LIB    .. "/release",
@@ -98,10 +94,6 @@ function build_tests(lib, link_libs)
             defines
             {
                 "BW_STATIC_LIB"
-            }
-            linkoptions
-            {
-                "-L" .. ENGINE_LIB .. "/static/release/"
             }
 end
 
@@ -129,6 +121,6 @@ workspace "Bitwise Engine (Tests)"
         defines { "NDEBUG" }
         optimize "Speed"
 
-    -- Build all samples
-    build_tests("Base",       {"Base"})
-    build_tests("Foundation", {"Base", "Foundation"})
+    -- Build all tests
+    build_tests("Base", {"Base"})
+    --build_tests("Foundation", {"Base", "Foundation"})

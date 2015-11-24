@@ -14,7 +14,7 @@ function add_os_options()
     -- ------------------------------
     --  Filters
     -- ------------------------------
-    filter { "Debug or Debug_SHD" }
+    filter { "Debug or Debug_SO" }
         buildoptions
         {
             "-Wall",
@@ -22,7 +22,7 @@ function add_os_options()
             "-Wno-deprecated-declarations"
         }
 
-    filter { "Release or Release_SHD" }
+    filter { "Release or Release_SO" }
         buildoptions
         {
             "-Wall"
@@ -40,13 +40,13 @@ function add_os_options()
             "-L" .. ENGINE_LIB .. "/static/release/"
         }
 
-    filter "Debug_SHD"
+    filter "Debug_SO"
         linkoptions
         {
             "-L" .. ENGINE_LIB .. "/shared/debug/"
         }
 
-    filter "Release_SHD"
+    filter "Release_SO"
         linkoptions
         {
             "-L" .. ENGINE_LIB .. "/shared/release/"

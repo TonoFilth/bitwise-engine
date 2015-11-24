@@ -15,7 +15,7 @@ function add_os_options()
     -- --------------------------------
     --  Filters
     -- --------------------------------
-    filter { "Debug or Debug_SHD" }
+    filter { "Debug or Debug_SO" }
         buildoptions
         {
             "-Wall",

@@ -13,13 +13,13 @@ BUILD_DIR  = PROJ_DIR   .. "build"
 INC_DIR    = PROJ_DIR   .. "include"
 SRC_DIR    = PROJ_DIR   .. "src"
 -----------------------------------------
-function create_lib_table(libs)
-    local lib_table =
+function create_libTable(libs)
+    local libTable =
     {
         ["Debug"]       = {},
-        ["Debug_SHD"]   = {},
+        ["Debug_SO"]   = {},
         ["Release"]     = {},
-        ["Release_SHD"] = {},
+        ["Release_SO"] = {},
         ["defines"]     = {}
     }
 
@@ -27,24 +27,24 @@ function create_lib_table(libs)
         local lowerName = string.lower(lib)
         local upperName = string.upper(lib)
 
-        table.insert(lib_table["Debug"],       "bw-" .. lowerName .. "-sd")
-        table.insert(lib_table["Release"],     "bw-" .. lowerName .. "-s")
-        table.insert(lib_table["Debug_SHD"],   "bw-" .. lowerName .. "-d")
-        table.insert(lib_table["Release_SHD"], "bw-" .. lowerName)
-        table.insert(lib_table["defines"],     "BW_" .. upperName)
+        table.insert(libTable["Debug"],       "bw-" .. lowerName .. "-sd")
+        table.insert(libTable["Release"],     "bw-" .. lowerName .. "-s")
+        table.insert(libTable["Debug_SO"],   "bw-" .. lowerName .. "-d")
+        table.insert(libTable["Release_SO"], "bw-" .. lowerName)
+        table.insert(libTable["defines"],     "BW_" .. upperName)
     end
 
-    return lib_table
+    return libTable
 end
 -----------------------------------------
-function build_sample(sampleName, libs)
+function build_sample(sampleName, lib, linkLibs)
     local lowerName = string.lower(sampleName)
     local upperName = string.upper(sampleName)
 
-    local includeDir = INC_DIR .. "/" .. sampleName
-    local srcDir     = SRC_DIR .. "/" .. sampleName
+    local includeDir = INC_DIR .. "/Bw/Samples/" .. lib .. "/" .. sampleName
+    local srcDir     = SRC_DIR .. "/Bw/Samples/" .. lib .. "/" .. sampleName
 
-    local lib_table = create_lib_table(libs)
+    local libTable = create_libTable(linkLibs)
 
     project(sampleName)
         kind    "ConsoleApp"
@@ -65,7 +65,7 @@ function build_sample(sampleName, libs)
         {
             "BW_SAMPLE"
         }
-        defines(lib_table["defines"])
+        defines(libTable["defines"])
         targetname(sampleName)
 
         -- OS options
@@ -74,8 +74,8 @@ function build_sample(sampleName, libs)
 
         -- Links sample app with engine static debug libraries
         filter "Debug"
-            targetdir(BIN_DIR .. "/static/debug")
-            links(lib_table["Debug"])
+            targetdir(BIN_DIR .. "/static/debug/" .. lib .. "/" .. sampleName)
+            links(libTable["Debug"])
             libdirs
             {
                 EXT_LIB    .. "/debug/",
@@ -88,8 +88,8 @@ function build_sample(sampleName, libs)
 
         -- Links sample app with engine static release libraries
         filter "Release"
-            targetdir(BIN_DIR .. "/static/release")
-            links(lib_table["Release"])
+            targetdir(BIN_DIR .. "/static/release/" .. lib .. "/" .. sampleName)
+            links(libTable["Release"])
             libdirs
             {
                 EXT_LIB    .. "/release",
@@ -101,9 +101,9 @@ function build_sample(sampleName, libs)
             }
 
          -- Links sample app with engine static debug libraries
-        filter "Debug_SHD"
-            targetdir(BIN_DIR .. "/shared/debug")
-            links(lib_table["Debug_SHD"])
+        filter "Debug_SO"
+            targetdir(BIN_DIR .. "/shared/debug/" .. lib .. "/" .. sampleName)
+            links(libTable["Debug_SO"])
             libdirs
             {
                 EXT_LIB    .. "/debug",
@@ -111,9 +111,9 @@ function build_sample(sampleName, libs)
             }
 
         -- Links sample app with engine static release libraries
-        filter "Release_SHD"
-            targetdir(BIN_DIR .. "/shared/release")
-            links(lib_table["Release_SHD"])
+        filter "Release_SO"
+            targetdir(BIN_DIR .. "/shared/release/" .. lib .. "/" .. sampleName)
+            links(libTable["Release_SO"])
             libdirs
             {
                 EXT_LIB    .. "/release",
@@ -127,7 +127,7 @@ end
 workspace "Bitwise Engine (Samples)"
 
     -- Standard project configurations
-    configurations { "Debug", "Release", "Debug_SHD", "Release_SHD" }
+    configurations { "Debug", "Release", "Debug_SO", "Release_SO" }
 
     -- Project platforms
     platforms { "x64" }
@@ -136,15 +136,15 @@ workspace "Bitwise Engine (Samples)"
     location(BUILD_DIR)
 
     -- Common debug options
-   filter "Debug or Debug_SHD"
+   filter "Debug or Debug_SO"
         flags { "Symbols" }
         optimize "Off"
 
     -- Common release options
-    filter "Release or Release_SHD"
+    filter "Release or Release_SO"
         defines { "NDEBUG" }
         optimize "Speed"
 
     -- Build all samples
-    build_sample("HelloWorld", {"Base"})
-    build_sample("Foundation", {"Base", "Foundation"})
+    build_sample("HelloWorld", "Base", {"Base"})
+    --build_sample("Foundation", "Foundation", {"Base", "Foundation"})

@@ -64,7 +64,7 @@ function build_project(projectName)
             defines { "BW_STATIC_LIB" }
 
         -- Shared libraries
-        filter "Debug_SHD or Release_SHD"
+        filter "Debug_SO or Release_SO"
             kind "SharedLib"
 
         -- Static debug library config
@@ -78,13 +78,13 @@ function build_project(projectName)
             targetdir(LIB_DIR .. "/static/release")
             
         -- Shared debug library config
-        filter "Debug_SHD"
+        filter "Debug_SO"
             targetsuffix "-d"
             targetdir(LIB_DIR .. "/shared/debug")
             defines { "BW_" .. upperName .. "_EXPORT" }
 
         -- Shared release library config
-        filter "Release_SHD"
+        filter "Release_SO"
             targetdir(LIB_DIR .. "/shared/release")
             defines { "BW_" .. upperName .. "_EXPORT" }
 end
@@ -95,7 +95,7 @@ end
 workspace "Bitwise Engine"
 
     -- Standard project configurations
-    configurations { "Debug", "Release", "Debug_SHD", "Release_SHD" }
+    configurations { "Debug", "Release", "Debug_SO", "Release_SO" }
 
     -- Project platforms
     platforms { "x64" }
@@ -104,15 +104,15 @@ workspace "Bitwise Engine"
     location(BUILD_DIR)
 
     -- Common debug options
-   filter "Debug or Debug_SHD"
+   filter "Debug or Debug_SO"
         flags { "Symbols" }
         optimize "Off"
 
     -- Common release options
-    filter "Release or Release_SHD"
+    filter "Release or Release_SO"
         defines { "NDEBUG" }
         optimize "Speed"
 
     -- Include child projects
     build_project("Base")
-    build_project("Foundation")
+    --build_project("Foundation")
