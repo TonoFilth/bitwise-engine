@@ -9,28 +9,6 @@ LIB_DIR   = PROJ_DIR   .. "lib"
 INC_DIR   = PROJ_DIR   .. "include"
 SRC_DIR   = PROJ_DIR   .. "src"
 -----------------------------------------
-function add_linux_debug_options()
-    buildoptions
-    {
-        "-Wall",
-        "-Wno-pmf-conversions",
-        "-Wno-deprecated-declarations"
-    }
-    linkoptions
-    {
-        "-rdynamic"
-    }
-end
------------------------------------------
-function add_linux_release_options()
-    buildoptions
-    {
-        "-Wall",
-        "-Wno-pmf-conversions",
-        "-Wno-deprecated-declarations"
-    }
-end
------------------------------------------
 function build_project(projectName)
     local lowerName = string.lower(projectName)
     local upperName = string.upper(projectName)
@@ -44,6 +22,7 @@ function build_project(projectName)
         {
             includeDir .. "/**.h",
             includeDir .. "/**.inl",
+            srcDir     .. "/**.h",
             srcDir     .. "/**.cpp"
         }
         includedirs
@@ -56,7 +35,7 @@ function build_project(projectName)
 
         -- OS options
         include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
-        add_os_options()
+        add_os_options(projectName)
 
         -- Static libraries
         filter "Debug or Release"

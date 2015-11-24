@@ -1,9 +1,13 @@
 #include <iostream>
-#include "Bw/Base/Test.h"
+#include "Bw/Base/Module.h"
 
 int main(int argc, char** argv)
 {
-	std::cout << bw::a_test_func(1, 2) << std::endl;
+	bw::init_base();
+
+	std::cout << BW_BASE_VERSION_STRING << std::endl;
+
+	bw::shutdown_base();
 
 	return 0;
 }
