@@ -2,13 +2,18 @@
 #include "Bw/Base/System.h"
 #include "Bw/Base/String.h"
 
-namespace bw
+namespace
 {
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Constants
 ////////////////////////////////////////////////////////////////////////////////
-const size_t BW_C_MAX_CMD_LENGTH = 1024;
+const size_t kMaxCmdLength = 1024;
+
+}   // private namespace
+
+namespace bw
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
@@ -19,8 +24,8 @@ I32 system::exec(const char* program, const char* args)
 
     if (args)
     {
-        char cmd[BW_C_MAX_CMD_LENGTH];
-        bw::sprintf(cmd, BW_C_MAX_CMD_LENGTH, "%s %s", program, args);
+        char cmd[kMaxCmdLength];
+        bw::sprintf(cmd, kMaxCmdLength, "%s %s", program, args);
         
         status = ::system(cmd);
     }

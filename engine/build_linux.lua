@@ -1,11 +1,7 @@
-function add_os_options(projectName)
+function add_os_options()
     -- ------------------------------
     --  Linux specific configuration
     -- ------------------------------
-    includedirs
-    {
-        SRC_DIR .. "Bw/" .. projectName .. "/__detail/Unix/"
-    }
     excludes
     {
         INC_DIR .. "/**/Windows/*",

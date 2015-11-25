@@ -14,6 +14,7 @@ namespace assert_handler
 ////////////////////////////////////////////////////////////////////////////////
 BW_BASE_API AssertHandler& get();
 BW_BASE_API AssertHandler& set(AssertHandler& handler);
+BW_BASE_API AssertHandler& reset_default();
 
 }	// namespace assert_handler
 }	// namespace bw

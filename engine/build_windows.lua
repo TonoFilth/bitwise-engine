@@ -1,11 +1,7 @@
-function add_os_options(projectName)
+function add_os_options()
     -- --------------------------------
     --  Windows specific configuration
     -- --------------------------------
-    includedirs
-    {
-        SRC_DIR .. "Bw/" .. projectName .. "/__detail/Windows/"
-    }
     excludes
     {
         INC_DIR .. "/**/Unix/*",

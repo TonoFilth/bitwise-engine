@@ -70,18 +70,6 @@ public:
 	virtual void operator()(const char* exp, const char* file, int line) = 0;
 };
 
-////////////////////////////////////////////////////////////////////////////////
-// DefaultAssertHandler
-////////////////////////////////////////////////////////////////////////////////
-class BW_BASE_API DefaultAssertHandler : public AssertHandler
-{
-public:
-	DefaultAssertHandler();
-	virtual ~DefaultAssertHandler() = default;
-
-	void operator()(const char* exp, const char* file, int line) override;
-};
-
 }	// namespace bw
 
 #endif	// BW_BASE_COMMON_MODULE_TYPES_H

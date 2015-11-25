@@ -28,14 +28,15 @@ function build_project(projectName)
         includedirs
         {
             EXT_INC,
-            INC_DIR
+            INC_DIR,
+            SRC_DIR
         }
 
         targetname("bw-" .. lowerName)
 
         -- OS options
         include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
-        add_os_options(projectName)
+        add_os_options()
 
         -- Static libraries
         filter "Debug or Release"

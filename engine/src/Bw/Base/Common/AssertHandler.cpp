@@ -1,13 +1,19 @@
 #include "Bw/Base/Common/AssertHandler.h"
+#include "Bw/Base/_detail/DefaultAssertHandler.h"
 
-namespace bw
+namespace
 {
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Private variables
 ////////////////////////////////////////////////////////////////////////////////
-static DefaultAssertHandler s_defaultAssertHandler;
-static AssertHandler*       s_assertHandler = &s_defaultAssertHandler;
+bw::DefaultAssertHandler s_defaultAssertHandler;
+bw::AssertHandler*       s_assertHandler = &s_defaultAssertHandler;
+
+}   // private namespace
+
+namespace bw
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
@@ -25,6 +31,13 @@ AssertHandler& assert_handler::set(AssertHandler& assertHandler)
 	s_assertHandler = &assertHandler;
 
 	return prevHandler;
+}
+
+// -----------------------------------------------------------------------------
+
+AssertHandler& assert_handler::reset_default()
+{
+    return assert_handler::set(s_defaultAssertHandler);
 }
 
 }	// namespace bw
