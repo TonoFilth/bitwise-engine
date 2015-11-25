@@ -4,7 +4,7 @@ function add_os_options(projectName)
     -- --------------------------------
     includedirs
     {
-        SRC_DIR .. "Bw/" .. projectName .. "/__sys/Windows/"
+        SRC_DIR .. "Bw/" .. projectName .. "/__detail/Windows/"
     }
     excludes
     {

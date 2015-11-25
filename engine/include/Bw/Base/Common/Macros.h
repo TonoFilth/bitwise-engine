@@ -159,7 +159,10 @@
 // Define a portable alignof macro
 ////////////////////////////////////////////////////////////////////////////////
 #if !defined(alignof)
-	#define alignof(x) __alignof(x)
+#	if defined(BW_COMPILER_VC) && (_MSC_VER >= 1700)
+#       define _ALLOW_KEYWORD_MACROS
+#		define alignof(x) __alignof(x)
+#	endif
 #endif
 
 #endif	// BW_BASE_MACROS_H
