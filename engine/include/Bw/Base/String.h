@@ -4,6 +4,10 @@
 #include <cstdio>
 #include <cstring>
 #include <cstdarg>
+#if defined(BW_SYSTEM_LINUX)
+#   include <strings.h> // strcasecmp()
+#endif
+
 #include "Bw/Base/Common/Module.h"
 
 namespace bw
@@ -20,7 +24,7 @@ BW_INLINE BW_BASE_API I32 vsprintf(char* dest, size_t size, const char* fmt, va_
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(BW_SYSTEM_WINDOWS)
 #	include "Bw/Base/_detail/Windows/String.inl"
-#else if defined(BW_SYSTEM_LINUX)
+#elif defined(BW_SYSTEM_LINUX)
 #	include "Bw/Base/_detail/Unix/String.inl"
 #endif
 

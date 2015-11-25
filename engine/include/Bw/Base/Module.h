@@ -3,6 +3,7 @@
 
 #include "Bw/Base/ModuleInit.h"
 #include "Bw/Base/String.h"
+#include "Bw/Base/System.h"
 #include "Bw/Base/Common/Module.h"
 
 ////////////////////////////////////////////////////////////////////////////////
