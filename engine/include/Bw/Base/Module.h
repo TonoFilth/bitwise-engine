@@ -5,6 +5,7 @@
 #include "Bw/Base/String.h"
 #include "Bw/Base/System.h"
 #include "Bw/Base/Common/Module.h"
+#include "Bw/Base/Memory/Module.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \defgroup base Base Module

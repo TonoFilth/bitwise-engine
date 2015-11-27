@@ -16,22 +16,22 @@ SRC_DIR    = PROJ_DIR   .. "src"
 function create_libTable(libs)
     local libTable =
     {
-        ["Debug"]       = {},
+        ["Debug"]      = {},
         ["Debug_SO"]   = {},
-        ["Release"]     = {},
+        ["Release"]    = {},
         ["Release_SO"] = {},
-        ["defines"]     = {}
+        ["defines"]    = {}
     }
 
     for idx,lib in ipairs(libs) do
         local lowerName = string.lower(lib)
         local upperName = string.upper(lib)
 
-        table.insert(libTable["Debug"],       "bw-" .. lowerName .. "-sd")
-        table.insert(libTable["Release"],     "bw-" .. lowerName .. "-s")
+        table.insert(libTable["Debug"],      "bw-" .. lowerName .. "-sd")
+        table.insert(libTable["Release"],    "bw-" .. lowerName .. "-s")
         table.insert(libTable["Debug_SO"],   "bw-" .. lowerName .. "-d")
         table.insert(libTable["Release_SO"], "bw-" .. lowerName)
-        table.insert(libTable["defines"],     "BW_" .. upperName)
+        table.insert(libTable["defines"],    "BW_" .. upperName)
     end
 
     return libTable
@@ -74,7 +74,7 @@ function build_sample(sampleName, lib, linkLibs)
 
         -- Links sample app with engine static debug libraries
         filter "Debug"
-            targetdir(BIN_DIR .. "/static/debug/" .. lib .. "/" .. sampleName)
+            targetdir(BIN_DIR .. "/static/debug/")
             links(libTable["Debug"])
             libdirs
             {
@@ -88,7 +88,7 @@ function build_sample(sampleName, lib, linkLibs)
 
         -- Links sample app with engine static release libraries
         filter "Release"
-            targetdir(BIN_DIR .. "/static/release/" .. lib .. "/" .. sampleName)
+            targetdir(BIN_DIR .. "/static/release/")
             links(libTable["Release"])
             libdirs
             {
@@ -102,7 +102,7 @@ function build_sample(sampleName, lib, linkLibs)
 
          -- Links sample app with engine static debug libraries
         filter "Debug_SO"
-            targetdir(BIN_DIR .. "/shared/debug/" .. lib .. "/" .. sampleName)
+            targetdir(BIN_DIR .. "/shared/debug/")
             links(libTable["Debug_SO"])
             libdirs
             {
@@ -112,7 +112,7 @@ function build_sample(sampleName, lib, linkLibs)
 
         -- Links sample app with engine static release libraries
         filter "Release_SO"
-            targetdir(BIN_DIR .. "/shared/release/" .. lib .. "/" .. sampleName)
+            targetdir(BIN_DIR .. "/shared/release/")
             links(libTable["Release_SO"])
             libdirs
             {

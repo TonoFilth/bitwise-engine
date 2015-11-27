@@ -1,4 +1,5 @@
 #include <cstdlib>
+#include <unistd.h>
 #include "Bw/Base/System.h"
 #include "Bw/Base/String.h"
 
@@ -35,6 +36,13 @@ I32 system::exec(const char* program, const char* args)
     }
 
     return status;
+}
+
+// -----------------------------------------------------------------------------
+
+size_t system::get_page_size()
+{
+    return ::sysconf(_SC_PAGE_SIZE);
 }
 
 }   // namespace bw

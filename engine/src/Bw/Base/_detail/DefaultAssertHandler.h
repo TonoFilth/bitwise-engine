@@ -16,6 +16,11 @@ public:
     virtual ~DefaultAssertHandler() = default;
 
     void operator()(const char* exp, const char* file, int line) override;
+
+private:
+    // DefaultAssertHandler cannot be copied
+    DefaultAssertHandler(const DefaultAssertHandler& toCopy);
+    DefaultAssertHandler& operator=(const DefaultAssertHandler& toCopy);
 };
 
 }   // namespace bw
