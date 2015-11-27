@@ -45,11 +45,11 @@ void init_allocators(const MemoryConfig& config, U32 flags)
     check_memory_config(config);
 #endif
 
-    _StaticHeap = new (_Buffer) HeapAllocator(_Buffer + sizeof(HeapAllocator),
+    _StaticHeap = new (_Buffer) HeapAllocator(nullptr, _Buffer + sizeof(HeapAllocator),
         BUFFER_SIZE - sizeof(HeapAllocator));
 
     _PageAllocator = _StaticHeap->makeNew<PageAllocator>();
-    _GlobalHeap    = _StaticHeap->makeNew<HeapAllocator>();
+    _GlobalHeap    = _StaticHeap->makeNew<HeapAllocator>(*_PageAllocator, config.globalHeap);
 
     // Store memory configuration
     _MemConfig = config;

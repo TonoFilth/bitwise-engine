@@ -13,8 +13,8 @@ namespace bw
 class BW_BASE_API HeapAllocator : public Allocator
 {
 public:
-    HeapAllocator();
-    HeapAllocator(void* heapAddr, size_t heapSize);
+    HeapAllocator(Allocator& backing, size_t heapSize);
+    HeapAllocator(Allocator* backing, void* heapAddr, size_t heapSize);
     virtual ~HeapAllocator();
 
     void* allocate(size_t size, size_t alignment) override;
@@ -22,6 +22,12 @@ public:
 
     size_t allocatedSize()           const override;
     size_t allocatedSize(void* data) const override;
+
+private:
+    void*      m_addr;
+    Allocator* m_backing;
+    size_t     m_heapSize;
+    size_t     m_size;
 };
 
 }   // namespace bw

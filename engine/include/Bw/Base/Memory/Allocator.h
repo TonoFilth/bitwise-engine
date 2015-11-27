@@ -15,12 +15,14 @@ namespace bw
 class BW_BASE_API Allocator
 {
 public:
-    const size_t kSizeNotTracked = std::numeric_limits<size_t>::max();
+    static const size_t kSizeNotTracked   = std::numeric_limits<size_t>::max();
+    static const size_t kDefaultAlignment = 4;
 
+public:
     Allocator() = default;
     virtual ~Allocator() = default;
 
-    virtual void* allocate(size_t size, size_t alignment) = 0;
+    virtual void* allocate(size_t size, size_t alignment = kDefaultAlignment) = 0;
     virtual void  deallocate(void* data) = 0;
 
     virtual size_t allocatedSize()           const = 0;

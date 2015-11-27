@@ -12,6 +12,7 @@ namespace memory
 //  Pointer arithmetic functions
 ////////////////////////////////////////////////////////////////////////////////
 BW_INLINE BW_BASE_API void* align_forward(void* ptr, size_t alignment);
+BW_INLINE BW_BASE_API void* align_forward(void* ptr, size_t alignment, U8& usedAlignmentBytes);
 BW_INLINE BW_BASE_API void* pointer_add(void* ptr, size_t bytes);
 BW_INLINE BW_BASE_API void* pointer_sub(void* ptr, size_t bytes);
 BW_INLINE BW_BASE_API const void* pointer_add(const void* ptr, size_t bytes);
