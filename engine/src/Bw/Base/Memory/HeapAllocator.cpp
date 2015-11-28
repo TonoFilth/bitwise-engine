@@ -12,7 +12,6 @@ using namespace bw;
 struct Header
 {
     size_t size;
-    U8     _pad;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,13 +29,13 @@ BW_INLINE void* data_pointer(void* addr, size_t alignment)
 {
     U8 usedBytes;
 
-    void* unalignedData = memory::pointer_add(addr, sizeof(Header));
+    void* unalignedData = memory::pointer_add(addr, sizeof(Header) + 1);
     void* alignedData   = memory::align_forward(unalignedData, alignment, usedBytes);
 
     // If addr is already aligned adjustmentAddr
     // will overwrite Header::_pad member
     U8* adjustmentAddr = (U8*) alignedData - 1;
-    *adjustmentAddr = usedBytes;
+    *adjustmentAddr = usedBytes + 1;
 
     return alignedData;
 }
@@ -94,19 +93,19 @@ HeapAllocator::~HeapAllocator()
 ////////////////////////////////////////////////////////////////////////////////
 void* HeapAllocator::allocate(size_t size, size_t alignment)
 {
-    size_t totalSize = sizeof(Header) + alignment - 1 + size;
-    add_header(m_addr, totalSize);
+    size_t totalSize = sizeof(Header) + alignment + size;
+    
+	add_header(m_addr, totalSize);
+	m_size += totalSize;
 
-    return data_pointer(m_addr, alignment);
+	return data_pointer(m_addr, alignment);
 }
 
 // -----------------------------------------------------------------------------
 
 void HeapAllocator::deallocate(void* data)
 {
-    Header* header = get_header(data);
-
-    m_size -= header->size;
+    m_size -= get_header(data)->size;
 }
 
 // -----------------------------------------------------------------------------

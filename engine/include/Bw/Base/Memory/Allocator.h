@@ -15,7 +15,11 @@ namespace bw
 class BW_BASE_API Allocator
 {
 public:
-    static const size_t kSizeNotTracked   = std::numeric_limits<size_t>::max();
+#if defined(BW_SYSTEM_WINDOWS)
+	static const size_t kSizeNotTracked = SIZE_MAX;
+#else
+    static const size_t kSizeNotTracked = std::numeric_limits<size_t>::max();
+#endif
     static const size_t kDefaultAlignment = 4;
 
 public:

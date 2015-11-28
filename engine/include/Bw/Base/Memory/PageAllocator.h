@@ -22,6 +22,7 @@ public:
     size_t allocatedSize(void* data) const override;
 
 private:
+	void*  m_list;
     size_t m_totalAllocated;
 };
 

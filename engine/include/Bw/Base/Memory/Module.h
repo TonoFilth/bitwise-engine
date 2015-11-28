@@ -3,6 +3,7 @@
 
 #include "Bw/Base/Memory/Allocator.h"
 #include "Bw/Base/Memory/HeapAllocator.h"
+#include "Bw/Base/Memory/MemoryUtils.h"
 #include "Bw/Base/Memory/ModuleInit.h"
 #include "Bw/Base/Memory/ModuleTypes.h"
 #include "Bw/Base/Memory/PageAllocator.h"

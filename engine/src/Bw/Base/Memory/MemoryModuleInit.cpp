@@ -49,7 +49,7 @@ void init_allocators(const MemoryConfig& config, U32 flags)
         BUFFER_SIZE - sizeof(HeapAllocator));
 
     _PageAllocator = _StaticHeap->makeNew<PageAllocator>();
-    _GlobalHeap    = _StaticHeap->makeNew<HeapAllocator>(*_PageAllocator, config.globalHeap);
+    //_GlobalHeap    = _StaticHeap->makeNew<HeapAllocator>(*_PageAllocator, config.globalHeap);
 
     // Store memory configuration
     _MemConfig = config;
