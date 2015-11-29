@@ -36,7 +36,7 @@ void check_memory_config(const MemoryConfig& config)
 
 // -----------------------------------------------------------------------------
 
-void init_allocators(const MemoryConfig& config, U32 flags)
+void init_allocators(const MemoryConfig& config, u32_t flags)
 {
     // Make sure the memory system wasn't initialized
     BW_ASSERT(_StaticHeap == nullptr);
@@ -48,8 +48,8 @@ void init_allocators(const MemoryConfig& config, U32 flags)
     _StaticHeap = new (_Buffer) HeapAllocator(nullptr, _Buffer + sizeof(HeapAllocator),
         BUFFER_SIZE - sizeof(HeapAllocator));
 
-    _PageAllocator = _StaticHeap->makeNew<PageAllocator>();
-    //_GlobalHeap    = _StaticHeap->makeNew<HeapAllocator>(*_PageAllocator, config.globalHeap);
+    _PageAllocator = _StaticHeap->allocateObject<PageAllocator>();
+    //_GlobalHeap    = _StaticHeap->allocateObject<HeapAllocator>(*_PageAllocator, config.globalHeap);
 
     // Store memory configuration
     _MemConfig = config;
@@ -76,7 +76,7 @@ BW_BASE_API void init_memory_system()
 
 // -----------------------------------------------------------------------------
 
-BW_BASE_API void init_memory_system(const MemoryConfig& config, U32 flags)
+BW_BASE_API void init_memory_system(const MemoryConfig& config, u32_t flags)
 {
     init_allocators(config, flags);
 }
@@ -88,10 +88,10 @@ BW_BASE_API void shutdown_memory_system()
     // Make sure the memory system was initialized
     BW_ASSERT(_StaticHeap != nullptr);
 
-    _StaticHeap->makeDelete<HeapAllocator>(_GlobalHeap);
+    _StaticHeap->deallocateObject<HeapAllocator>(_GlobalHeap);
     _GlobalHeap = nullptr;
 
-    _StaticHeap->makeDelete<PageAllocator>(_PageAllocator);
+    _StaticHeap->deallocateObject<PageAllocator>(_PageAllocator);
     _PageAllocator = nullptr;
 
     _StaticHeap->~HeapAllocator();

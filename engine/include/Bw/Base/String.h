@@ -15,9 +15,9 @@ namespace bw
 
 BW_INLINE BW_BASE_API void strcpy(char* dest, size_t size, const char* src);
 BW_INLINE BW_BASE_API void strcat(char* dest, size_t size, const char* src);
-BW_INLINE BW_BASE_API I32 stricmp(const char* str1, const char* str2);
-BW_INLINE BW_BASE_API I32 sprintf(char* dest, size_t size, const char* fmt, ...);
-BW_INLINE BW_BASE_API I32 vsprintf(char* dest, size_t size, const char* fmt, va_list args);
+BW_INLINE BW_BASE_API i32_t stricmp(const char* str1, const char* str2);
+BW_INLINE BW_BASE_API i32_t sprintf(char* dest, size_t size, const char* fmt, ...);
+BW_INLINE BW_BASE_API i32_t vsprintf(char* dest, size_t size, const char* fmt, va_list args);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Include system definitions

@@ -27,14 +27,14 @@ BW_INLINE void add_header(void* addr, size_t totalSize)
 
 BW_INLINE void* data_pointer(void* addr, size_t alignment)
 {
-    U8 usedBytes;
+    u8_t usedBytes;
 
     void* unalignedData = memory::pointer_add(addr, sizeof(Header) + 1);
     void* alignedData   = memory::align_forward(unalignedData, alignment, usedBytes);
 
     // If addr is already aligned adjustmentAddr
     // will overwrite Header::_pad member
-    U8* adjustmentAddr = (U8*) alignedData - 1;
+    u8_t* adjustmentAddr = (u8_t*) alignedData - 1;
     *adjustmentAddr = usedBytes + 1;
 
     return alignedData;
@@ -44,7 +44,7 @@ BW_INLINE void* data_pointer(void* addr, size_t alignment)
 
 BW_INLINE Header* get_header(void* data)
 {
-    U8 adjustment  = *((U8*) data - 1);
+    u8_t adjustment  = *((u8_t*) data - 1);
     Header* header = (Header*) memory::pointer_sub(data, adjustment);
 
     return header - 1;

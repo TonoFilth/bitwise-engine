@@ -34,10 +34,10 @@ public:
 
 public:
     template <class T, class ...Args>
-    T* makeNew(Args&& ...args);
+    T* allocateObject(Args&& ...args);
 
     template <class T>
-    void makeDelete(T* ptr);
+    void deallocateObject(T* ptr);
 
 private:
     // Allocators cannot be copied
