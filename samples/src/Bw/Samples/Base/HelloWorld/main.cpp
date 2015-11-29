@@ -6,6 +6,14 @@
 using namespace std;
 using namespace bw;
 
+void test()
+{
+	ScopeAllocator256 salloc;
+
+	unordered_map<int, int>* mymap1 = salloc.allocateObject<unordered_map<int, int>>();
+	string* mymap2 = salloc.allocateObject<string>();
+}
+
 int main(int argc, char** argv)
 {
     init_base();
@@ -27,6 +35,8 @@ int main(int argc, char** argv)
     //BW_ASSERT(1 == 2);
 
 	shutdown_base();
+
+	test();
 
 	return 0;
 }

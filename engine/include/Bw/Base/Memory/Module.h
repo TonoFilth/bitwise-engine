@@ -8,5 +8,6 @@
 #include "Bw/Base/Memory/ModuleTypes.h"
 #include "Bw/Base/Memory/PageAllocator.h"
 #include "Bw/Base/Memory/PointerArithmetic.h"
+#include "Bw/Base/Memory/ScopeAllocator.h"
 
 #endif  // BW_BASE_MEMORY_MODULE_H
