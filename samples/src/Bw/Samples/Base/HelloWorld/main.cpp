@@ -14,9 +14,40 @@ void test()
 	string* mymap2 = salloc.allocateObject<string>();
 }
 
+void free_func(void* data)
+{
+
+}
+
+struct TestFunctor
+{
+	void operator() (void* data)
+	{
+
+	}
+};
+
+class Task
+{
+public:
+	void run(void* data)
+	{
+	}
+};
+
 int main(int argc, char** argv)
 {
-    init_base();
+	ThreadLocal* tls0 = thread_local::create();
+	ThreadLocal* tls1 = thread_local::create();
+
+	TestFunctor functor;
+	Task task;
+
+	Thread* t0 = thread::create(functor,    nullptr);
+	Thread* t1 = thread::create(&Task::run, nullptr, &task);
+	Thread* t2 = thread::create(free_func,  nullptr);
+
+	init_base();
 
 	cout << BW_BASE_VERSION_STRING << endl;
 

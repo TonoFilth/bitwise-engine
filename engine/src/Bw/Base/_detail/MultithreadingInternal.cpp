@@ -1,0 +1,15 @@
+#include "Bw/Base/_detail/MultithreadingInternal.h"
+#include "Bw/Base/Memory/Module.h"
+
+namespace bw
+{
+
+////////////////////////////////////////////////////////////////////////////////
+//  Public functions
+////////////////////////////////////////////////////////////////////////////////
+Allocator& multithreading_allocator()
+{
+	return memory::page_allocator();
+}
+
+}	// namespace bw

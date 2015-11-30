@@ -7,6 +7,7 @@
 #include "Bw/Base/System.h"
 #include "Bw/Base/Common/Module.h"
 #include "Bw/Base/Memory/Module.h"
+#include "Bw/Base/Multithreading/Module.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \defgroup base Base Module
