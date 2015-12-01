@@ -3,6 +3,7 @@
 
 #include "Bw/Base/Multithreading/Lock.h"
 #include "Bw/Base/Multithreading/ModuleTypes.h"
+#include "Bw/Base/Multithreading/ModuleInit.h"
 #include "Bw/Base/Multithreading/Mutex.h"
 #include "Bw/Base/Multithreading/Thread.h"
 #include "Bw/Base/Multithreading/ThreadLocal.h"

@@ -3,9 +3,16 @@
 
 #include "Bw/Base/Common/Module.h"
 #include "Bw/Base/Memory/ModuleTypes.h"
+#include "Bw/Base/Multithreading/ModuleTypes.h"
 
 namespace bw
 {
+namespace internal
+{
+
+////////////////////////////////////////////////////////////////////////////////
+//	Private types
+////////////////////////////////////////////////////////////////////////////////
 struct ThreadEntryPoint
 {
 	ThreadEntryPoint() : data(nullptr) {}
@@ -56,13 +63,17 @@ struct ThreadEntryPointMember : public ThreadEntryPoint
 	void (T::*function) (void* data);
 };
 
-namespace internal
-{
-
 ////////////////////////////////////////////////////////////////////////////////
 //	Public functions
 ////////////////////////////////////////////////////////////////////////////////
+BW_BASE_API Thread*    create_thread(ThreadEntryPoint& entryPoint);
 BW_BASE_API Allocator& multithreading_allocator();
+
+BW_BASE_API void init_mutex_pool();
+BW_BASE_API void init_thread_pool();
+
+BW_BASE_API void destroy_mutex_pool();
+BW_BASE_API void destroy_thread_pool();
 
 }	// namespace internal
 }	// namespace bw

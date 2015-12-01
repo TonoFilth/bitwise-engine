@@ -1,5 +1,6 @@
 #include <Windows.h>
 #include "Bw/Base/Multithreading/Mutex.h"
+#include "Bw/Base/_detail/MultithreadingInternal.h"
 #include "Bw/Base/Memory/Module.h"
 
 namespace bw
@@ -28,12 +29,31 @@ Mutex::~Mutex()
 	DeleteCriticalSection(&_mutex);
 }
 
+}	// namespace bw
+
+namespace
+{
+	using namespace bw;
+
+	PoolAllocator<Mutex>* _MutexPool = nullptr;
+
+}	// Private namespace
+
+namespace bw
+{
+namespace internal
+{
+	void init_mutex_pool()    { _MutexPool = memory::page_allocator().allocateObject<PoolAllocator<Mutex>>(); }
+	void destroy_mutex_pool() { memory::page_allocator().deallocateObject(_MutexPool); }
+
+}	// namespace internal
+
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
 Mutex* mutex::create()
 {
-	return memory::heap_allocator().allocateObject<Mutex>();
+	return _MutexPool->next();
 }
 
 // -----------------------------------------------------------------------------
@@ -41,7 +61,8 @@ Mutex* mutex::create()
 void mutex::destroy(Mutex* mutex)
 {
 	BW_ASSERT(mutex);
-	memory::heap_allocator().deallocateObject<Mutex>(mutex);
+
+	_MutexPool->collect(mutex);
 }
 
 // -----------------------------------------------------------------------------

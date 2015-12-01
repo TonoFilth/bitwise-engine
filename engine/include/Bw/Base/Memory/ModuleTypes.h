@@ -13,6 +13,9 @@ class Allocator;
 class PageAllocator;
 class HeapAllocator;
 
+template <class T>
+class PoolAllocator;
+
 template <unsigned T>
 class ScopeAllocator;
 

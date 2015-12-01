@@ -35,9 +35,32 @@ public:
 	}
 };
 
+class MyClass
+{
+public:
+	MyClass() :
+		m_value(0)
+	{
+	}
+
+	explicit MyClass(int32_t value) :
+		m_value(value)
+	{
+	}
+
+	int32_t value() const
+	{
+		return m_value;
+	}
+
+private:
+	int32_t m_value;
+	char    m_data[4000];
+};
+
 int main(int argc, char** argv)
 {
-	ThreadLocal* tls0 = thread_local::create();
+	/*ThreadLocal* tls0 = thread_local::create();
 	ThreadLocal* tls1 = thread_local::create();
 
 	TestFunctor functor;
@@ -45,13 +68,31 @@ int main(int argc, char** argv)
 
 	Thread* t0 = thread::create(functor,    nullptr);
 	Thread* t1 = thread::create(&Task::run, nullptr, &task);
-	Thread* t2 = thread::create(free_func,  nullptr);
+	Thread* t2 = thread::create(free_func,  nullptr);*/
 
 	init_base();
 
 	cout << BW_BASE_VERSION_STRING << endl;
 
+	cout << "size: " << sizeof(MyClass) << "  alignment: " << alignof(MyClass) << endl;
+
 	auto& palloc = memory::page_allocator();
+
+	PoolAllocator<MyClass>* pool = palloc.allocateObject<PoolAllocator<MyClass>>(5);
+
+	MyClass* myClass1 = pool->next();
+	MyClass* myClass2 = pool->next(10);
+	MyClass* myClass3 = pool->next(999);
+
+	cout << "Value1: " << myClass1->value() << endl;
+	cout << "Value2: " << myClass2->value() << endl;
+	cout << "Value3: " << myClass3->value() << endl;
+
+	pool->collect(myClass1);
+	pool->collect(myClass2);
+	pool->collect(myClass3);
+
+	palloc.deallocateObject<PoolAllocator<MyClass>>(pool);
 
 	void* mem1 = palloc.allocate(system::get_page_size() - 1);
 	void* mem2 = palloc.allocate(system::get_page_size() + 1);
@@ -64,6 +105,9 @@ int main(int argc, char** argv)
 	palloc.deallocate(mem2);
 
     //BW_ASSERT(1 == 2);
+
+	Mutex* mutex = mutex::create();
+	mutex::destroy(mutex);
 
 	shutdown_base();
 

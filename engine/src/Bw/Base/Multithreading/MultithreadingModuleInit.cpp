@@ -1,6 +1,5 @@
-#include "Bw/Base/ModuleInit.h"
-#include "Bw/Base/Memory/ModuleInit.h"
 #include "Bw/Base/Multithreading/ModuleInit.h"
+#include "Bw/Base/_detail/MultithreadingInternal.h"
 
 namespace bw
 {
@@ -8,18 +7,18 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-void init_base()
+void init_multithreading_system()
 {
-    init_memory_system();
-	init_multithreading_system();
+	internal::init_mutex_pool();
+	internal::init_thread_pool();
 }
 
 // -----------------------------------------------------------------------------
 
-void shutdown_base()
+void shutdown_multithreading_system()
 {
-	shutdown_multithreading_system();
-    shutdown_memory_system();
+	internal::destroy_thread_pool();
+	internal::destroy_mutex_pool();
 }
 
 }	// namespace bw

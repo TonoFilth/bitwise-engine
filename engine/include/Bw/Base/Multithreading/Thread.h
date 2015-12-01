@@ -9,25 +9,14 @@ namespace bw
 {
 namespace thread
 {
+	template <class T> BW_BASE_API Thread* create(T functor, void* data);
+	template <class T> BW_BASE_API Thread* create(void (T::*function)(void*), void* data, T* object);
+
 	BW_BASE_API void destroy(Thread* thread);
 
 	void run(Thread* thread);
 
-	Thread* create(ThreadEntryPoint& entryPoint);
-
-	template <class F>
-	Thread* create(F functor, void* data)
-	{
-		ThreadEntryPoint* entryPoint = internal::multithreading_allocator().allocateObject<ThreadEntryPointFunctor<F>>(functor, data);
-		return thread::create(*entryPoint);
-	}
-
-	template <class T>
-	Thread* create(void (T::*function)(void*), void* data, T* object)
-	{
-		ThreadEntryPoint* entryPoint = internal::multithreading_allocator().allocateObject<ThreadEntryPointMember<T>>(function, data, object);
-		return thread::create(*entryPoint);
-	}
+	#include "Bw/Base/_detail/Thread.inl"
 
 }	// namespace thread
 }	// namespace bw

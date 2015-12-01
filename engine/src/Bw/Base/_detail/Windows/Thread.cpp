@@ -5,12 +5,24 @@
 
 namespace bw
 {
+	struct Thread
+	{
+		internal::ThreadEntryPoint* entryPoint;
+		HANDLE thread;
+	};
 
-struct Thread
+}	// namespace bw
+
+namespace
 {
-	ThreadEntryPoint* entryPoint;
-	HANDLE thread;
-};
+	using namespace bw;
+
+	PoolAllocator<Thread>* _ThreadPool = nullptr;
+
+}	// Private namespace
+
+namespace bw
+{
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Class std functions
@@ -19,20 +31,26 @@ struct Thread
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-Thread* thread::create(ThreadEntryPoint& entryPoint)
+namespace internal
 {
-	Thread* t = memory::heap_allocator().allocateObject<Thread>();
+	Thread* create_thread(ThreadEntryPoint& entryPoint)
+	{
+		Thread* t = _ThreadPool->next();
 
-	t->entryPoint = &entryPoint;
-	return t;
-}
+		t->entryPoint = &entryPoint;
 
-// -----------------------------------------------------------------------------
+		return t;
+	}
+
+	void init_thread_pool()    { _ThreadPool = memory::page_allocator().allocateObject<PoolAllocator<Thread>>(); }
+	void destroy_thread_pool() { memory::page_allocator().deallocateObject(_ThreadPool); }
+
+}	// namespace internal
 
 void thread::destroy(Thread* thread)
 {
 	BW_ASSERT(thread);
-	memory::heap_allocator().deallocateObject<Thread>(thread);
+	_ThreadPool->collect(thread);
 }
 
 // -----------------------------------------------------------------------------
