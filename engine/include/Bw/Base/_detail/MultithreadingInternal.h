@@ -4,6 +4,7 @@
 #include "Bw/Base/Common/Module.h"
 #include "Bw/Base/Memory/ModuleTypes.h"
 #include "Bw/Base/Multithreading/ModuleTypes.h"
+#include "Bw/Base/Memory/ModuleInit.h"
 
 namespace bw
 {
@@ -67,7 +68,7 @@ struct ThreadEntryPointMember : public ThreadEntryPoint
 //	Public functions
 ////////////////////////////////////////////////////////////////////////////////
 BW_BASE_API Thread*    create_thread(ThreadEntryPoint& entryPoint);
-BW_BASE_API Allocator& multithreading_allocator();
+BW_INLINE BW_BASE_API Allocator& multithreading_allocator() { return memory::page_allocator(); }
 
 BW_BASE_API void init_mutex_pool();
 BW_BASE_API void init_thread_pool();

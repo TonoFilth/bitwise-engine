@@ -1,10 +1,13 @@
 #include <iostream>
 #include <cstdio>
 #include <unordered_map>
+#include <Windows.h>
 #include "Bw/Base/Module.h"
 
 using namespace std;
 using namespace bw;
+
+#pragma comment(lib, "winmm.lib")
 
 void test()
 {
@@ -32,6 +35,20 @@ class Task
 public:
 	void run(void* data)
 	{
+		cout << "Running from a thread :)" << endl;
+
+		// Get the supported timer resolutions on this system
+		TIMECAPS tc;
+		timeGetDevCaps(&tc, sizeof(TIMECAPS));
+
+		// Set the timer resolution to the minimum for the Sleep call
+		timeBeginPeriod(tc.wPeriodMin);
+
+		// Wait...
+		::Sleep(5000);
+
+		// Reset the timer resolution back to the system default
+		timeEndPeriod(tc.wPeriodMin);
 	}
 };
 
@@ -105,9 +122,16 @@ int main(int argc, char** argv)
 	palloc.deallocate(mem2);
 
     //BW_ASSERT(1 == 2);
+	Task task;
 
-	Mutex* mutex = mutex::create();
-	mutex::destroy(mutex);
+	Thread* t = thread::create(&Task::run, nullptr, &task);
+
+	thread::run(t);
+	//thread::destroy(t);
+	thread::wait(t);
+	thread::destroy(t);
+
+	cout << "Shutdown" << endl;
 
 	shutdown_base();
 

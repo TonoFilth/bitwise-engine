@@ -13,8 +13,9 @@ namespace thread
 	template <class T> BW_BASE_API Thread* create(void (T::*function)(void*), void* data, T* object);
 
 	BW_BASE_API void destroy(Thread* thread);
-
-	void run(Thread* thread);
+	BW_BASE_API void run(Thread* thread);
+	BW_BASE_API void wait(Thread* thread);
+	BW_BASE_API void terminate(Thread* thread);
 
 	#include "Bw/Base/_detail/Thread.inl"
 

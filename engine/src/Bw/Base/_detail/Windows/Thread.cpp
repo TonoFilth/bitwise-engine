@@ -7,8 +7,9 @@ namespace bw
 {
 	struct Thread
 	{
-		internal::ThreadEntryPoint* entryPoint;
-		HANDLE thread;
+		internal::ThreadEntryPoint* _entryPoint;
+		unsigned int _id;
+		HANDLE       _handle;
 	};
 
 }	// namespace bw
@@ -19,14 +20,21 @@ namespace
 
 	PoolAllocator<Thread>* _ThreadPool = nullptr;
 
+	unsigned int _stdcall thread_main(void* data)
+	{
+		Thread* thread = (Thread*) data;
+
+		thread->_entryPoint->run(nullptr);
+
+		_endthreadex(0);
+
+		return 0;
+	}
+
 }	// Private namespace
 
 namespace bw
 {
-
-////////////////////////////////////////////////////////////////////////////////
-//  Class std functions
-////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
@@ -37,7 +45,7 @@ namespace internal
 	{
 		Thread* t = _ThreadPool->next();
 
-		t->entryPoint = &entryPoint;
+		t->_entryPoint = &entryPoint;
 
 		return t;
 	}
@@ -50,6 +58,7 @@ namespace internal
 void thread::destroy(Thread* thread)
 {
 	BW_ASSERT(thread);
+	memory::page_allocator().deallocateObject(thread->_entryPoint);
 	_ThreadPool->collect(thread);
 }
 
@@ -58,6 +67,26 @@ void thread::destroy(Thread* thread)
 void thread::run(Thread* thread)
 {
 	BW_ASSERT(thread);
+
+	thread->_handle = (HANDLE) _beginthreadex(NULL, 0, thread_main, thread, 0, &thread->_id);
+}
+
+// -----------------------------------------------------------------------------
+
+void thread::wait(Thread* thread)
+{
+	BW_ASSERT(thread && thread->_id != GetCurrentThreadId());
+
+	WaitForSingleObject(thread->_handle, INFINITE);
+}
+
+// -----------------------------------------------------------------------------
+
+void thread::terminate(Thread* thread)
+{
+	BW_ASSERT(thread);
+
+	TerminateThread(thread->_handle, 0);
 }
 
 }	// namespace bw
