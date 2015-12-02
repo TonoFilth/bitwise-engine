@@ -1,15 +1,16 @@
 #ifndef BW_BASE_MULTITHREADING_MODULE_TYPES_H
 #define BW_BASE_MULTITHREADING_MODULE_TYPES_H
 
+#include "Bw/Base/Common/Module.h"
+
 namespace bw
 {
 
 struct Mutex;
 class  Lock;
 struct Thread;
-struct ThreadLocal;
 
-typedef void (*ThreadFunction) (void* data);
+typedef u64_t ThreadLocalIndex;
 
 }	// namespace bw
 

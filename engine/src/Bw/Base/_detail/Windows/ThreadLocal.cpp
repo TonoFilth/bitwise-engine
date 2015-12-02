@@ -6,64 +6,36 @@ namespace bw
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Opaque types
-////////////////////////////////////////////////////////////////////////////////
-struct ThreadLocal
-{
-	ThreadLocal();
-	~ThreadLocal();
-
-	DWORD index;
-};
-
-////////////////////////////////////////////////////////////////////////////////
-//  Class std functions
-////////////////////////////////////////////////////////////////////////////////
-ThreadLocal::ThreadLocal() : index(TlsAlloc())
-{
-}
-
-// -----------------------------------------------------------------------------
-
-ThreadLocal::~ThreadLocal()
-{
-	TlsFree(index);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-ThreadLocal* thread_local::create(void* value)
+ThreadLocalIndex thread_local::create(void* value)
 {
-	auto& allocator  = memory::heap_allocator();
-	ThreadLocal* tls = allocator.allocateObject<ThreadLocal>();
+	ThreadLocalIndex tls = TlsAlloc();
 
-	if (value)
-		thread_local::set_value(*tls, value);
+	thread_local::set_value(tls, value);
 
 	return tls;
 }
 
 // -----------------------------------------------------------------------------
 
-void thread_local::destroy(ThreadLocal& tls)
+void thread_local::destroy(ThreadLocalIndex tls)
 {
-	auto& allocator = memory::heap_allocator();
-	allocator.deallocateObject<ThreadLocal>(&tls);
+	TlsFree(static_cast<DWORD>(tls));
 }
 
 // -----------------------------------------------------------------------------
 
-void thread_local::set_value(ThreadLocal& tls, void* value)
+void thread_local::set_value(ThreadLocalIndex tls, void* value)
 {
-	TlsSetValue(tls.index, value);
+	TlsSetValue(static_cast<DWORD>(tls), value);
 }
 
 // -----------------------------------------------------------------------------
 
-void* thread_local::get_value(ThreadLocal& tls)
+void* thread_local::get_value(ThreadLocalIndex tls)
 {
-	return TlsGetValue(tls.index);
+	return TlsGetValue(static_cast<DWORD>(tls));
 }
 
 }	// namespace bw

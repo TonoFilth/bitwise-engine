@@ -58,7 +58,7 @@ namespace internal
 void thread::destroy(Thread* thread)
 {
 	BW_ASSERT(thread);
-	memory::page_allocator().deallocateObject(thread->_entryPoint);
+	internal::multithreading_allocator().deallocateObject(thread->_entryPoint);
 	_ThreadPool->collect(thread);
 }
 

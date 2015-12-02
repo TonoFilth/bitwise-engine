@@ -26,30 +26,62 @@ struct TestFunctor
 {
 	void operator() (void* data)
 	{
-
 	}
 };
+
+ThreadLocal<int> g_local;
 
 class Task
 {
 public:
+	Task(int start, int end) :
+		m_mutex(mutex::create()),
+		m_start(start),
+		m_end(end)
+	{
+	}
+
+	~Task()
+	{
+		mutex::destroy(m_mutex);
+	}
+
 	void run(void* data)
 	{
 		cout << "Running from a thread :)" << endl;
+		cout << "Is Null? " << g_local.isNull() << endl;
+
+		int count = m_start;
+		g_local = &count;
+
+		while (count < m_end)
+		{
+			Lock lock(*m_mutex);
+			
+			cout << GetCurrentThreadId() << " | MyLocalVar: " << *g_local << "\n";
+
+			count++;
+		}
+
 
 		// Get the supported timer resolutions on this system
-		TIMECAPS tc;
-		timeGetDevCaps(&tc, sizeof(TIMECAPS));
+		//TIMECAPS tc;
+		//timeGetDevCaps(&tc, sizeof(TIMECAPS));
 
-		// Set the timer resolution to the minimum for the Sleep call
-		timeBeginPeriod(tc.wPeriodMin);
+		//// Set the timer resolution to the minimum for the Sleep call
+		//timeBeginPeriod(tc.wPeriodMin);
 
-		// Wait...
-		::Sleep(5000);
+		//// Wait...
+		//::Sleep(5000);
 
-		// Reset the timer resolution back to the system default
-		timeEndPeriod(tc.wPeriodMin);
+		//// Reset the timer resolution back to the system default
+		//timeEndPeriod(tc.wPeriodMin);
 	}
+
+private:
+	Mutex* m_mutex;
+	int    m_start;
+	int    m_end;
 };
 
 class MyClass
@@ -88,7 +120,7 @@ int main(int argc, char** argv)
 	Thread* t2 = thread::create(free_func,  nullptr);*/
 
 	init_base();
-
+	
 	cout << BW_BASE_VERSION_STRING << endl;
 
 	cout << "size: " << sizeof(MyClass) << "  alignment: " << alignof(MyClass) << endl;
@@ -122,14 +154,20 @@ int main(int argc, char** argv)
 	palloc.deallocate(mem2);
 
     //BW_ASSERT(1 == 2);
-	Task task;
+	Task task1(500, 600);
+	Task task2(100, 200);
 
-	Thread* t = thread::create(&Task::run, nullptr, &task);
+	Thread* t1 = thread::create(&Task::run, nullptr, &task1);
+	Thread* t2 = thread::create(&Task::run, nullptr, &task2);
 
-	thread::run(t);
-	//thread::destroy(t);
-	thread::wait(t);
-	thread::destroy(t);
+	thread::run(t1);
+	thread::run(t2);
+	
+	thread::wait(t1);
+	thread::wait(t2);
+
+	thread::destroy(t1);
+	thread::destroy(t2);
 
 	cout << "Shutdown" << endl;
 

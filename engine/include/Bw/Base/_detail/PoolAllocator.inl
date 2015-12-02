@@ -2,33 +2,17 @@
 //  Inline function definitions
 ////////////////////////////////////////////////////////////////////////////////
 template <class T>
-PoolAllocator<T>::PoolAllocator(size_t poolSize)
+PoolAllocator<T>::PoolAllocator(size_t poolSize) :
+	m_pool(nullptr),
+	m_free(nullptr),
+	m_poolSize(poolSize),
+	m_used(0)
 {
 	static_assert(sizeof(T) >= sizeof(PoolAllocator::offset_t), "PoolAllocator: Object size doesn't fit the minimum required");
 
 	// Check poolSize range: [1, PoolAllocator::OFFSET_MAX]
 	BW_ASSERT(poolSize > 0);
 	BW_ASSERT(poolSize <= PoolAllocator::OFFSET_MAX);
-
-	auto& allocator = memory::page_allocator();
-
-	m_pool     = allocator.allocate(poolSize * sizeof(T), alignof(T));
-	m_free     = m_pool;
-	m_poolSize = poolSize;
-	m_used     = 0;
-
-	BW_ASSERT(memory::is_aligned(m_pool, alignof(T)));
-
-	PoolAllocator::offset_t i = 0;
-
-	while (i < poolSize)
-	{
-		PoolAllocator::FreeNode* freeNode = (PoolAllocator::FreeNode*) memory::pointer_add(m_pool, i * sizeof(T));
-		freeNode->_next = ++i;
-
-		int dumb = 0;
-		dumb++;
-	}
 }
 
 // -----------------------------------------------------------------------------
@@ -36,15 +20,18 @@ PoolAllocator<T>::PoolAllocator(size_t poolSize)
 template <class T>
 PoolAllocator<T>::~PoolAllocator()
 {
-	// Some objects weren't returned to the pool
-	BW_ASSERT(m_used == 0);
+	if (m_pool)
+	{
+		// Some objects weren't returned to the pool
+		BW_ASSERT(m_used == 0);
 
-	memory::page_allocator().deallocate(m_pool);
+		memory::page_allocator().deallocate(m_pool);
 
-	m_pool     = nullptr;
-	m_free     = nullptr;
-	m_used     = 0;
-	m_poolSize = 0;
+		m_pool     = nullptr;
+		m_free     = nullptr;
+		m_used     = 0;
+		m_poolSize = 0;
+	}
 };
 
 // -----------------------------------------------------------------------------
@@ -54,6 +41,11 @@ void* PoolAllocator<T>::allocate(size_t size, size_t alignment)
 {
 	BW_ASSERT(size == sizeof(T) && alignment == alignof(T));
 	BW_ASSERT(m_used < m_poolSize);
+
+	// Because we don't allocate memory when this class
+	// is constructed we must check if the pool has been created or not
+	if (!m_pool)
+		createPool();
 
 	void* data = m_free;
 
@@ -118,4 +110,27 @@ template <class T>
 size_t PoolAllocator<T>::allocatedSize(void* data) const
 {
 	return sizeof(T);
+}
+
+// -----------------------------------------------------------------------------
+
+template <class T>
+void PoolAllocator<T>::createPool()
+{
+	BW_ASSERT(m_used == 0);
+
+	auto& allocator = memory::page_allocator();
+
+	m_pool = allocator.allocate(m_poolSize * sizeof(T), alignof(T));
+	m_free = m_pool;
+
+	BW_ASSERT(memory::is_aligned(m_pool, alignof(T)));
+
+	PoolAllocator::offset_t i = 0;
+
+	while (i < m_poolSize)
+	{
+		PoolAllocator::FreeNode* freeNode = (PoolAllocator::FreeNode*) memory::pointer_add(m_pool, i * sizeof(T));
+		freeNode->_next = ++i;
+	}
 }

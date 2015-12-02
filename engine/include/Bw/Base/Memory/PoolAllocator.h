@@ -44,6 +44,9 @@ private:
 	{
 		offset_t _next;
 	};
+
+private:
+	void createPool();
 };
 
 #include "Bw/Base/_detail/PoolAllocator.inl"

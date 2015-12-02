@@ -85,7 +85,7 @@ BW_BASE_API void init_memory_system(const MemoryConfig& config, u32_t flags)
 
 BW_BASE_API void shutdown_memory_system()
 {
-    // Make sure the memory system was initialized
+	// Make sure the memory system was initialized
     BW_ASSERT(_StaticHeap != nullptr);
 
     _StaticHeap->deallocateObject<HeapAllocator>(_GlobalHeap);
