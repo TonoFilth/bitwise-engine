@@ -28,7 +28,7 @@ public:
 	size_t allocatedSize() const override;
 	size_t allocatedSize(void* data) const override;
 
-	static const size_t OFFSET_MAX = UINT16_MAX;
+	static const size_t OFFSET_MAX = BW_UINT16_MAX;
 
 private:
 	void*  m_pool;

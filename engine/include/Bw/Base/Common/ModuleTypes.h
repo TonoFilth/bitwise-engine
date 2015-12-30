@@ -2,9 +2,10 @@
 #define BW_BASE_COMMON_MODULE_TYPES_H
 
 #include "Bw/Base/Common/Macros.h"
+#include "Bw/Base/Common/Features.h"
 #include "Bw/Base/Common/Export.h"
 
-#if defined(BW_HAVE_STDINT)
+#if !defined(BW_HAVE_STDINT)
 	#include <cstddef>
 	#include <cstdint>
 #else
@@ -43,14 +44,15 @@
 	#if defined(BW_64BIT)
 		typedef uint64_t uintptr_t;
 		typedef int64_t  intptr_t;
-		typedef int64_t  ptrdiff_t;
 	#elif defined(BW_32BIT)
 		typedef uint32_t uintptr_t
 		typedef int32_t  intptr_t
-		typedef int32_t  ptrdiff_t;
 	#else
 		#error "Bw: This architecture is not suported"
 	#endif
+
+	typedef intptr_t  ptrdiff_t;
+	typedef uintptr_t size_t;
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +60,11 @@
 ////////////////////////////////////////////////////////////////////////////////
 typedef float  f32_t;
 typedef double f64_t;
+
+// Make sure real_t is not defined by another library in the global scope
+#if defined(real_t)
+#	error "Bw: real_t already defined in the global scope"
+#endif
 
 #if !defined(BW_DOUBLE_PRECISION)
 	typedef f32_t real_t;

@@ -40,7 +40,7 @@ struct AllocationNode
 
 struct AllocationList
 {
-	static const offset_t kInvalidOffset = UINT16_MAX;
+	static const offset_t kInvalidOffset = BW_UINT16_MAX;
 
 	size_t used;		// Number of items in use
 	size_t capacity;	// Maximum number of items this list can hold

@@ -182,8 +182,8 @@ int main(int argc, char** argv)
 	//test();
 
 
-	bw::real_t x(60.0);
-	bw::real_t y(100.0);
+	real_t x(60.0);
+	real_t y(100.0);
 
 	return 0;
 }
