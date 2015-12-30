@@ -19,9 +19,9 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-i32_t system::exec(const char* program, const char* args)
+int32_t system::exec(const char* program, const char* args)
 {
-    i32_t status = -1;
+    int32_t status = -1;
 
 	// Not implemented
 	BW_ASSERT(0);

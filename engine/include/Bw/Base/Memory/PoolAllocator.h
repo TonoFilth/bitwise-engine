@@ -49,7 +49,7 @@ private:
 	void createPool();
 };
 
-#include "Bw/Base/_detail/PoolAllocator.inl"
+#include "Bw/Base/Detail/PoolAllocator.inl"
 
 }	// namespace bw
 

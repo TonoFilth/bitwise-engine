@@ -18,6 +18,7 @@ namespace
 {
 	using namespace bw;
 
+	uint64_t _MainThreadId = 0;
 	PoolAllocator<Thread>* _ThreadPool = nullptr;
 
 	unsigned int _stdcall thread_main(void* data)
@@ -50,8 +51,9 @@ namespace internal
 		return t;
 	}
 
-	void init_thread_pool()    { _ThreadPool = memory::page_allocator().allocateObject<PoolAllocator<Thread>>(); }
-	void destroy_thread_pool() { memory::page_allocator().deallocateObject(_ThreadPool); }
+	void init_thread_pool()              { _ThreadPool = memory::page_allocator().allocateObject<PoolAllocator<Thread>>(); }
+	void destroy_thread_pool()           { memory::page_allocator().deallocateObject(_ThreadPool); }
+	void set_main_thread_id(uint64_t id) { _MainThreadId = id; }
 
 }	// namespace internal
 
@@ -87,6 +89,29 @@ void thread::terminate(Thread* thread)
 	BW_ASSERT(thread);
 
 	TerminateThread(thread->_handle, 0);
+}
+
+// -----------------------------------------------------------------------------
+
+uint64_t thread::thread_id()
+{
+	return GetCurrentThreadId();
+}
+
+// -----------------------------------------------------------------------------
+
+uint64_t thread::thread_id(Thread* thread)
+{
+	BW_ASSERT(thread);
+
+	return thread->_id;
+}
+
+// -----------------------------------------------------------------------------
+
+uint64_t thread::main_thread_id()
+{
+	return _MainThreadId;
 }
 
 }	// namespace bw

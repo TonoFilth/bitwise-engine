@@ -10,7 +10,7 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 void memory::print_range(const void* start, size_t offsetEnd)
 {
-	const u8_t* end = (const u8_t*) start;
+	const uint8_t* end = (const uint8_t*) start;
 	end += offsetEnd;
 
 	memory::print_range(start, (const void*) end);
@@ -20,8 +20,8 @@ void memory::print_range(const void* start, size_t offsetEnd)
 
 void memory::print_range(const void* start, const void* end)
 {
-	const u8_t* s = (const u8_t*) start;
-	const u8_t* e = (const u8_t*) end;
+	const uint8_t* s = (const uint8_t*) start;
+	const uint8_t* e = (const uint8_t*) end;
 
 	BW_ASSERT(e > s);
 

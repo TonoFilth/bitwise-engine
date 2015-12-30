@@ -12,7 +12,7 @@ BW_BASE_API void print_range(const void* start, size_t offsetEnd);
 BW_BASE_API void print_range(const void* start, const void* end);
 BW_BASE_API BW_INLINE bool is_aligned(const void* addr, size_t alignment)
 {
-	return ((uptr_t(addr) & (alignment - 1)) == 0);
+	return ((uintptr_t(addr) & (alignment - 1)) == 0);
 
 }
 

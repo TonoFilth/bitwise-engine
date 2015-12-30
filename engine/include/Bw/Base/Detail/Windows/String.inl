@@ -3,40 +3,40 @@
 ////////////////////////////////////////////////////////////////////////////////
 void strcpy(char* dest, size_t size, const char* src)
 {
-    ::strncpy(dest, src, size);
+	::strcpy_s(dest, size, src);
 }
 
 // -----------------------------------------------------------------------------
 
 void strcat(char* dest, size_t size, const char* src)
 {
-    ::strncat(dest, src, size);
+	::strcat_s(dest, size, src);
 }
 
 // -----------------------------------------------------------------------------
 
-I32 vsprintf(char* dest, size_t size, const char* fmt, va_list args)
+int32_t vsprintf(char* dest, size_t size, const char* fmt, va_list args)
 {
-    return ::vsnprintf(dest, size, fmt, args);
+	return ::vsprintf_s(dest, size, fmt, args);
 }
 
 // -----------------------------------------------------------------------------
 
-I32 stricmp(const char* str1, const char* str2)
+int32_t stricmp(const char* str1, const char* str2)
 {
-    return ::strcasecmp(str1, str2);
+	return ::_stricmp(str1, str2);
 }
 
 // -----------------------------------------------------------------------------
 
-I32 sprintf(char* dest, size_t size, const char* fmt, ...)
+int32_t sprintf(char* dest, size_t size, const char* fmt, ...)
 {
-    va_list args;
-    va_start(args, fmt);
+	va_list args;
+	va_start(args, fmt);
 
-    I32 nbChars = bw::vsprintf(dest, size, fmt, args);
-   
-    va_end(args);
+	int32_t nbChars = bw::vsprintf(dest, size, fmt, args);
+	
+	va_end(args);
 
-    return nbChars;
+	return nbChars;
 }

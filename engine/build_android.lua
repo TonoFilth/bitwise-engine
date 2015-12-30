@@ -1,6 +1,6 @@
 function add_os_options()
     -- ------------------------------
-    --  Linux specific configuration
+    --  Android specific configuration
     -- ------------------------------
     excludes
     {

@@ -3,7 +3,7 @@
 
 #include "Bw/Base/Common/Module.h"
 #include "Bw/Base/Multithreading/ModuleTypes.h"
-#include "Bw/Base/_detail/MultithreadingInternal.h"
+#include "Bw/Base/Detail/MultithreadingInternal.h"
 
 namespace bw
 {
@@ -17,7 +17,11 @@ namespace thread
 	BW_BASE_API void wait(Thread* thread);
 	BW_BASE_API void terminate(Thread* thread);
 
-	#include "Bw/Base/_detail/Thread.inl"
+	BW_BASE_API uint64_t thread_id();
+	BW_BASE_API uint64_t thread_id(Thread* thread);
+	BW_BASE_API uint64_t main_thread_id();
+
+	#include "Bw/Base/Detail/Thread.inl"
 
 }	// namespace thread
 }	// namespace bw

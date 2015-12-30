@@ -10,7 +10,7 @@ struct Mutex;
 class  Lock;
 struct Thread;
 
-typedef u64_t ThreadLocalIndex;
+typedef uint64_t ThreadLocalIndex;
 
 }	// namespace bw
 

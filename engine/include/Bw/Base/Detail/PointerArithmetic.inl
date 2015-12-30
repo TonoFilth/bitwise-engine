@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 void* align_forward(void* ptr, size_t alignment)
 {
-    uptr_t p = uptr_t(ptr);
+    uintptr_t p = uintptr_t(ptr);
     size_t mod = p % alignment;
 
     if (mod)
@@ -14,16 +14,16 @@ void* align_forward(void* ptr, size_t alignment)
 
 // -----------------------------------------------------------------------------
 
-void* align_forward(void* ptr, size_t alignment, u8_t& usedAlignmentBytes)
+void* align_forward(void* ptr, size_t alignment, uint8_t& usedAlignmentBytes)
 {
-    uptr_t p = uptr_t(ptr);
+    uintptr_t p = uintptr_t(ptr);
     usedAlignmentBytes = 0;
 
     size_t mod = p % alignment;
 
     if (mod)
     {
-        usedAlignmentBytes = static_cast<u8_t>(alignment - mod);
+        usedAlignmentBytes = static_cast<uint8_t>(alignment - mod);
         p += usedAlignmentBytes;
     }
 
@@ -34,26 +34,26 @@ void* align_forward(void* ptr, size_t alignment, u8_t& usedAlignmentBytes)
 
 void* pointer_add(void* ptr, size_t bytes)
 {
-    return (void*) ((uptr_t) ptr + bytes);
+    return (void*) ((uintptr_t) ptr + bytes);
 }
 
 // -----------------------------------------------------------------------------
 
 void* pointer_sub(void* ptr, size_t bytes)
 {
-    return (void*) ((uptr_t) ptr - bytes);
+    return (void*) ((uintptr_t) ptr - bytes);
 }
 
 // -----------------------------------------------------------------------------
 
 const void* pointer_add(const void* ptr, size_t bytes)
 {
-    return (const void*) ((const uptr_t) ptr + bytes);
+    return (const void*) ((const uintptr_t) ptr + bytes);
 }
 
 // -----------------------------------------------------------------------------
 
 const void* pointer_sub(const void* ptr, size_t bytes)
 {
-    return (const void*) ((const uptr_t) ptr - bytes);
+    return (const void*) ((const uintptr_t) ptr - bytes);
 }

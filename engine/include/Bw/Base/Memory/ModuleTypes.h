@@ -12,6 +12,7 @@ namespace bw
 class Allocator;
 class PageAllocator;
 class HeapAllocator;
+class TCMallocAllocator;
 
 template <class T>
 class PoolAllocator;

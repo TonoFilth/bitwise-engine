@@ -11,7 +11,7 @@ namespace bw
 //  Initialization & shutdown
 ////////////////////////////////////////////////////////////////////////////////
 BW_BASE_API void init_memory_system();
-BW_BASE_API void init_memory_system(const MemoryConfig& config, u32_t flags = MemoryConfig::eDEFAULT);
+BW_BASE_API void init_memory_system(const MemoryConfig& config, uint32_t flags = MemoryConfig::eDEFAULT);
 BW_BASE_API void shutdown_memory_system();
 
 namespace memory

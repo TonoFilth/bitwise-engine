@@ -19,7 +19,7 @@ using namespace bw;
 ////////////////////////////////////////////////////////////////////////////////
 //  Typedefs
 ////////////////////////////////////////////////////////////////////////////////
-typedef u16_t offset_t;
+typedef uint16_t offset_t;
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Private variables
@@ -32,7 +32,7 @@ size_t s_PageSize = 0;
 struct AllocationNode
 {
 	void*    data;
-	u16_t    pageCount;
+	uint16_t pageCount;
 	offset_t next;
 };
 
@@ -49,7 +49,7 @@ struct AllocationList
 	offset_t last;
 	offset_t free;
 
-	u8_t pageCount;	// Number of pages used by the list
+	uint8_t pageCount;	// Number of pages used by the list
 };
 
 void dump(AllocationList*);
@@ -99,7 +99,7 @@ AllocationList* create_list(size_t size)
 	list->free      = 0;
 	list->used      = 0;
 	list->capacity  = (size - sizeof(AllocationList)) / sizeof(AllocationNode);
-	list->pageCount = static_cast<u8_t>(size_to_pages(size));
+	list->pageCount = static_cast<uint8_t>(size_to_pages(size));
 
 	create_free_list(list, 0, static_cast<offset_t>(list->capacity));
 	
@@ -113,7 +113,7 @@ AllocationNode create_node(size_t dataSize, size_t alignment)
 	AllocationNode node;
 
 	// Round to upper page bound
-	const u16_t pageCount = static_cast<u16_t>(size_to_pages(dataSize));
+	const uint16_t pageCount = static_cast<uint16_t>(size_to_pages(dataSize));
 	dataSize = pageCount * s_PageSize;
 
 	BW_ASSERT(integer::is_multiple_of(dataSize, s_PageSize) && integer::is_power_of_2(alignment));

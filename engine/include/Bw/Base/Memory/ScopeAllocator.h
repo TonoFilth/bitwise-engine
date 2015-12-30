@@ -30,7 +30,7 @@ private:
 	void*  m_top;
 };
 
-#include "Bw/Base/_detail/ScopeAllocator.inl"
+#include "Bw/Base/Detail/ScopeAllocator.inl"
 
 ////////////////////////////////////////////////////////////////////////////////
 //	Default typedefs

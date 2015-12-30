@@ -45,7 +45,7 @@ private:
     Allocator& operator=(const Allocator& toCopy);
 };
 
-#include "Bw/Base/_detail/Allocator.inl"
+#include "Bw/Base/Detail/Allocator.inl"
 
 }   // namespace bw
 

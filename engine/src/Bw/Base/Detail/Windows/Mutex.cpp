@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include "Bw/Base/Multithreading/Mutex.h"
-#include "Bw/Base/_detail/MultithreadingInternal.h"
+#include "Bw/Base/Detail/MultithreadingInternal.h"
 #include "Bw/Base/Memory/Module.h"
 
 namespace bw

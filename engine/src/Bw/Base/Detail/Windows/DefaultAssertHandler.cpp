@@ -1,5 +1,5 @@
 #include <windows.h>
-#include "Bw/Base/_detail/DefaultAssertHandler.h"
+#include "Bw/Base/Detail/DefaultAssertHandler.h"
 #include "Bw/Base/String.h"
 
 namespace bw

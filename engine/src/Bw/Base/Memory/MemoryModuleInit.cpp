@@ -36,7 +36,7 @@ void check_memory_config(const MemoryConfig& config)
 
 // -----------------------------------------------------------------------------
 
-void init_allocators(const MemoryConfig& config, u32_t flags)
+void init_allocators(const MemoryConfig& config, uint32_t flags)
 {
     // Make sure the memory system wasn't initialized
     BW_ASSERT(_StaticHeap == nullptr);
@@ -76,7 +76,7 @@ BW_BASE_API void init_memory_system()
 
 // -----------------------------------------------------------------------------
 
-BW_BASE_API void init_memory_system(const MemoryConfig& config, u32_t flags)
+BW_BASE_API void init_memory_system(const MemoryConfig& config, uint32_t flags)
 {
     init_allocators(config, flags);
 }

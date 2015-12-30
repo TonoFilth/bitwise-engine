@@ -1,3 +1,5 @@
+require "android"
+
 --=====================================--
 --        SOLUTION DIRECTORIES
 --=====================================--
@@ -35,7 +37,11 @@ function build_project(projectName)
         targetname("bw-" .. lowerName)
 
         -- OS options
-        include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
+        if _ACTION == "android" then
+            include(PROJ_DIR .. "build_android.lua")
+        else
+            include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
+        end
         add_os_options()
 
         -- Static libraries
@@ -46,6 +52,7 @@ function build_project(projectName)
         -- Shared libraries
         filter "Debug_SO or Release_SO"
             kind "SharedLib"
+            defines { "BW_" .. upperName .. "_EXPORT" }
 
         -- Static debug library config
         filter "Debug"
@@ -61,12 +68,10 @@ function build_project(projectName)
         filter "Debug_SO"
             targetsuffix "-d"
             targetdir(LIB_DIR .. "/shared/debug")
-            defines { "BW_" .. upperName .. "_EXPORT" }
 
         -- Shared release library config
         filter "Release_SO"
             targetdir(LIB_DIR .. "/shared/release")
-            defines { "BW_" .. upperName .. "_EXPORT" }
 end
 
 --=====================================--

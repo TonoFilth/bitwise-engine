@@ -67,7 +67,8 @@ struct ThreadEntryPointMember : public ThreadEntryPoint
 ////////////////////////////////////////////////////////////////////////////////
 //	Public functions
 ////////////////////////////////////////////////////////////////////////////////
-BW_BASE_API Thread*    create_thread(ThreadEntryPoint& entryPoint);
+BW_BASE_API Thread* create_thread(ThreadEntryPoint& entryPoint);
+BW_BASE_API void    set_main_thread_id(uint64_t id);
 BW_INLINE BW_BASE_API Allocator& multithreading_allocator() { return memory::page_allocator(); }
 
 BW_BASE_API void init_mutex_pool();

@@ -51,11 +51,11 @@
 #	if defined(__cplusplus)
 #		define BW_COMPILER_NAME "Microsoft Visual C++"
 #	else
-#		error "Microsoft Visual C compiler not supported"
+#		error "Bw: Microsoft Visual C compiler not supported"
 #	endif
 // -----------------------------------------------------------------------------
 #else //                                                                 Unknown
-#	error "Compiler couldn't be detected'"
+#	error "Bw: Compiler couldn't be detected'"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@
 #   if TARGET_OS_MAC == 1
 #       define BW_SYSTEM_MACOS
 #	else
-#		error "This Apple system is not supported by Bitwise Engine"
+#		error "Bw: This Apple system is not supported"
 #   endif
 // -----------------------------------------------------------------------------
 #elif defined(_WIN32) //                                                 Windows
@@ -86,11 +86,43 @@
 #   if defined(BSD) && defined(__FreeBSD__)
 #       define BW_SYSTEM_FREE_BSD
 #	else
-#		error "This Unix system is not supported by Bitwise Engine"
+#		error "Bw: This Unix system is not supported by Bitwise Engine"
 #   endif
 #else
 // -----------------------------------------------------------------------------
-#	error "This operating system is not supported by Bitwise Engine"
+#	error "Bw: This operating system is not supported"
+#endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Processor detection (Reference: http://goo.gl/DS63L5)
+////////////////////////////////////////////////////////////////////////////////
+#if defined(__x86_64__) || defined(_M_X64) //						  x86 64-bit
+#	define BW_x86
+#	define BW_64BIT
+// -----------------------------------------------------------------------------
+#elif defined(__i386) || defined(_M_IX86) //                          x86 32-bit
+#	define BW_x86
+#	define BW_32BIT
+// -----------------------------------------------------------------------------
+#elif defined(__ia64) || defined(__itanium__) || defined(_M_IA64) //     Itanium
+#	define BW_ITANIUM
+#	define BW_64BIT
+// -----------------------------------------------------------------------------
+#elif defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) //    PowerPC
+#	define BW_POWER_PC
+#
+#	if defined(__powerpc64__) || defined(__ppc64__) || defined(__PPC64__) || \
+#		defined(__64BIT__) || defined(_LP64) || defined(__LP64__)
+#		define BW_64BIT
+#	else
+#		define BW_32BIT
+#	endif
+// -----------------------------------------------------------------------------
+#elif defined(__sparc) //                                                  SPARC
+#	define BW_SPARC
+#	error "Bw: No code to check processor bits"
+#else
+#	error "Bw: This processor is not supported"
 #endif
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -162,7 +194,14 @@
 #	if defined(BW_COMPILER_VC) && (_MSC_VER >= 1700)
 #       define _ALLOW_KEYWORD_MACROS
 #		define alignof(x) __alignof(x)
+#	else
+#		error "Bw: alignof() not defined"
 #	endif
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+// Include macros
+////////////////////////////////////////////////////////////////////////////////
+#define BW_HAVE_STDINT
 
 #endif	// BW_BASE_MACROS_H

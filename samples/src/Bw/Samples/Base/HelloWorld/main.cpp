@@ -30,6 +30,7 @@ struct TestFunctor
 };
 
 ThreadLocal<int> g_local;
+TCMallocAllocator g_tcmalloc;
 
 class Task
 {
@@ -48,7 +49,9 @@ public:
 
 	void run(void* data)
 	{
-		cout << "Running from a thread :)" << endl;
+		g_tcmalloc.allocate(128, 4);
+
+		/*cout << "Running from a thread :)" << endl;
 		cout << "Is Null? " << g_local.isNull() << endl;
 
 		int count = m_start;
@@ -61,7 +64,7 @@ public:
 			cout << GetCurrentThreadId() << " | MyLocalVar: " << *g_local << "\n";
 
 			count++;
-		}
+		}*/
 
 
 		// Get the supported timer resolutions on this system
@@ -119,61 +122,68 @@ int main(int argc, char** argv)
 	Thread* t1 = thread::create(&Task::run, nullptr, &task);
 	Thread* t2 = thread::create(free_func,  nullptr);*/
 
-	init_base();
-	
-	cout << BW_BASE_VERSION_STRING << endl;
+	//init_base();
+	//
+	//cout << BW_BASE_VERSION_STRING << endl;
 
-	cout << "size: " << sizeof(MyClass) << "  alignment: " << alignof(MyClass) << endl;
+	//cout << "size: " << sizeof(MyClass) << "  alignment: " << alignof(MyClass) << endl;
 
-	auto& palloc = memory::page_allocator();
+	//auto& palloc = memory::page_allocator();
 
-	PoolAllocator<MyClass>* pool = palloc.allocateObject<PoolAllocator<MyClass>>(5);
+	//PoolAllocator<MyClass>* pool = palloc.allocateObject<PoolAllocator<MyClass>>(5);
 
-	MyClass* myClass1 = pool->next();
-	MyClass* myClass2 = pool->next(10);
-	MyClass* myClass3 = pool->next(999);
+	//MyClass* myClass1 = pool->next();
+	//MyClass* myClass2 = pool->next(10);
+	//MyClass* myClass3 = pool->next(999);
 
-	cout << "Value1: " << myClass1->value() << endl;
-	cout << "Value2: " << myClass2->value() << endl;
-	cout << "Value3: " << myClass3->value() << endl;
+	//cout << "Value1: " << myClass1->value() << endl;
+	//cout << "Value2: " << myClass2->value() << endl;
+	//cout << "Value3: " << myClass3->value() << endl;
 
-	pool->collect(myClass1);
-	pool->collect(myClass2);
-	pool->collect(myClass3);
+	//pool->collect(myClass1);
+	//pool->collect(myClass2);
+	//pool->collect(myClass3);
 
-	palloc.deallocateObject<PoolAllocator<MyClass>>(pool);
+	//palloc.deallocateObject<PoolAllocator<MyClass>>(pool);
 
-	void* mem1 = palloc.allocate(system::get_page_size() - 1);
-	void* mem2 = palloc.allocate(system::get_page_size() + 1);
+	//void* mem1 = palloc.allocate(system::get_page_size() - 1);
+	//void* mem2 = palloc.allocate(system::get_page_size() + 1);
 
-	cout << "mem1 size: " << palloc.allocatedSize(mem1) << endl;
-	cout << "mem2 size: " << palloc.allocatedSize(mem2) << endl;
-	cout << "total size: " << palloc.allocatedSize()    << endl;
+	//cout << "mem1 size: " << palloc.allocatedSize(mem1) << endl;
+	//cout << "mem2 size: " << palloc.allocatedSize(mem2) << endl;
+	//cout << "total size: " << palloc.allocatedSize()    << endl;
 
-	palloc.deallocate(mem1);
-	palloc.deallocate(mem2);
+	//palloc.deallocate(mem1);
+	//palloc.deallocate(mem2);
 
-    //BW_ASSERT(1 == 2);
-	Task task1(500, 600);
-	Task task2(100, 200);
+ //   //BW_ASSERT(1 == 2);
+	//Task task1(500, 600);
+	//Task task2(100, 200);
 
-	Thread* t1 = thread::create(&Task::run, nullptr, &task1);
-	Thread* t2 = thread::create(&Task::run, nullptr, &task2);
+	//g_tcmalloc.allocate(128, 4);
+	//g_tcmalloc.allocate(256, 4);
 
-	thread::run(t1);
-	thread::run(t2);
-	
-	thread::wait(t1);
-	thread::wait(t2);
+	//Thread* t1 = thread::create(&Task::run, nullptr, &task1);
+	//Thread* t2 = thread::create(&Task::run, nullptr, &task2);
 
-	thread::destroy(t1);
-	thread::destroy(t2);
+	//thread::run(t1);
+	//thread::run(t2);
+	//
+	//thread::wait(t1);
+	//thread::wait(t2);
 
-	cout << "Shutdown" << endl;
+	//thread::destroy(t1);
+	//thread::destroy(t2);
 
-	shutdown_base();
+	//cout << "Shutdown" << endl;
 
-	test();
+	//shutdown_base();
+
+	//test();
+
+
+	bw::real_t x(60.0);
+	bw::real_t y(100.0);
 
 	return 0;
 }
