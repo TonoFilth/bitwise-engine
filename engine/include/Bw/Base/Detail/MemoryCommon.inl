@@ -1,7 +1,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Inline function definitions
 ////////////////////////////////////////////////////////////////////////////////
-void* align_forward(void* ptr, size_t alignment)
+void* bw::Memory::AlignForward(void* ptr, size_t alignment)
 {
     uintptr_t p = uintptr_t(ptr);
     size_t mod = p % alignment;
@@ -14,7 +14,7 @@ void* align_forward(void* ptr, size_t alignment)
 
 // -----------------------------------------------------------------------------
 
-void* align_forward(void* ptr, size_t alignment, uint8_t& usedAlignmentBytes)
+void* bw::Memory::AlignForward(void* ptr, size_t alignment, uint8_t& usedAlignmentBytes)
 {
     uintptr_t p = uintptr_t(ptr);
     usedAlignmentBytes = 0;
@@ -32,28 +32,36 @@ void* align_forward(void* ptr, size_t alignment, uint8_t& usedAlignmentBytes)
 
 // -----------------------------------------------------------------------------
 
-void* pointer_add(void* ptr, size_t bytes)
+void* bw::Memory::PointerAdd(void* ptr, size_t bytes)
 {
     return (void*) ((uintptr_t) ptr + bytes);
 }
 
 // -----------------------------------------------------------------------------
 
-void* pointer_sub(void* ptr, size_t bytes)
+void* bw::Memory::PointerSub(void* ptr, size_t bytes)
 {
     return (void*) ((uintptr_t) ptr - bytes);
 }
 
 // -----------------------------------------------------------------------------
 
-const void* pointer_add(const void* ptr, size_t bytes)
+const void* bw::Memory::PointerAdd(const void* ptr, size_t bytes)
 {
     return (const void*) ((const uintptr_t) ptr + bytes);
 }
 
 // -----------------------------------------------------------------------------
 
-const void* pointer_sub(const void* ptr, size_t bytes)
+const void* bw::Memory::PointerSub(const void* ptr, size_t bytes)
 {
     return (const void*) ((const uintptr_t) ptr - bytes);
+}
+
+// -----------------------------------------------------------------------------
+
+bool bw::Memory::IsAligned(const void* addr, size_t alignment)
+{
+	return ((uintptr_t(addr) & (alignment - 1)) == 0);
+
 }

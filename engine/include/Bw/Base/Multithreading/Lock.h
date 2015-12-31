@@ -1,8 +1,8 @@
 #ifndef BW_BASE_LOCK_H
 #define BW_BASE_LOCK_H
 
-#include "Bw/Base/Common/Module.h"
-#include "Bw/Base/Multithreading/ModuleTypes.h"
+#include "Bw/Base/Config.h"
+#include "Bw/Base/Multithreading/Types.h"
 
 namespace bw
 {

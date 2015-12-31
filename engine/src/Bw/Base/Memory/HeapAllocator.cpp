@@ -1,5 +1,6 @@
 #include "Bw/Base/Memory/HeapAllocator.h"
-#include "Bw/Base/Memory/PointerArithmetic.h"
+#include "Bw/Base/Memory/Common.h"
+#include "Bw/Base/Common/Assert.h"
 
 namespace
 {
@@ -29,8 +30,8 @@ BW_INLINE void* data_pointer(void* addr, size_t alignment)
 {
     uint8_t usedBytes;
 
-    void* unalignedData = memory::pointer_add(addr, sizeof(Header) + 1);
-    void* alignedData   = memory::align_forward(unalignedData, alignment, usedBytes);
+    void* unalignedData = Memory::PointerAdd(addr, sizeof(Header) + 1);
+    void* alignedData   = Memory::AlignForward(unalignedData, alignment, usedBytes);
 
     // If addr is already aligned adjustmentAddr
     // will overwrite Header::_pad member
@@ -45,7 +46,7 @@ BW_INLINE void* data_pointer(void* addr, size_t alignment)
 BW_INLINE Header* get_header(void* data)
 {
     uint8_t adjustment  = *((uint8_t*) data - 1);
-    Header* header = (Header*) memory::pointer_sub(data, adjustment);
+    Header* header = (Header*) Memory::PointerSub(data, adjustment);
 
     return header - 1;
 }

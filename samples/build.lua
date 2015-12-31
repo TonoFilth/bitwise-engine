@@ -147,4 +147,4 @@ workspace "Bitwise Engine (Samples)"
 
     -- Build all samples
     build_sample("HelloWorld", "Base", {"Base"})
-    --build_sample("Foundation", "Foundation", {"Base", "Foundation"})
+    build_sample("Reboot",     "Base", {"Base"})

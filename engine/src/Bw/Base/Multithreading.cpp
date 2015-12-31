@@ -1,8 +1,10 @@
-#include "Bw/Base/Multithreading/ModuleInit.h"
+#include "Bw/Base/Multithreading.h"
 #include "Bw/Base/Detail/MultithreadingInternal.h"
 
 #if defined(BW_SYSTEM_WINDOWS)
 #	include <Windows.h>
+#else
+#	error "TODO"
 #endif
 
 namespace bw
@@ -11,7 +13,7 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-void init_multithreading_system()
+void Internal::InitMultithreading()
 {
 	// We assume main thread is the thread that called the
 	// engine initialization function
@@ -25,7 +27,7 @@ void init_multithreading_system()
 
 // -----------------------------------------------------------------------------
 
-void shutdown_multithreading_system()
+void Internal::QuitMultithreading()
 {
 	internal::destroy_thread_pool();
 	internal::destroy_mutex_pool();

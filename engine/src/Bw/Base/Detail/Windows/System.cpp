@@ -1,17 +1,8 @@
 #include <cstdlib>
 #include <Windows.h>
-#include "Bw/Base/System.h"
-#include "Bw/Base/String.h"
-
-namespace
-{
-
-////////////////////////////////////////////////////////////////////////////////
-//  Constants
-////////////////////////////////////////////////////////////////////////////////
-const size_t kMaxCmdLength = 1024;
-
-}   // private namespace
+#include "Bw/Base/Common/System.h"
+#include "Bw/Base/Common/String.h"
+#include "Bw/Base/Common/Assert.h"
 
 namespace bw
 {
@@ -19,7 +10,7 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-int32_t system::exec(const char* program, const char* args)
+int32_t System::Exec(const char* program, const char* args)
 {
     int32_t status = -1;
 
@@ -31,7 +22,7 @@ int32_t system::exec(const char* program, const char* args)
 
 // -----------------------------------------------------------------------------
 
-size_t system::get_page_size()
+size_t System::GetPageSize()
 {
 	SYSTEM_INFO sysInfo;
 	GetSystemInfo(&sysInfo);

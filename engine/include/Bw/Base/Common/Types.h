@@ -1,5 +1,5 @@
-#ifndef BW_BASE_COMMON_MODULE_TYPES_H
-#define BW_BASE_COMMON_MODULE_TYPES_H
+#ifndef BW_BASE_COMMON_TYPES_H
+#define BW_BASE_COMMON_TYPES_H
 
 #include "Bw/Base/Common/Macros.h"
 #include "Bw/Base/Common/Features.h"
@@ -113,4 +113,4 @@ public:
 
 }	// namespace bw
 
-#endif	// BW_BASE_COMMON_MODULE_TYPES_H
+#endif	// BW_BASE_COMMON_TYPES_H

@@ -1,6 +1,6 @@
 #include <Windows.h>
 #include "Bw/Base/Multithreading/ThreadLocal.h"
-#include "Bw/Base/Memory/Module.h"
+#include "Bw/Base/Memory.h"
 
 namespace bw
 {

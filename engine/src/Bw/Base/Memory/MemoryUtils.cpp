@@ -1,6 +1,6 @@
 #include <cstdio>
-#include "Bw/Base/Memory/MemoryUtils.h"
-#include "Bw/Base/Memory/PointerArithmetic.h"
+#include "Bw/Base/Common/Assert.h"
+#include "Bw/Base/Memory/Utils.h"
 
 namespace bw
 {
@@ -8,17 +8,17 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-void memory::print_range(const void* start, size_t offsetEnd)
+void MemoryUtils::PrintRange(const void* start, size_t offsetEnd)
 {
 	const uint8_t* end = (const uint8_t*) start;
 	end += offsetEnd;
 
-	memory::print_range(start, (const void*) end);
+	MemoryUtils::PrintRange(start, (const void*) end);
 }
 
 // -----------------------------------------------------------------------------
 
-void memory::print_range(const void* start, const void* end)
+void MemoryUtils::PrintRange(const void* start, const void* end)
 {
 	const uint8_t* s = (const uint8_t*) start;
 	const uint8_t* e = (const uint8_t*) end;

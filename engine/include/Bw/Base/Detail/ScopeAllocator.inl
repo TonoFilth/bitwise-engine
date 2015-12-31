@@ -16,8 +16,8 @@ void* ScopeAllocator<N>::allocate(size_t size, size_t alignment)
 	// Buffer exhausted
 	BW_ASSERT(m_size + totalSize < m_capacity);
 
-	void* data = memory::align_forward(m_top, alignment);
-	m_top   = memory::pointer_add(m_top, totalSize);
+	void* data = Memory::AlignForward(m_top, alignment);
+	m_top   = Memory::PointerAdd(m_top, totalSize);
 	m_size += totalSize;
 
 	return data;

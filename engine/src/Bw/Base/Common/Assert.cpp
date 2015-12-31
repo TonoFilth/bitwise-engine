@@ -1,4 +1,4 @@
-#include "Bw/Base/Common/AssertHandler.h"
+#include "Bw/Base/Common/Assert.h"
 #include "Bw/Base/Detail/DefaultAssertHandler.h"
 
 namespace
@@ -7,8 +7,8 @@ namespace
 ////////////////////////////////////////////////////////////////////////////////
 //  Private variables
 ////////////////////////////////////////////////////////////////////////////////
-bw::DefaultAssertHandler s_defaultAssertHandler;
-bw::AssertHandler*       s_assertHandler = &s_defaultAssertHandler;
+bw::DefaultAssertHandler s_DefaultAssertHandler;
+bw::AssertHandler*       s_CurrentAssertHandler = &s_DefaultAssertHandler;
 
 }   // private namespace
 
@@ -18,26 +18,25 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-AssertHandler& assert_handler::get()
+AssertHandler& bw::GetAssertHandler()
 {
-	return *s_assertHandler;
+	return *s_CurrentAssertHandler;
 }
 
 // -----------------------------------------------------------------------------
 
-AssertHandler& assert_handler::set(AssertHandler& assertHandler)
+AssertHandler& bw::SetAssertHandler(AssertHandler* assertHandler)
 {
-	AssertHandler& prevHandler = *s_assertHandler;
-	s_assertHandler = &assertHandler;
+	AssertHandler& prevHandler = *s_CurrentAssertHandler;
+
+	// If 'assertHandler' var is nullptr we set the current
+	// assert handler to the default one
+	if (assertHandler == nullptr)
+		s_CurrentAssertHandler = &s_DefaultAssertHandler;
+	else
+		s_CurrentAssertHandler = assertHandler;
 
 	return prevHandler;
-}
-
-// -----------------------------------------------------------------------------
-
-AssertHandler& assert_handler::reset_default()
-{
-    return assert_handler::set(s_defaultAssertHandler);
 }
 
 }	// namespace bw

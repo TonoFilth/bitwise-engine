@@ -1,7 +1,7 @@
 #ifndef BW_BASE_POINTER_HASH_TABLE_H
 #define BW_BASE_POINTER_HASH_TABLE_H
 
-#include "Bw/Base/Common/Module.h"
+#include "Bw/Base/Common.h"
 
 namespace bw
 {

@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include <process.h>
 #include "Bw/Base/Multithreading/Thread.h"
-#include "Bw/Base/Memory/Module.h"
+#include "Bw/Base/Memory.h"
 
 namespace bw
 {
@@ -51,8 +51,8 @@ namespace internal
 		return t;
 	}
 
-	void init_thread_pool()              { _ThreadPool = memory::page_allocator().allocateObject<PoolAllocator<Thread>>(); }
-	void destroy_thread_pool()           { memory::page_allocator().deallocateObject(_ThreadPool); }
+	void init_thread_pool()              { _ThreadPool = Memory::SystemAllocator().allocateObject<PoolAllocator<Thread>>(); }
+	void destroy_thread_pool()           { Memory::SystemAllocator().deallocateObject(_ThreadPool); }
 	void set_main_thread_id(uint64_t id) { _MainThreadId = id; }
 
 }	// namespace internal

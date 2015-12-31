@@ -25,7 +25,9 @@ function build_project(projectName)
             includeDir .. "/**.h",
             includeDir .. "/**.inl",
             srcDir     .. "/**.h",
-            srcDir     .. "/**.cpp"
+            srcDir     .. "/**.cpp",
+            INC_DIR    .. "/Bw/" .. projectName .. ".h",
+            SRC_DIR    .. "/Bw/" .. projectName .. ".cpp"
         }
         includedirs
         {
@@ -43,6 +45,15 @@ function build_project(projectName)
             include(PROJ_DIR .. "build_" .. os.get() .. ".lua")
         end
         add_os_options()
+
+        -- Special files
+        if projectName == "Base" then
+            files
+            {
+                INC_DIR .. "/Bw/Bw.h",
+                SRC_DIR .. "/Bw/Bw.cpp"
+            }
+        end
 
         -- Static libraries
         filter "Debug or Release"

@@ -2,7 +2,7 @@
 #define BW_BASE_SCOPE_ALLOCATOR_H
 
 #include "Bw/Base/Memory/Allocator.h"
-#include "Bw/Base/Memory/PointerArithmetic.h"
+#include "Bw/Base/Memory/Common.h"
 
 namespace bw
 {
@@ -11,7 +11,7 @@ namespace bw
 //	ScopeAllocator
 ////////////////////////////////////////////////////////////////////////////////
 template <unsigned N>
-class BW_BASE_API ScopeAllocator : public Allocator
+class ScopeAllocator : public Allocator
 {
 public:
 	ScopeAllocator();

@@ -30,7 +30,6 @@ struct TestFunctor
 };
 
 ThreadLocal<int> g_local;
-TCMallocAllocator g_tcmalloc;
 
 class Task
 {
@@ -49,8 +48,6 @@ public:
 
 	void run(void* data)
 	{
-		g_tcmalloc.allocate(128, 4);
-
 		/*cout << "Running from a thread :)" << endl;
 		cout << "Is Null? " << g_local.isNull() << endl;
 

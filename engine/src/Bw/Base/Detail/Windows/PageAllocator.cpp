@@ -1,15 +1,16 @@
 #include <cstdio>
 #include <Windows.h>
 #include "Bw/Base/Memory/PageAllocator.h"
-#include "Bw/Base/Memory/PointerArithmetic.h"
-#include "Bw/Base/Memory/MemoryUtils.h"
-#include "Bw/Base/System.h"
-#include "Bw/Base/Integer.h"
+#include "Bw/Base/Memory/Common.h"
+#include "Bw/Base/Common/System.h"
+#include "Bw/Base/Common/Integer.h"
+#include "Bw/Base/Common/Limits.h"
+#include "Bw/Base/Common/Assert.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Macros
 ////////////////////////////////////////////////////////////////////////////////
-#define get_node(list, offset) (AllocationNode*) bw::memory::pointer_add(list, sizeof(AllocationList) + offset * sizeof(AllocationNode))
+#define get_node(list, offset) (AllocationNode*) bw::Memory::PointerAdd(list, sizeof(AllocationList) + offset * sizeof(AllocationNode))
 
 namespace
 {
@@ -116,12 +117,12 @@ AllocationNode create_node(size_t dataSize, size_t alignment)
 	const uint16_t pageCount = static_cast<uint16_t>(size_to_pages(dataSize));
 	dataSize = pageCount * s_PageSize;
 
-	BW_ASSERT(integer::is_multiple_of(dataSize, s_PageSize) && integer::is_power_of_2(alignment));
+	BW_ASSERT(IsMultipleOf(dataSize, s_PageSize) && IsPowerOf2(alignment));
 
 	void* data = VirtualAlloc(nullptr, dataSize, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
 
 	// We expect data to be aligned properly
-	BW_ASSERT(memory::is_aligned(data, alignment));
+	BW_ASSERT(Memory::IsAligned(data, alignment));
 
 	node.next      = AllocationList::kInvalidOffset;
 	node.data      = data;
@@ -286,7 +287,7 @@ PageAllocator::PageAllocator() :
     // system page size
     if (s_PageSize == 0)
     {
-        s_PageSize = system::get_page_size();
+        s_PageSize = System::GetPageSize();
 
         // Make sure the page size is valid
         BW_ASSERT(s_PageSize > 0);

@@ -1,7 +1,7 @@
 #include <Windows.h>
 #include "Bw/Base/Multithreading/Mutex.h"
 #include "Bw/Base/Detail/MultithreadingInternal.h"
-#include "Bw/Base/Memory/Module.h"
+#include "Bw/Base/Memory.h"
 
 namespace bw
 {
@@ -43,8 +43,8 @@ namespace bw
 {
 namespace internal
 {
-	void init_mutex_pool()    { _MutexPool = memory::page_allocator().allocateObject<PoolAllocator<Mutex>>(); }
-	void destroy_mutex_pool() { memory::page_allocator().deallocateObject(_MutexPool); }
+	void init_mutex_pool()    { _MutexPool = Memory::SystemAllocator().allocateObject<PoolAllocator<Mutex>>(); }
+	void destroy_mutex_pool() { Memory::SystemAllocator().deallocateObject(_MutexPool); }
 
 }	// namespace internal
 

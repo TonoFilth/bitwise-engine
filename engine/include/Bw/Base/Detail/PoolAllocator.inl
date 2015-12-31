@@ -25,7 +25,7 @@ PoolAllocator<T>::~PoolAllocator()
 		// Some objects weren't returned to the pool
 		BW_ASSERT(m_used == 0);
 
-		memory::page_allocator().deallocate(m_pool);
+		Memory::SystemAllocator().deallocate(m_pool);
 
 		m_pool     = nullptr;
 		m_free     = nullptr;
@@ -50,7 +50,7 @@ void* PoolAllocator<T>::allocate(size_t size, size_t alignment)
 	void* data = m_free;
 
 	PoolAllocator::FreeNode* freeNode = (PoolAllocator::FreeNode*) m_free;
-	m_free  = memory::pointer_add(m_pool, freeNode->_next * sizeof(T));
+	m_free  = Memory::PointerAdd(m_pool, freeNode->_next * sizeof(T));
 	m_used += 1;
 
 	return data;
@@ -61,7 +61,7 @@ void* PoolAllocator<T>::allocate(size_t size, size_t alignment)
 template <class T>
 void PoolAllocator<T>::deallocate(void* data)
 {
-	BW_ASSERT(memory::is_aligned(data, alignof(T)));
+	BW_ASSERT(Memory::IsAligned(data, alignof(T)));
 
 	PoolAllocator::FreeNode* collected = (PoolAllocator::FreeNode*) data;
 
@@ -119,18 +119,18 @@ void PoolAllocator<T>::createPool()
 {
 	BW_ASSERT(m_used == 0);
 
-	auto& allocator = memory::page_allocator();
+	auto& allocator = Memory::SystemAllocator();
 
 	m_pool = allocator.allocate(m_poolSize * sizeof(T), alignof(T));
 	m_free = m_pool;
 
-	BW_ASSERT(memory::is_aligned(m_pool, alignof(T)));
+	BW_ASSERT(Memory::IsAligned(m_pool, alignof(T)));
 
 	PoolAllocator::offset_t i = 0;
 
 	while (i < m_poolSize)
 	{
-		PoolAllocator::FreeNode* freeNode = (PoolAllocator::FreeNode*) memory::pointer_add(m_pool, i * sizeof(T));
+		PoolAllocator::FreeNode* freeNode = (PoolAllocator::FreeNode*) Memory::PointerAdd(m_pool, i * sizeof(T));
 		freeNode->_next = ++i;
 	}
 }

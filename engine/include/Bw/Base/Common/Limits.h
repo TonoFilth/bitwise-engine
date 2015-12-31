@@ -1,7 +1,8 @@
 #ifndef BW_BASE_LIMITS_H
 #define BW_BASE_LIMITS_H
 
-#include "Bw/Base/Common/ModuleTypes.h"
+#include "Bw/Base/Common/Export.h"
+#include "Bw/Base/Common/Types.h"
 
 namespace bw
 {
@@ -16,8 +17,6 @@ namespace bw
 #error "TODO"
 
 #else
-
-#include "Bw/Base/Common/ModuleTypes.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Signed integers

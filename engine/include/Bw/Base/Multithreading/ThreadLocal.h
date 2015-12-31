@@ -1,8 +1,8 @@
 #ifndef BW_BASE_THREAD_LOCAL_H
 #define BW_BASE_THREAD_LOCAL_H
 
-#include "Bw/Base/Common/Module.h"
-#include "Bw/Base/Multithreading/ModuleTypes.h"
+#include "Bw/Base/Config.h"
+#include "Bw/Base/Multithreading/Types.h"
 
 namespace bw
 {
@@ -24,7 +24,7 @@ BW_BASE_API void* get_value(ThreadLocalIndex tls);
 //  ThreadLocal
 ////////////////////////////////////////////////////////////////////////////////
 template <class T>
-class BW_BASE_API ThreadLocal
+class ThreadLocal
 {
 public:
 	ThreadLocal(T* value = NULL);

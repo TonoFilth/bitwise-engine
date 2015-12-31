@@ -78,6 +78,9 @@
 #		define WIN32_LEAN_AND_MEAN
 #	endif 
 // -----------------------------------------------------------------------------
+#elif defined(__ANDROID__) //                                            Android
+#	define(BW_SYSTEM_ANDROID)
+// -----------------------------------------------------------------------------
 #elif defined(__linux__) //                                                Linux
 #   define BW_SYSTEM_LINUX
 // -----------------------------------------------------------------------------
@@ -86,7 +89,7 @@
 #   if defined(BSD) && defined(__FreeBSD__)
 #       define BW_SYSTEM_FREE_BSD
 #	else
-#		error "Bw: This Unix system is not supported by Bitwise Engine"
+#		error "Bw: This Unix system is not supported"
 #   endif
 #else
 // -----------------------------------------------------------------------------

@@ -1,5 +1,4 @@
-#include "Bw/Base/Detail/MultithreadingInternal.h"
-#include "Bw/Base/Memory/Common.h"
+#include "Bw/Bw.h"
 
 namespace bw
 {
@@ -7,9 +6,16 @@ namespace bw
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-Allocator& multithreading_allocator()
+void bw::Init()
 {
-	return Memory::SystemAllocator();
+	Internal::InitBase();
+}
+
+// -----------------------------------------------------------------------------
+
+void bw::Quit()
+{
+	Internal::QuitBase();
 }
 
 }	// namespace bw

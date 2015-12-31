@@ -2,8 +2,7 @@
 #define BW_BASE_POOL_ALLOCATOR_H
 
 #include "Bw/Base/Memory/Allocator.h"
-#include "Bw/Base/Memory/ModuleInit.h"
-#include "Bw/Base/System.h"
+#include "Bw/Base/Common/System.h"
 
 namespace bw
 {
@@ -12,10 +11,10 @@ namespace bw
 //  PoolAllocator
 ////////////////////////////////////////////////////////////////////////////////
 template <class T>
-class BW_BASE_API PoolAllocator : public Allocator
+class PoolAllocator : public Allocator
 {
 public:
-	PoolAllocator(size_t poolSize = system::get_page_size() / sizeof(T));
+	PoolAllocator(size_t poolSize = System::GetPageSize() / sizeof(T));
 	virtual ~PoolAllocator();
 
 	void* allocate(size_t size, size_t alignment) override;

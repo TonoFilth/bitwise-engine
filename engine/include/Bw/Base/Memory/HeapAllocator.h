@@ -1,7 +1,6 @@
 #ifndef BW_BASE_HEAP_ALLOCATOR_H
 #define BW_BASE_HEAP_ALLOCATOR_H
 
-#include "Bw/Base/Common/Module.h"
 #include "Bw/Base/Memory/Allocator.h"
 
 namespace bw

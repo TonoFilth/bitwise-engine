@@ -1,10 +1,10 @@
 #ifndef BW_BASE_MULTITHREADING_INTERNAL_H
 #define BW_BASE_MULTITHREADING_INTERNAL_H
 
-#include "Bw/Base/Common/Module.h"
-#include "Bw/Base/Memory/ModuleTypes.h"
-#include "Bw/Base/Multithreading/ModuleTypes.h"
-#include "Bw/Base/Memory/ModuleInit.h"
+#include "Bw/Base/Common.h"
+#include "Bw/Base/Config.h"
+#include "Bw/Base/Memory/Common.h"
+#include "Bw/Base/Multithreading/Types.h"
 
 namespace bw
 {
@@ -69,7 +69,7 @@ struct ThreadEntryPointMember : public ThreadEntryPoint
 ////////////////////////////////////////////////////////////////////////////////
 BW_BASE_API Thread* create_thread(ThreadEntryPoint& entryPoint);
 BW_BASE_API void    set_main_thread_id(uint64_t id);
-BW_INLINE BW_BASE_API Allocator& multithreading_allocator() { return memory::page_allocator(); }
+BW_INLINE BW_BASE_API Allocator& multithreading_allocator() { return Memory::SystemAllocator(); }
 
 BW_BASE_API void init_mutex_pool();
 BW_BASE_API void init_thread_pool();

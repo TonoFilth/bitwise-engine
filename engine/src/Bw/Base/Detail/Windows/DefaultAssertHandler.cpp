@@ -1,6 +1,6 @@
 #include <windows.h>
 #include "Bw/Base/Detail/DefaultAssertHandler.h"
-#include "Bw/Base/String.h"
+#include "Bw/Base/Common/String.h"
 
 namespace bw
 {
@@ -19,7 +19,7 @@ void DefaultAssertHandler::operator()(const char* exp, const char* file, int lin
 {
 	char message[512];
 
-	bw::sprintf(message, 512, "Assertion failed: ( %s )\nFile: %s:%d", exp, file, line);
+	bw::Sprintf(message, 512, "Assertion failed: ( %s )\nFile: %s:%d", exp, file, line);
 	MessageBox(nullptr, message, "Bitwise Engine - Assertion failed!", MB_OK | MB_ICONERROR);
 
 	// Trigger a breakpoint and let the debugger take control
