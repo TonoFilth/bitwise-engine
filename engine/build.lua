@@ -15,27 +15,40 @@ function build_project(projectName)
     local lowerName = string.lower(projectName)
     local upperName = string.upper(projectName)
 
-    local includeDir = INC_DIR .. "/Bw/" .. projectName
-    local srcDir     = SRC_DIR .. "/Bw/" .. projectName
-
     project(projectName)
         language "C++"
         files
         {
-            includeDir .. "/**.h",
-            includeDir .. "/**.inl",
-            srcDir     .. "/**.h",
-            srcDir     .. "/**.cpp",
-            INC_DIR    .. "/Bw/" .. projectName .. ".h",
-            SRC_DIR    .. "/Bw/" .. projectName .. ".cpp"
+            INC_DIR .. "/Bw/" .. projectName .. "/**.h",
+            INC_DIR .. "/Bw/" .. projectName .. "/**.inl",
+            SRC_DIR .. "/Bw/" .. projectName .. "/**.h",
+            SRC_DIR .. "/Bw/" .. projectName .. "/**.cpp",
+            INC_DIR .. "/Bw/" .. projectName .. ".h",
+            SRC_DIR .. "/Bw/" .. projectName .. ".cpp"
         }
+        if projectName == "Base" then
+            files
+            {
+                INC_DIR .. "/Bw/Bw.h",
+                INC_DIR .. "/Bw/Memory.h",
+                INC_DIR .. "/Bw/Memory/**.h",
+                INC_DIR .. "/Bw/Concurrency.h",
+                INC_DIR .. "/Bw/Concurrency/**.h",
+                SRC_DIR .. "/Bw/Memory.cpp",
+                SRC_DIR .. "/Bw/Memory/**.h",
+                SRC_DIR .. "/Bw/Memory/**.cpp",
+                SRC_DIR .. "/Bw/Concurrency.cpp",
+                SRC_DIR .. "/Bw/Concurrency/**.h",
+                SRC_DIR .. "/Bw/Concurrency/**.cpp"
+            }
+        end
         includedirs
         {
             EXT_INC,
             INC_DIR,
             SRC_DIR
         }
-
+        objdir(BUILD_DIR .. "/obj")
         targetname("bw-" .. lowerName)
 
         -- OS options
@@ -56,32 +69,32 @@ function build_project(projectName)
         end
 
         -- Static libraries
-        filter "Debug or Release"
+        filter "Static*"
             kind "StaticLib"
             defines { "BW_STATIC_LIB" }
 
         -- Shared libraries
-        filter "Debug_SO or Release_SO"
+        filter "Shared*"
             kind "SharedLib"
             defines { "BW_" .. upperName .. "_EXPORT" }
 
         -- Static debug library config
-        filter "Debug"
+        filter "Static_Debug"
             targetsuffix "-sd"
             targetdir(LIB_DIR .. "/static/debug")
 
         -- Static release library config
-        filter "Release"
+        filter "Static_Release"
             targetsuffix "-s"
             targetdir(LIB_DIR .. "/static/release")
             
         -- Shared debug library config
-        filter "Debug_SO"
+        filter "Shared_Debug"
             targetsuffix "-d"
             targetdir(LIB_DIR .. "/shared/debug")
 
         -- Shared release library config
-        filter "Release_SO"
+        filter "Shared_Release"
             targetdir(LIB_DIR .. "/shared/release")
 end
 
@@ -89,23 +102,27 @@ end
 --               SOLUTION
 --=====================================--
 workspace "Bitwise Engine"
-
     -- Standard project configurations
-    configurations { "Debug", "Release", "Debug_SO", "Release_SO" }
+    configurations
+    {
+        "Static_Debug", "Static_Release",
+        "Shared_Debug", "Shared_Release"
+    }
 
     -- Project platforms
+    --platforms { "x64", "x86" }
     platforms { "x64" }
 
     -- Directory where the Makefile/Solution will be generated
     location(BUILD_DIR)
 
     -- Common debug options
-   filter "Debug or Debug_SO"
+   filter "*Debug"
         flags { "Symbols" }
         optimize "Off"
 
     -- Common release options
-    filter "Release or Release_SO"
+    filter "*Release"
         defines { "NDEBUG" }
         optimize "Speed"
 
