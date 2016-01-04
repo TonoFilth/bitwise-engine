@@ -33,12 +33,13 @@ BW_INLINE BW_BASE_API bool EqualsIgnoreCase(const char* str1, const char* str2);
 }	// namespace CharArray
 }	// namespace bw
 
+////////////////////////////////////////////////////////////////////////////////
+//  System specific implementation
+////////////////////////////////////////////////////////////////////////////////
 #if defined(BW_SYSTEM_WINDOWS)
 #	include "Bw/Base/Windows/CharArray.inl"
-#elif defined(BW_SYSTEM_WEB)
-#	include "Bw/Base/Web/CharArray.inl"
 #else
-#	error "TODO"
+#	include "Bw/Base/Unix/CharArray.inl"
 #endif
 
 #endif	// BW_BASE_CHAR_ARRAY_H

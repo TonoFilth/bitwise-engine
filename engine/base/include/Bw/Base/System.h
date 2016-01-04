@@ -12,8 +12,8 @@ namespace System
 ////////////////////////////////////////////////////////////////////////////////
 //  Public functions
 ////////////////////////////////////////////////////////////////////////////////
-BW_BASE_API int32_t Exec(const char* program, const char* args);
-BW_BASE_API size_t  GetPageSize();
+BW_BASE_API int    Execute(const char* program, const char* args);
+BW_BASE_API size_t GetPageSize();
 
 }   // namespace System
 }   // namespace bw

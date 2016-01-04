@@ -30,8 +30,14 @@ else()
 endif()
 bw_option(BW_BUILD_SAMPLES FALSE BOOL "Build all engine samples")
 
+# ===============================================================================
+#   Engine projects
+# ===============================================================================
 add_subdirectory(${BW_ENGINE_DIR})
 
+# ===============================================================================
+#   Sample projects
+# ===============================================================================
 if (BW_BUILD_SAMPLES)
 	add_subdirectory(${BW_SAMPLE_DIR})
 endif()

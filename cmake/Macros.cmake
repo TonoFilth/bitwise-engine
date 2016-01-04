@@ -34,7 +34,8 @@ macro(bw_project PROJECT_NAME)
 	# Include dependency projects
 	if (THIS_DEPENDS)
 		foreach(DEP ${THIS_DEPENDS})
-			include_directories("${BW_ENGINE_DIR}/${DEP}/include")
+			string(TOLOWER ${DEP} LOWER_DEP)
+			include_directories("${BW_ENGINE_DIR}/${LOWER_DEP}/include")
 		endforeach()
 	endif()
 
@@ -47,12 +48,20 @@ macro(bw_project PROJECT_NAME)
 	file(GLOB SYS_HEADERS "${INC_PROJ}/${BW_SYSTEM_DIR}/*.inl" "${INC_PROJ}/${BW_SYSTEM_DIR}/*.h")
 	file(GLOB SYS_SOURCES "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.cpp")
 
+	# Unix shared files
+	if (BW_SYSTEM_UNIX)
+		file(GLOB SYS_SHARED_HEADERS "${INC_PROJ}/Unix/*.inl" "${INC_PROJ}/Unix/*.h")
+		file(GLOB SYS_SHARED_SOURCES "${SRC_PROJ}/Unix/*.cpp")
+	endif()
+
 	# Source groups (for IDEs)
 	source_group("include"          FILES ${HEADERS})
 	source_group("include\\private" FILES ${PRIV_HEADERS})
 	source_group("include\\system"  FILES ${SYS_HEADERS})
+	source_group("include\\system"  FILES ${SYS_SHARED_HEADERS})
 	source_group("src"              FILES ${SOURCES})
 	source_group("src\\system"      FILES ${SYS_SOURCES})
+	source_group("src\\system"      FILES ${SYS_SHARED_SOURCES})
 
 	if (BW_SHARED_LIBS)
 		
@@ -64,7 +73,9 @@ macro(bw_project PROJECT_NAME)
 			${SOURCES}
 			${PRIV_HEADERS}
 			${SYS_HEADERS}
-			${SYS_SOURCES})
+			${SYS_SOURCES}
+			${SYS_SHARED_HEADERS}
+			${SYS_SHARED_SOURCES})
 
 		set_target_properties(bw-${PROJECT_LOWER_NAME}
 			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_BASE_DIR}/bin)
@@ -79,7 +90,9 @@ macro(bw_project PROJECT_NAME)
 			${SOURCES}
 			${PRIV_HEADERS}
 			${SYS_HEADERS}
-			${SYS_SOURCES})
+			${SYS_SOURCES}
+			${SYS_SHARED_HEADERS}
+			${SYS_SHARED_SOURCES})
 
 	endif()
 
@@ -124,7 +137,7 @@ macro(bw_sample SAMPLE_NAME)
 			string(TOLOWER ${DEP} LOWER_DEP)
 
 			add_definitions(-DBW_${UPPER_DEP})
-			include_directories("${BW_ENGINE_DIR}/${DEP}/include")
+			include_directories("${BW_ENGINE_DIR}/${LOWER_DEP}/include")
 			target_link_libraries(${SAMPLE_NAME} bw-${LOWER_DEP})
 		endforeach()
 	endif()

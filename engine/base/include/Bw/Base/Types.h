@@ -1,9 +1,12 @@
 #ifndef BW_BASE_COMMON_TYPES_H
 #define BW_BASE_COMMON_TYPES_H
 
+#include <cstddef>
+#include <cstdint>
 #include "Bw/Base/Macros.h"
 #include "Bw/Base/Export.h"
 
+/*
 ////////////////////////////////////////////////////////////////////////////////
 //  8 bit integer types
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,6 +55,7 @@ typedef signed   int int32_t;
 
 typedef intptr_t  ptrdiff_t;
 typedef uintptr_t size_t;
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 //  Single and double precision real types

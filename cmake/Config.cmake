@@ -32,6 +32,8 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
 # -------------------------------------------------------------------------------
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
+    set(BW_SYSTEM_UNIX 1)
+
     if(IOS)
         set(BW_SYSTEM_IOS 1)
         set(BW_SYSTEM_DIR "iOS")
@@ -46,12 +48,14 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # -------------------------------------------------------------------------------
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
+    set(BW_SYSTEM_UNIX    1)
     set(BW_SYSTEM_ANDROID 1)
     set(BW_SYSTEM_DIR "Android")
 
 # -------------------------------------------------------------------------------
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Emscripten")
 
+    set(BW_SYSTEM_UNIX       1)
     set(BW_SYSTEM_EMSCRIPTEN 1)
     set(BW_SYSTEM_DIR        "Web")
 

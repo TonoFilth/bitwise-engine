@@ -3,6 +3,7 @@
 
 #include <new>
 #include <type_traits>
+#include <utility>
 #include "Bw/Base/Assert.h"
 
 namespace bw

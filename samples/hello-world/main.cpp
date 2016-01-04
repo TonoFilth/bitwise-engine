@@ -16,7 +16,7 @@ int main(int argc, char** argv)
 
 	auto print = [] (const char* str)
 	{
-		bw::Console::WriteFormat(str);
+		bw::Console::WriteLine(str);
 	};
 
 	print("Hello");

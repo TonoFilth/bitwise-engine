@@ -200,16 +200,13 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Define a portable alignof macro
 ////////////////////////////////////////////////////////////////////////////////
-#if !defined(BW_SYSTEM_WEB)
-#	if !defined(alignof)
-#		if defined(BW_COMPILER_VC) && (_MSC_VER >= 1700)
-#	       define _ALLOW_KEYWORD_MACROS
-#			define alignof(x) __alignof(x)
-#		endif
-#	endif
-#	if !defined(alignof)
-#		error "Bw: alignof() not defined"
-#	endif
+#if defined(BW_COMPILER_VC)
+#   if _MSC_VER >= 1700
+#       define _ALLOW_KEYWORD_MACROS
+#       define alignof(x) __alignof(x)
+#   else
+#       error "Bw: alignof() not defined"
+#   endif
 #endif
 
 #endif	// BW_BASE_MACROS_H
