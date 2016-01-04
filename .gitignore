@@ -28,6 +28,7 @@
 *.app
 
 # Directories
-premake/
-prototype/
+bin/
+build/
+lib/
 tools/
