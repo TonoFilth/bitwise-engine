@@ -63,7 +63,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(__APPLE__) && defined(__MACH__) //                            Mac OS
 #   include <TargetConditionals.h>
-#   if TARGET_OS_MAC == 1
+#   if TARGET_OS_IPHONE || TARGET_IPHONE_SIMULATOR
+#       define BW_SYSTEM_IOS
+#   elif TARGET_OS_MAC
 #       define BW_SYSTEM_MACOS
 #	else
 #		error "Bw: This Apple system is not supported"
@@ -102,7 +104,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Processor detection (Reference: http://goo.gl/DS63L5)
 ////////////////////////////////////////////////////////////////////////////////
-#if !defined(BW_SYSTEM_WEB)
+#if !defined(BW_SYSTEM_WEB) && !defined(BW_SYSTEM_IOS)
 #	if defined(__x86_64__) || defined(_M_X64) //                      x86 64-bit
 #		define BW_x86
 #		define BW_64BIT
@@ -128,7 +130,8 @@
 #	elif defined(__sparc) //                                               SPARC
 #		define BW_SPARC
 #		error "Bw: No code to check processor bits"
-#	else
+// -----------------------------------------------------------------------------
+#	else //                                                              Unknown
 #		error "Bw: This processor is not supported"
 #	endif
 #else

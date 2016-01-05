@@ -23,7 +23,7 @@ include(${BW_CMAKE_DIR}/Macros.cmake)
 # ===============================================================================
 #	Options
 # ===============================================================================
-if (NOT BW_SYSTEM_EMSCRIPTEN)
+if (NOT (BW_SYSTEM_EMSCRIPTEN OR BW_SYSTEM_IOS))
 	bw_option(BW_SHARED_LIBS TRUE BOOL "Help str")
 else()
 	set(BW_SHARED_LIBS FALSE)

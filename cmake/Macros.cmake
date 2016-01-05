@@ -46,7 +46,7 @@ macro(bw_project PROJECT_NAME)
 
 	# System specific headers and source files
 	file(GLOB SYS_HEADERS "${INC_PROJ}/${BW_SYSTEM_DIR}/*.inl" "${INC_PROJ}/${BW_SYSTEM_DIR}/*.h")
-	file(GLOB SYS_SOURCES "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.cpp")
+	file(GLOB SYS_SOURCES "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.cpp" "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.mm")
 
 	# Unix shared files
 	if (BW_SYSTEM_UNIX)
@@ -118,7 +118,7 @@ macro(bw_sample SAMPLE_NAME)
 
 	# Headers and sources
 	file(GLOB_RECURSE HEADERS "${SAMPLE_DIR}/*.h" "${SAMPLE_DIR}/*.inl")
-	file(GLOB_RECURSE SOURCES "${SAMPLE_DIR}/*.cpp")
+	file(GLOB_RECURSE SOURCES "${SAMPLE_DIR}/*.cpp" "${SAMPLE_DIR}/*.mm")
 
 	# Source groups (for IDEs)
 	source_group("include"  FILES ${HEADERS})

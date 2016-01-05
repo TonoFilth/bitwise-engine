@@ -41,7 +41,7 @@ elseif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     else()
 
         set(BW_SYSTEM_MACOSX 1)
-        set(BW_SYSTEM_DIR "MacOSX")
+        set(BW_SYSTEM_DIR "MacOS")
 
     endif()
 
