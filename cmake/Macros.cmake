@@ -15,14 +15,14 @@ endmacro()
 # ===============================================================================
 macro(bw_project PROJECT_NAME)
 
-	cmake_parse_arguments(THIS "" "" "DEPENDS" ${ARGN})
+	cmake_parse_arguments(THIS "" "STATIC" "DEPENDS" ${ARGN})
 
 	string(TOUPPER ${PROJECT_NAME} PROJECT_UPPER_NAME)
 	string(TOLOWER ${PROJECT_NAME} PROJECT_LOWER_NAME)
 
-	set(PROJ_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_LOWER_NAME})
-	set(INC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_LOWER_NAME}/include)
-	set(SRC_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/${PROJECT_LOWER_NAME}/src)
+	set(PROJ_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+	set(INC_ROOT ${PROJ_DIR}/include)
+	set(SRC_ROOT ${PROJ_DIR}/src)
 
 	set(INC_BW   ${INC_ROOT}/Bw)
 	set(SRC_BW   ${SRC_ROOT}/Bw)
@@ -63,37 +63,29 @@ macro(bw_project PROJECT_NAME)
 	source_group("src\\system"      FILES ${SYS_SOURCES})
 	source_group("src\\system"      FILES ${SYS_SHARED_SOURCES})
 
-	if (BW_SHARED_LIBS)
-		
+	if (BW_SHARED_LIBS AND NOT THIS_STATIC)
+		set(BW_LIB_TYPE SHARED)
 		add_definitions(-DBW_${PROJECT_UPPER_NAME}_EXPORT)
+		message("${PROJECT_NAME} SHARED")
+	else()
+		set(BW_LIB_TYPE STATIC)
+		add_definitions(-DBW_STATIC_LIB)
+		message("${PROJECT_NAME} STATIC")
+	endif()
 
-		# Generate the static library from the sources
-		add_library(bw-${PROJECT_LOWER_NAME} SHARED
-			${HEADERS}
-			${SOURCES}
-			${PRIV_HEADERS}
-			${SYS_HEADERS}
-			${SYS_SOURCES}
-			${SYS_SHARED_HEADERS}
-			${SYS_SHARED_SOURCES})
+	# Generate the static library from the sources
+	add_library(bw-${PROJECT_LOWER_NAME} ${BW_LIB_TYPE}
+		${HEADERS}
+		${SOURCES}
+		${PRIV_HEADERS}
+		${SYS_HEADERS}
+		${SYS_SOURCES}
+		${SYS_SHARED_HEADERS}
+		${SYS_SHARED_SOURCES})
 
+	if (BW_SHARED_LIBS AND NOT THIS_STATIC)
 		set_target_properties(bw-${PROJECT_LOWER_NAME}
 			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_BASE_DIR}/bin)
-
-	else()
-
-		add_definitions(-DBW_STATIC_LIB)
-		
-		# Generate the shared library from the sources
-		add_library(bw-${PROJECT_LOWER_NAME} STATIC
-			${HEADERS}
-			${SOURCES}
-			${PRIV_HEADERS}
-			${SYS_HEADERS}
-			${SYS_SOURCES}
-			${SYS_SHARED_HEADERS}
-			${SYS_SHARED_SOURCES})
-
 	endif()
 
 	if (NOT BW_SYSTEM_WINDOWS)

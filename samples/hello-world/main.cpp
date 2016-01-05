@@ -1,12 +1,8 @@
 #include "Test.h"
 #include "Bw/Base.h"
-#include "Bw/Memory.h"
 
 int main(int argc, char** argv)
 {
-	bw::Internal::InitializeMemoryModule();
-	bw::Internal::ShutdownMemoryModule();
-
 	bw::Console::WriteFormat("Int8Max:   %u\n", bw::Integer::kInt8Max);
 	bw::Console::WriteFormat("Int16Max:  %u\n", bw::Integer::kInt16Max);
 	bw::Console::WriteFormat("Int32Max:  %u\n", bw::Integer::kInt32Max);
