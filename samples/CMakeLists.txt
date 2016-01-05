@@ -1,10 +1,7 @@
-# Use our custom macro to build all the engine libs
-bw_sample("Hello-World"
-	GUI_APP FALSE
-	DEPENDS "Base")
+# Include all samples
+add_subdirectory(${BW_SAMPLE_DIR}/hello-world)
 
+# Temporal
 if (BW_SYSTEM_IOS)
-	bw_sample("Hello-iOS"
-		GUI_APP FALSE
-		DEPENDS "Base" "Memory")
+	add_subdirectory(${BW_SAMPLE_DIR}/hello-iOS)
 endif()

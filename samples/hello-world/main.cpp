@@ -1,5 +1,5 @@
+#include <Bw/Base.h>
 #include "Test.h"
-#include "Bw/Base.h"
 
 int main(int argc, char** argv)
 {

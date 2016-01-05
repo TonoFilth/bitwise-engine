@@ -66,11 +66,9 @@ macro(bw_project PROJECT_NAME)
 	if (BW_SHARED_LIBS AND NOT THIS_STATIC)
 		set(BW_LIB_TYPE SHARED)
 		add_definitions(-DBW_${PROJECT_UPPER_NAME}_EXPORT)
-		message("${PROJECT_NAME} SHARED")
 	else()
 		set(BW_LIB_TYPE STATIC)
 		add_definitions(-DBW_STATIC_LIB)
-		message("${PROJECT_NAME} STATIC")
 	endif()
 
 	# Generate the static library from the sources
@@ -104,7 +102,7 @@ macro(bw_sample SAMPLE_NAME)
 	string(TOUPPER ${SAMPLE_NAME} UPPER_SAMPLE)
 	string(TOLOWER ${SAMPLE_NAME} LOWER_SAMPLE)
 
-	set(SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${LOWER_SAMPLE})
+	set(SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 	include_directories("${SAMPLE_DIR}")
 
@@ -131,9 +129,18 @@ macro(bw_sample SAMPLE_NAME)
 			add_definitions(-DBW_${UPPER_DEP})
 			include_directories("${BW_ENGINE_DIR}/${LOWER_DEP}/include")
 			target_link_libraries(${SAMPLE_NAME} bw-${LOWER_DEP})
+
+			if (THIS_GUI_APP AND ${LOWER_DEP} MATCHES "main")
+				set(BW_MAIN_LINKED TRUE)
+			endif()
 		endforeach()
 	endif()
 
+	# If this is a Windowed app make sure we statically
+	# link with bw-main to have a cross-platform entry point
+	if (NOT BW_MAIN_LINKED AND THIS_GUI_APP)
+		target_link_libraries(${SAMPLE_NAME} bw-main)
+	endif()
 
 	if (NOT BW_SHARED_LIBS)
 		add_definitions(-DBW_STATIC_LIB)
