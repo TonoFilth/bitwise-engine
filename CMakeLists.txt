@@ -7,6 +7,7 @@ project(BitwiseEngine)
 # ===============================================================================
 set(BW_BASE_DIR 	${CMAKE_SOURCE_DIR})
 set(BW_CMAKE_DIR	${BW_BASE_DIR}/cmake)
+set(BW_MACRO_DIR    ${BW_CMAKE_DIR}/macros)
 set(BW_LIB_DIR 		${BW_BASE_DIR}/lib)
 set(BW_ENGINE_DIR	${BW_BASE_DIR}/engine)
 set(BW_SAMPLE_DIR   ${BW_BASE_DIR}/samples)
@@ -15,10 +16,10 @@ set(BW_SAMPLE_DIR   ${BW_BASE_DIR}/samples)
 set(LIBRARY_OUTPUT_PATH 	${BW_LIB_DIR})
 
 # ===============================================================================
-#	Macros & other stuff
+#	Include common macros & system detection
 # ===============================================================================
-include(${BW_CMAKE_DIR}/Config.cmake)
-include(${BW_CMAKE_DIR}/Macros.cmake)
+include(${BW_CMAKE_DIR}/System.cmake)
+include(${BW_MACRO_DIR}/Common.cmake)
 
 # ===============================================================================
 #	Options

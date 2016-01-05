@@ -1,3 +1,5 @@
+include(${BW_MACRO_DIR}/Sample.cmake)
+
 # Include all samples
 add_subdirectory(${BW_SAMPLE_DIR}/hello-world)
 

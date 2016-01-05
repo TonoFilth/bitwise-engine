@@ -1,3 +1,3 @@
 bw_sample("Hello-World"
-	GUI_APP TRUE
+	GUI_APP FALSE
 	DEPENDS "Base")
