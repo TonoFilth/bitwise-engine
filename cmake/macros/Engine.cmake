@@ -21,22 +21,14 @@ macro(bw_project PROJECT_NAME)
 
 	include_directories("${INC_ROOT}" "${SRC_ROOT}")
 
-	# Include dependency projects
-	if (THIS_DEPENDS)
-		foreach(DEP ${THIS_DEPENDS})
-			string(TOLOWER ${DEP} LOWER_DEP)
-			include_directories("${BW_ENGINE_DIR}/${LOWER_DEP}/include")
-		endforeach()
-	endif()
-
 	# System agnostic headers and sources
 	file(GLOB HEADERS      "${INC_BW}/*.h" "${INC_PROJ}/*.h" "${INC_PROJ}/*.inl")
 	file(GLOB SOURCES      "${SRC_BW}/*.cpp" "${SRC_PROJ}/*.cpp")
 	file(GLOB PRIV_HEADERS "${SRC_PROJ}/*.h" "${SRC_PROJ}/*.inl")
 
 	# System specific headers and source files
-	file(GLOB SYS_HEADERS "${INC_PROJ}/${BW_SYSTEM_DIR}/*.inl" "${INC_PROJ}/${BW_SYSTEM_DIR}/*.h")
-	file(GLOB SYS_SOURCES "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.cpp" "${SRC_PROJ}/${BW_SYSTEM_DIR}/*.mm")
+	file(GLOB SYS_HEADERS ${INC_PROJ}/${BW_SYSTEM_DIR}/*.h   ${INC_PROJ}/${BW_SYSTEM_DIR}/*.inl ${SRC_PROJ}/${BW_SYSTEM_DIR}/*.h)
+	file(GLOB SYS_SOURCES ${SRC_PROJ}/${BW_SYSTEM_DIR}/*.cpp ${SRC_PROJ}/${BW_SYSTEM_DIR}/*.mm)
 
 	# Unix shared files
 	if (BW_SYSTEM_UNIX)
@@ -74,6 +66,18 @@ macro(bw_project PROJECT_NAME)
 	if (BW_SHARED_LIBS AND NOT THIS_STATIC)
 		set_target_properties(bw-${PROJECT_LOWER_NAME}
 			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_BASE_DIR}/bin)
+	endif()
+
+	# Include dependency projects
+	if (THIS_DEPENDS)
+		foreach(DEP ${THIS_DEPENDS})
+			string(TOLOWER ${DEP} LOWER_DEP)
+			string(TOUPPER ${DEP} UPPER_DEP)
+
+			include_directories("${BW_ENGINE_DIR}/${LOWER_DEP}/include")
+			add_definitions(-DBW_${UPPER_DEP}_EXPORT)
+			target_link_libraries(bw-${PROJECT_LOWER_NAME} bw-${LOWER_DEP})
+		endforeach()
 	endif()
 
 	if (NOT BW_SYSTEM_WINDOWS)

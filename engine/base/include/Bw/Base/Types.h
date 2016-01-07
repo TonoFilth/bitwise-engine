@@ -1,8 +1,10 @@
 #ifndef BW_BASE_COMMON_TYPES_H
 #define BW_BASE_COMMON_TYPES_H
 
-#include <cstddef>
-#include <cstdint>
+#include <cstddef>		// size_t
+#include <cstdint>		// fixed width integers
+#include <type_traits>	// static_assert
+
 #include "Bw/Base/Macros.h"
 #include "Bw/Base/Export.h"
 

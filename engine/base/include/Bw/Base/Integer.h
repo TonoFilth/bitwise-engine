@@ -1,8 +1,10 @@
 #ifndef BW_BASE_INTEGER_H
 #define BW_BASE_INTEGER_H
 
-#include <type_traits>
+#include <type_traits>	// enable_if
+
 #include "Bw/Base/Export.h"
+#include "Bw/Base/Types.h"
 
 namespace bw
 {

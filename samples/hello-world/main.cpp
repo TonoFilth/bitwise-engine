@@ -1,8 +1,32 @@
-#include <Bw/Base.h>
+#include <Bw/Bw.h>
 #include "Test.h"
+
+struct MyData
+{
+	MyData(int d) :
+		data(d)
+	{
+	}
+
+	~MyData()
+	{
+		data = 0;
+	}
+
+	int data;
+};
+
+// Static initialization
+MyData* g_MyData = BW_NEW(MyData, 100);
 
 int main(int argc, char** argv)
 {
+	bw::Initialize();
+
+	bw::Console::WriteFormat("g_MyData -> %d\n", g_MyData->data);
+
+	BW_DELETE(g_MyData);
+
 	bw::Console::WriteFormat("Int8Max:   %u\n", bw::Integer::kInt8Max);
 	bw::Console::WriteFormat("Int16Max:  %u\n", bw::Integer::kInt16Max);
 	bw::Console::WriteFormat("Int32Max:  %u\n", bw::Integer::kInt32Max);
@@ -17,6 +41,12 @@ int main(int argc, char** argv)
 
 	print("Hello");
 	print("World");
+
+	bw::Shutdown();
+
+	g_MyData = BW_NEW(MyData, 50);
+
+	bw::Console::WriteFormat("g_MyData -> %d\n", g_MyData->data);
 
 	return 0;
 }
