@@ -1,7 +1,7 @@
 #include <cstdlib>
 #include <unistd.h>
 #include "Bw/Base/System.h"
-#include "Bw/Base/CharArray.h"
+#include "Bw/Base/CString.h"
 
 namespace bw
 {
@@ -21,7 +21,7 @@ int System::Execute(const char* program, const char* args)
     if (args)
     {
         char cmd[kMaxCmdLength];
-        CharArray::Format(cmd, kMaxCmdLength, "%s %s", program, args);
+        CString::Format(cmd, kMaxCmdLength, "%s %s", program, args);
         
         status = ::system(cmd);
     }

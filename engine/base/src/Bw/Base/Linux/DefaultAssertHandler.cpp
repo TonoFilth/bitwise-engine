@@ -1,6 +1,6 @@
 #include <csignal>
 #include "Bw/Base/DefaultAssertHandler.h"
-#include "Bw/Base/CharArray.h"
+#include "Bw/Base/CString.h"
 #include "Bw/Base/System.h"
 
 namespace bw
@@ -20,7 +20,7 @@ void DefaultAssertHandler::operator()(const char* exp, const char* file, int lin
 {
     char args[512];
 
-    CharArray::Format(args, 512,
+    CString::Format(args, 512,
         "--error --title \"Bitwise Engine - Assertion failed!\" --text='Assertion failed: ( %s )\nFile: %s:%d'",
         exp, file, line);
 

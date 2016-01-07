@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_RUNNER
 
 #include <Catch/Catch.hpp>
-#include "Bw/Tests/Base/AllTests.h"
+#include "AllTests.h"
 
 int main(int argc, char** argv)
 {

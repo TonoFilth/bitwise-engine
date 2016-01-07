@@ -2,8 +2,8 @@
 #define BW_BASE_MODULE_H
 
 #include "Bw/Base/Assert.h"
-#include "Bw/Base/CharArray.h"
 #include "Bw/Base/Console.h"
+#include "Bw/Base/CString.h"
 #include "Bw/Base/Export.h"
 #include "Bw/Base/Integer.h"
 #include "Bw/Base/Macros.h"

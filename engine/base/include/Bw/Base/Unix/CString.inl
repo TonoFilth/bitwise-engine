@@ -1,33 +1,33 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Inline function definitions
 ////////////////////////////////////////////////////////////////////////////////
-void bw::CharArray::Copy(char* dest, size_t size, const char* src)
+void bw::CString::Copy(char* dest, size_t size, const char* src)
 {
-	::strcpy_s(dest, size, src);
+	::strncpy(dest, src, size);
 }
 
 // -----------------------------------------------------------------------------
 
-void bw::CharArray::Concatenate(char* dest, size_t size, const char* src)
+void bw::CString::Concatenate(char* dest, size_t size, const char* src)
 {
-	::strcat_s(dest, size, src);
+	::strncat(dest, src, size);
 }
 
 // -----------------------------------------------------------------------------
 
-int bw::CharArray::FormatVA(char* dest, size_t size, const char* fmt, va_list args)
+int bw::CString::FormatVA(char* dest, size_t size, const char* fmt, va_list args)
 {
-	return ::vsprintf_s(dest, size, fmt, args);
+	return ::vsnprintf(dest, size, fmt, args);
 }
 
 // -----------------------------------------------------------------------------
 
-int bw::CharArray::Format(char* dest, size_t size, const char* fmt, ...)
+int bw::CString::Format(char* dest, size_t size, const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
 
-	int nbChars = bw::CharArray::FormatVA(dest, size, fmt, args);
+	int nbChars = bw::CString::FormatVA(dest, size, fmt, args);
 	
 	va_end(args);
 
@@ -36,14 +36,14 @@ int bw::CharArray::Format(char* dest, size_t size, const char* fmt, ...)
 
 // -----------------------------------------------------------------------------
 
-bool bw::CharArray::Equals(const char* str1, const char* str2)
+bool bw::CString::Equals(const char* str1, const char* str2)
 {
 	return ::strcmp(str1, str2) == 0;
 }
 
 // -----------------------------------------------------------------------------
 
-bool bw::CharArray::EqualsIgnoreCase(const char* str1, const char* str2)
+bool bw::CString::EqualsIgnoreCase(const char* str1, const char* str2)
 {
-	return ::_stricmp(str1, str2) == 0;
+	return ::strcasecmp(str1, str2) == 0;
 }

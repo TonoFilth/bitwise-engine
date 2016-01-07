@@ -1,5 +1,5 @@
-#ifndef BW_BASE_CHAR_ARRAY_H
-#define BW_BASE_CHAR_ARRAY_H
+#ifndef BW_BASE_CSTRING_H
+#define BW_BASE_CSTRING_H
 
 #include "Bw/Base/Export.h"
 
@@ -17,7 +17,7 @@
 
 namespace bw
 {
-namespace CharArray
+namespace CString
 {
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -30,16 +30,16 @@ BW_INLINE BW_BASE_API int  FormatVA        (char* dest, size_t size, const char*
 BW_INLINE BW_BASE_API bool Equals          (const char* str1, const char* str2);
 BW_INLINE BW_BASE_API bool EqualsIgnoreCase(const char* str1, const char* str2);
 
-}	// namespace CharArray
+}	// namespace CString
 }	// namespace bw
 
 ////////////////////////////////////////////////////////////////////////////////
 //  System specific implementation
 ////////////////////////////////////////////////////////////////////////////////
 #if defined(BW_SYSTEM_WINDOWS)
-#	include "Bw/Base/Windows/CharArray.inl"
+#	include "Bw/Base/Windows/CString.inl"
 #else
-#	include "Bw/Base/Unix/CharArray.inl"
+#	include "Bw/Base/Unix/CString.inl"
 #endif
 
-#endif	// BW_BASE_CHAR_ARRAY_H
+#endif	// BW_BASE_CSTRING_H

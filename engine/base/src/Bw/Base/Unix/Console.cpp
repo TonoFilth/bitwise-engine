@@ -1,6 +1,6 @@
 #include <cstdio>
 #include "Bw/Base/Console.h"
-#include "Bw/Base/CharArray.h"
+#include "Bw/Base/CString.h"
 
 namespace bw
 {
@@ -29,7 +29,7 @@ void Console::WriteFormat(const char* fmt, ...)
 
 	char formattedOutput[512];
 	
-	int nbChars = CharArray::FormatVA(formattedOutput, 512, fmt, args);
+	int nbChars = CString::FormatVA(formattedOutput, 512, fmt, args);
 
 	::fputs(formattedOutput, stdout);
 	
