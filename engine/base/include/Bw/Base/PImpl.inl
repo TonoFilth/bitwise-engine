@@ -1,100 +1,110 @@
 ////////////////////////////////////////////////////////////////////////////////
 //  Template function definitions
 ////////////////////////////////////////////////////////////////////////////////
-template <size_t Len, size_t Align>
-PImpl<Len, Align>::PImpl() :
-	m_initialized(false)
-{
-}
-
-// -----------------------------------------------------------------------------
-
-template <size_t Len, size_t Align>
-PImpl<Len, Align>::~PImpl()
-{
-	// Forgot to call PImpl::destroy()
-	BW_ASSERT(!m_initialized);
-}
-
-// -----------------------------------------------------------------------------
-
-template <size_t Len, size_t Align>
-template <class T, class ...Args>
-T* PImpl<Len, Align>::create(Args&& ...args)
+template <size_t Len, size_t Align, typename T>
+template <typename ...Args>
+PImpl<Len, Align, T>::PImpl(Args&& ...args) :
+	m_valid(true)
 {
 	static_assert(sizeof(T)  <= Len,             "PImpl: Size needs to be changed");
 	static_assert(Len        <= sizeof(T) * 1.1, "PImpl: Size is too big");
 	static_assert(alignof(T) == Align,           "PImpl: Alignment needs to be changed");
-
-	m_initialized = true;
-    return new (&m_impl) T(std::forward<Args>(args)...);
+	
+    new (&m_impl) T(std::forward<Args>(args)...);
 }
 
 // -----------------------------------------------------------------------------
 
-template <size_t Len, size_t Align>
-template <class T>
-T* PImpl<Len, Align>::copy(const PImpl<Len, Align>& src)
-{
-	if (src.m_initialized)
-		return create<T>((const T&) src.m_impl);	// Call the copy ctor
-	else
-		return nullptr;
-}
-
-// -----------------------------------------------------------------------------
-
-template <size_t Len, size_t Align>
-template <class T>
-void PImpl<Len, Align>::destroy()
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::~PImpl()
 {
 	T* impl = (T*) &m_impl;
 	impl->~T();
-	m_initialized = false;
 }
 
 // -----------------------------------------------------------------------------
 
-template <size_t Len, size_t Align>
-template <class T>
-PImpl<Len, Align>::operator T*()
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::PImpl(const PImpl<Len, Align, T>& toCopy) :
+	m_valid(true)
 {
-	return (m_initialized ? (T*) &m_impl : nullptr);
+	new (&m_impl) T(toCopy);
 }
 
 // -----------------------------------------------------------------------------
 
-template <size_t Len, size_t Align>
-template <class T>
-PImpl<Len, Align>::operator T*() const
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>& PImpl<Len, Align, T>::operator=(const PImpl<Len, Align, T>& toCopy)
 {
-	return (m_initialized ? (const T*) &m_impl : nullptr);
+	if (this != &toCopy)
+	{
+		// Destroy current implementation
+		T* impl = (T*) &m_impl;
+		impl->~T();
+
+		new (&m_impl) T(toCopy);
+	}
+
+	return *this;
 }
 
 // -----------------------------------------------------------------------------
 
-template <size_t Len, size_t Align>
-template <class T>
-PImpl<Len, Align>::operator T&()
+//template <size_t Len, size_t Align, typename T>
+//PImpl<Len, Align, T>::PImpl(PImpl<Len, Align, T>&& toMove)
+//{
+//	m_impl = std::move(toMove.m_impl);
+//	toMove.m_valid = false;
+//}
+//
+//// -----------------------------------------------------------------------------
+//
+//template <size_t Len, size_t Align, typename T>
+//PImpl<Len, Align, T>& PImpl<Len, Align, T>::operator=(PImpl<Len, Align, T>&& toMove)
+//{
+//	if (this != &toMove)
+//	{
+//		// Destroy current implementation
+//		T* impl = (T*) &m_impl;
+//		impl->~T();
+//
+//		// Move the implementation data
+//		m_impl = std::move(toMove.m_impl);
+//
+//		toMove.m_valid = true;
+//	}
+//
+//	return *this;
+//}
+
+// -----------------------------------------------------------------------------
+
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::operator T*()
 {
-	BW_ASSERT(m_initialized);
+	return (T*) &m_impl;
+}
+
+// -----------------------------------------------------------------------------
+
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::operator const T*() const
+{
+	return (const T*) &m_impl;
+}
+
+// -----------------------------------------------------------------------------
+
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::operator T&()
+{
 	return (T&) m_impl;
 }
 
 // -----------------------------------------------------------------------------
 
-template <size_t Len, size_t Align>
-template <class T>
-PImpl<Len, Align>::operator T&() const
+template <size_t Len, size_t Align, typename T>
+PImpl<Len, Align, T>::operator const T&() const
 {
-	BW_ASSERT(m_initialized);
 	return (const T&) m_impl;
-}
-
-// -----------------------------------------------------------------------------
-
-template <size_t Len, size_t Align>
-bool PImpl<Len, Align>::isValid() const
-{
-	return m_initialized;
 }
