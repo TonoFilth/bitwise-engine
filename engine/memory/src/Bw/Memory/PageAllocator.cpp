@@ -374,6 +374,11 @@ void* PageAllocator::allocate(size_t size, size_t alignment)
 
 void PageAllocator::deallocate(void* data)
 {
+	if (data == nullptr)
+	{
+		return;
+	}
+
 	AllocationList* list = (AllocationList*) m_list;
 	offset_t nodeOffset  = AllocationList::kInvalidOffset;
 	offset_t prevOffset  = AllocationList::kInvalidOffset;

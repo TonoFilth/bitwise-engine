@@ -33,6 +33,11 @@ void* MallocAllocator::allocate(size_t size, size_t alignment)
 
 void MallocAllocator::deallocate(void* data)
 {
+	if (data == nullptr)
+	{
+		return;
+	}
+
 #if defined(BW_SYSTEM_WINDOWS)
 	_aligned_free(data);
 #else

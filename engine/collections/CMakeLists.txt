@@ -1,0 +1,1 @@
+bw_project("Collections" DEPENDS "Base" "Memory")
