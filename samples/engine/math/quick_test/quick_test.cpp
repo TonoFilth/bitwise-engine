@@ -3,7 +3,12 @@
 
 int main(int argc, char** argv)
 {
-    std::cout << say_hello() << std::endl;
+    bw::Vector2 vector;
+
+    vector.x = 10.0f;
+    vector.y = 20.0f;
+
+    std::cout << vector.x << ", " << vector.y << std::endl;
 
     return 0;
 }

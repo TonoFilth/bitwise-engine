@@ -2,9 +2,12 @@
     "folders":
     [
         {
-            "path": "src",
-            "folder_exclude_patterns": ["backup"],
-            "follow_symlinks": true
+            "path": "src/engine/public/bitwise",
+            "name": "engine_public",
+        },
+        {
+            "path": "src/engine/private/bitwise",
+            "name": "engine_private",
         },
         {
             "path": "samples"
@@ -29,7 +32,7 @@
     "build_systems":
     [
         {
-            "name": "Bitwise (CMake)",
+            "name": "Bitwise Engine (CMake)",
             "shell_cmd": "./scripts/linux/build_sublime.sh ${file}",
             "working_dir": "${project_path}"
         }
