@@ -5,7 +5,5 @@ Bitwise Engine is a personal project focused on learning how to build a cross-pl
 Supported systems:
 
 - Linux
-- Mac OS X
-- iOS
 - Windows
-- Web
+- Mac

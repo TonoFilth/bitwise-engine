@@ -1,0 +1,37 @@
+{
+    "folders":
+    [
+        {
+            "path": "src",
+            "folder_exclude_patterns": ["backup"],
+            "follow_symlinks": true
+        },
+        {
+            "path": "samples"
+        },
+        {
+            "path": "doc",
+            "file_exclude_patterns": ["*.css"]
+        },
+        {
+            "path": "scripts"
+        },
+        {
+            "path": "cmake"
+        },
+    ],
+    "settings":
+    {
+        "tab_size": 4,
+        "sublimegdb_workingdir": "${folder:${project_path:bin/samples/engine/main}}",
+        "sublimegdb_commandline": "gdb --interpreter=mi ./main"
+    },
+    "build_systems":
+    [
+        {
+            "name": "Bitwise (CMake)",
+            "shell_cmd": "./scripts/linux/build_sublime.sh ${file}",
+            "working_dir": "${project_path}"
+        }
+    ]
+}
