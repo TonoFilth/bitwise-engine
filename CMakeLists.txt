@@ -5,21 +5,19 @@ project(BitwiseEngine)
 # ===============================================================================
 #   Global vars
 # ===============================================================================
-set(BW_BASE_DIR   ${CMAKE_SOURCE_DIR})
-set(BW_CMAKE_DIR  ${BW_BASE_DIR}/cmake)
-set(BW_MACRO_DIR  ${BW_CMAKE_DIR}/macros)
-set(BW_OUT_DIR    ${BW_BASE_DIR}/bin)
-set(BW_LIB_DIR    ${BW_BASE_DIR}/lib)
-set(BW_EXTLIB_DIR ${BW_BASE_DIR}/extlib)
-set(BW_SRC_DIR    ${BW_BASE_DIR}/src)
-
-#set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR}/bin)
+set(BW_BASE_DIR         ${CMAKE_SOURCE_DIR})
+set(BW_CMAKE_DIR        ${BW_BASE_DIR}/cmake)
+set(BW_MACRO_DIR        ${BW_CMAKE_DIR}/macros)
+set(BW_OUT_DIR          ${BW_BASE_DIR}/bin)
+set(BW_LIB_DIR          ${BW_BASE_DIR}/lib)
+set(BW_EXTLIB_DIR       ${BW_BASE_DIR}/extlib)
+set(BW_SRC_DIR          ${BW_BASE_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${BW_LIB_DIR})
 
 # ===============================================================================
-#   Include common macros & system detection
+#   Include common macros & platform detection
 # ===============================================================================
-include(${BW_CMAKE_DIR}/system.cmake)
+include(${BW_CMAKE_DIR}/platform.cmake)
 include(${BW_MACRO_DIR}/common.cmake)
 
 # ===============================================================================

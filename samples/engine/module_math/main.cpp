@@ -9,6 +9,7 @@ int main(int argc, char** argv)
     vector.y = 20.0f;
 
     std::cout << vector.x << ", " << vector.y << std::endl;
-
+    std::cout << vector.unit().x << std::endl;
+    
     return 0;
 }

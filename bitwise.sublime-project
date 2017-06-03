@@ -26,8 +26,8 @@
     "settings":
     {
         "tab_size": 4,
-        "sublimegdb_workingdir": "${folder:${project_path:bin/samples/engine/main}}",
-        "sublimegdb_commandline": "gdb --interpreter=mi ./main"
+        "sublimegdb_workingdir": "/home/tonofilth/dev/bitwise-engine/bin/samples/engine",
+        "sublimegdb_commandline": "gdb --interpreter=mi ./module_core"
     },
     "build_systems":
     [

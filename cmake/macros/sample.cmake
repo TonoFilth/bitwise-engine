@@ -5,7 +5,7 @@ include(CMakeParseArguments)
 # ===============================================================================
 macro(sample SAMPLE_NAME)
 
-	set(oneValueArgs GROUP MODULE)
+	set(oneValueArgs GROUP)
 	cmake_parse_arguments(THIS "" "${oneValueArgs}" "" ${ARGN})
 
 	set(CMAKE_BUILD_TYPE DEBUG)
@@ -13,7 +13,7 @@ macro(sample SAMPLE_NAME)
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 
 	# Sample directory
-	set(SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+	set(SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${SAMPLE_NAME})
 
 	# Sample headers and sources
 	file(GLOB_RECURSE HEADERS "${SAMPLE_DIR}/*.h"   "${SAMPLE_DIR}/*.inl")
@@ -24,7 +24,7 @@ macro(sample SAMPLE_NAME)
 		add_definitions(-DBW_STATIC)
 	endif()
 
-	if (NOT BW_SYSTEM_WINDOWS)
+	if (NOT BW_PLATFORM_WINDOWS)
 		add_definitions("-std=c++11")
 	endif()
 
@@ -35,11 +35,11 @@ macro(sample SAMPLE_NAME)
 	# Executable
 	add_executable(${SAMPLE_NAME} ${HEADERS} ${SOURCES})
 
-	set_target_properties(${SAMPLE_NAME}
-			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_SAMPLE_OUT_DIR}/${THIS_GROUP}/${THIS_MODULE})
-
 	# Dependencies
 	target_link_libraries(${SAMPLE_NAME} "bitwise")
+
+	set_target_properties(${SAMPLE_NAME}
+			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_SAMPLE_OUT_DIR}/${THIS_GROUP})
 
 	# Source groups (for IDEs)
 	source_group("public"  FILES ${HEADERS})
