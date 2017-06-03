@@ -1,8 +1,24 @@
 #!/bin/bash
 
 cd build
-cmake ./..
-make
+
+rm -f error.txt
+cmake ./.. 2>error.txt
+
+if [[ -s error.txt ]]; then
+echo "Build failed. Aborting."
+cat error.txt
+exit
+fi;
+
+make 2>error.txt
+
+if [[ -s error.txt ]]; then
+echo "Build failed. Aborting."
+cat error.txt
+exit
+fi;
+
 cd ..
 
 function get_engine_module
@@ -26,8 +42,6 @@ function get_sample_engine_program
 
 program=""
 program_path=bin/samples/engine/
-
-echo $1
 
 if   [[ $1 == *"/src/engine/"*     ]]; then program="./bin/samples/engine/module_"$(get_engine_module $1)
 elif [[ $1 == *"/samples/engine/"* ]]; then program="./bin/samples/engine/"$(get_sample_engine_program $1)

@@ -3,7 +3,14 @@
 
 int main(int argc, char** argv)
 {
-    std::cout << bw::cstring::equals_ignore_case("abc", "abc") << std::endl;
+    bw::initialize();
+
+    char buff[128];
+    bw::cstring::format(buff, 128, "%d", bw::platform::page_size());
+
+    bw::console::write_line(buff);
+
+    bw::shutdown();
 
     return 0;
 }

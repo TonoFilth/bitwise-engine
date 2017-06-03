@@ -1,0 +1,6 @@
+# Static library
+nm lib.a --demangle
+
+# Shared library
+nm -D lib.so
+readelf -Ws lib.so

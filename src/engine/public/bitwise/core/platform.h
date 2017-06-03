@@ -1,19 +1,18 @@
 #pragma once
 
-#include "bitwise/core/macros.h"
 #include "bitwise/core/export.h"
-#include "bitwise/core/assert.h"
-#include "bitwise/core/cstring.h"
-#include "bitwise/core/console.h"
-#include "bitwise/core/platform.h"
+#include <cstddef>
 
 namespace bw
+{
+namespace platform
 {
 
 // -----------------------------------------------------------------------------
 //  Public functions
 // -----------------------------------------------------------------------------
-BW_API void initialize();
-BW_API void shutdown();
+BW_API int    exec(const char* program, const char* args);
+BW_API size_t page_size();
 
+}   // namespace platform
 }   // namespace bw
