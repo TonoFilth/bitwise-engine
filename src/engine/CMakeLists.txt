@@ -4,7 +4,7 @@ set(PRIVATE_DIR ${PROJ_DIR}/private/bitwise)
 
 set(CMAKE_BUILD_TYPE DEBUG)
 set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -ggdb")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
 
 include_directories("${PROJ_DIR}/public" "${PROJ_DIR}/private")
 
@@ -40,7 +40,7 @@ else()
     add_definitions(-DBW_STATIC)
 endif()
 
-# Generate the static library from the sources
+# Generate the engine library from the sources
 add_library(bitwise ${BW_LIB_TYPE}
     ${HEADERS}
     ${SOURCES}
@@ -54,6 +54,9 @@ if (BW_SHARED_LIBS AND NOT THIS_STATIC)
     set_target_properties(bitwise
         PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_BASE_DIR}/bin)
 endif()
+
+# Dependencies
+target_link_libraries(bitwise "backtrace")
 
 # Definitions
 if (NOT BW_PLATFORM_WINDOWS)
