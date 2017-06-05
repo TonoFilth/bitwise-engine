@@ -8,14 +8,13 @@ macro(sample SAMPLE_NAME)
 	set(oneValueArgs GROUP)
 	cmake_parse_arguments(THIS "" "${oneValueArgs}" "" ${ARGN})
 
-	set(CMAKE_BUILD_TYPE DEBUG)
-	set(CMAKE_CXX_FLAGS_DEBUG   "${CMAKE_CXX_FLAGS_DEBUG}   -O0 -ggdb")
-	#set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O2")
+	string(TOLOWER ${CMAKE_BUILD_TYPE} BUILD_TYPE)
 
 	# Sample directory
 	set(SAMPLE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/${SAMPLE_NAME})
 
 	# Sample headers and sources
+
 	file(GLOB_RECURSE HEADERS "${SAMPLE_DIR}/*.h"   "${SAMPLE_DIR}/*.inl")
 	file(GLOB_RECURSE SOURCES "${SAMPLE_DIR}/*.cpp" "${SAMPLE_DIR}/*.mm")
 
@@ -38,8 +37,11 @@ macro(sample SAMPLE_NAME)
 	# Dependencies
 	target_link_libraries(${SAMPLE_NAME} "bitwise")
 
-	set_target_properties(${SAMPLE_NAME}
-			PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${BW_SAMPLE_OUT_DIR}/${THIS_GROUP})
+	# Target properties
+	set_target_properties(${SAMPLE_NAME} PROPERTIES
+	    RUNTIME_OUTPUT_DIRECTORY         ${BW_BIN_DIR}/${CMAKE_ARCH}/${BUILD_TYPE}
+        RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${BW_BIN_DIR}/${CMAKE_ARCH}/${BUILD_TYPE}
+        RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BW_BIN_DIR}/${CMAKE_ARCH}/${BUILD_TYPE})
 
 	# Source groups (for IDEs)
 	source_group("public"  FILES ${HEADERS})

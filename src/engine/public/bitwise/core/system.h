@@ -6,7 +6,7 @@
 
 namespace bw
 {
-namespace platform
+namespace system
 {
 
 // -----------------------------------------------------------------------------

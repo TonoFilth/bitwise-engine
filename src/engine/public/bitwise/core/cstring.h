@@ -36,7 +36,7 @@ BW_INLINE BW_API bool equals_ignore_case(const char* str1, const char* str2);
 //  Platform implementation
 // -----------------------------------------------------------------------------
 #if defined(BW_PLATFORM_WINDOWS)
-#   include "bitwise/core/windows/cstring.inl"
+#   include "bitwise/core/platform/windows/cstring.inl"
 #else
-#   include "bitwise/core/unix/cstring.inl"
+#   include "bitwise/core/platform/unix/cstring.inl"
 #endif

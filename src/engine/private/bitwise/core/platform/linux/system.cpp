@@ -102,7 +102,7 @@ int full_backtrace_callback(void* data, uintptr_t pc, const char* filename, int 
 // -----------------------------------------------------------------------------
 //  Public functions
 // -----------------------------------------------------------------------------
-int platform::exec(const char* program, const char* args)
+int system::exec(const char* program, const char* args)
 {
     int status = -1;
 
@@ -123,14 +123,14 @@ int platform::exec(const char* program, const char* args)
 
 // -----------------------------------------------------------------------------
 
-size_t platform::page_size()
+size_t system::page_size()
 {
     return ::sysconf(_SC_PAGE_SIZE);
 }
 
 // -----------------------------------------------------------------------------
 
-StackFrame* platform::backtrace(int skip)
+StackFrame* system::backtrace(int skip)
 {
     char buffer[512];
     get_executable_path(buffer, 512);
@@ -159,7 +159,7 @@ StackFrame* platform::backtrace(int skip)
 
 // -----------------------------------------------------------------------------
 
-void platform::print_backtrace(StackFrame* btframe)
+void system::print_backtrace(StackFrame* btframe)
 {
     StackFrame* frame = btframe;
 
