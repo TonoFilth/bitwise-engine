@@ -6,7 +6,9 @@
 #include "bitwise/core/cstring.h"
 #include "bitwise/core/console.h"
 #include "bitwise/core/system.h"
-#include "bitwise/core/backtrace.h"
+#include "bitwise/core/callstack.h"
+#include "bitwise/core/log.h"
+#include "bitwise/core/bit.h"
 
 namespace bw
 {

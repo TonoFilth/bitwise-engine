@@ -1,6 +1,5 @@
 #include <Windows.h>
 #include "bitwise/core/system.h"
-#include "bitwise/core/backtrace.h"
 
 namespace bw
 {
@@ -21,19 +20,6 @@ size_t system::page_size()
 	GetSystemInfo(&info);
 
 	return info.dwPageSize;
-}
-
-// -----------------------------------------------------------------------------
-
-StackFrame* system::backtrace(int skip)
-{
-	return nullptr;
-}
-
-// -----------------------------------------------------------------------------
-
-void system::print_backtrace(StackFrame* frame)
-{
 }
 
 // -----------------------------------------------------------------------------

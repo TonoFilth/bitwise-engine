@@ -5,7 +5,9 @@ macro(configure_platform TARGET)
 
 	if (${BW_PLATFORM_WINDOWS})
 
-		
+		if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
+			target_link_libraries(bitwise "dbghelp")
+		endif()
 
 	# -------------------------------------------------------------------------------
 	elseif (${BW_PLATFORM_LINUX})
