@@ -1,9 +1,9 @@
 #pragma once
 
-#include "bitwise/core/export.h"
+#include <cstdio>   // sscanf
+#include <cstring>  // strcpy
+#include <utility>  // std::forward
 
-#include <cstdio>
-#include <cstring>
 #if defined(BW_PLATFORM_ANDROID)
     #include <stdarg.h> // va_list
 #else
@@ -14,23 +14,118 @@
 #   include <strings.h> // strcasecmp()
 #endif
 
+#include "bitwise/core/macros.h"
+#include "bitwise/core/assert.h"
+
 namespace bw
 {
+////////////////////////////////////////////////////////////////////////////////
+/// \brief Brief description.
+/// \todo Write brief description.
+////////////////////////////////////////////////////////////////////////////////
 namespace cstring
 {
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API void copy(char* buffer, size_t bufferSize, const char* str);
 
-// -----------------------------------------------------------------------------
-//  Public functions
-// -----------------------------------------------------------------------------
-BW_INLINE BW_API void copy              (char* dest, size_t size, const char* src);
-BW_INLINE BW_API void concatenate       (char* dest, size_t size, const char* src);
-BW_INLINE BW_API int  format            (char* dest, size_t size, const char* fmt, ...);
-BW_INLINE BW_API int  format_va         (char* dest, size_t size, const char* fmt, va_list args);
-BW_INLINE BW_API bool equals            (const char* str1, const char* str2);
-BW_INLINE BW_API bool equals_ignore_case(const char* str1, const char* str2);
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API void concatenate(char* buffer, size_t bufferSize, const char* str);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API bool equals(const char* str1, const char* str2);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API bool equals_ignore_case(const char* str1, const char* str2);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    template <typename ...Args>
+    size_t format(char* buffer, size_t bufferSize, const char* format, Args&& ...args);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API size_t cformat(char* buffer, size_t bufferSize, const char* format, ...);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API size_t cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API size_t length(const char* str);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    template <typename ...Args>
+    BW_INLINE BW_API size_t scan_cformat(const char* str, const char* format, Args&& ...args);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    void to_string(const T& value, char* buffer, size_t bufferSize, const char* formatOptions = "");
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    template <typename T>
+    void to_string(const T* value, char* buffer, size_t bufferSize, const char* formatOptions = "");
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API void truncated_copy(char* buffer, size_t bufferSize, const char* str);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API void truncated_concatenate(char* buffer, size_t bufferSize, const char* str);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API size_t truncated_cformat(char* buffer, size_t bufferSize, const char* format, ...);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_INLINE BW_API size_t truncated_cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args);
 
 }   // namespace cstring
 }   // namespace bw
+
+// -----------------------------------------------------------------------------
+//  Inline functions
+// -----------------------------------------------------------------------------
+#include "bitwise/core/cstring.inl"
 
 // -----------------------------------------------------------------------------
 //  Platform implementation
@@ -40,3 +135,11 @@ BW_INLINE BW_API bool equals_ignore_case(const char* str1, const char* str2);
 #else
 #   include "bitwise/core/platform/unix/cstring.inl"
 #endif
+
+////////////////////////////////////////////////////////////////////////////////
+/// \namespace bw::cstring
+/// \ingroup core
+///
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////

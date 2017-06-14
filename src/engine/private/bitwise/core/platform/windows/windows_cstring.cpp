@@ -1,0 +1,125 @@
+#include <cerrno>   // errno
+
+#include "bitwise/core/cstring.h"
+
+namespace bw
+{
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void cstring::copy(char* buffer, size_t bufferSize, const char* str)
+{
+    ::strcpy_s(buffer, bufferSize, str);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void cstring::concatenate(char* buffer, size_t bufferSize, const char* str)
+{
+	::strcat_s(buffer, bufferSize, str);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+bool cstring::equals(const char* str1, const char* str2)
+{
+	return ::strcmp(str1, str2) == 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+bool cstring::equals_ignore_case(const char* str1, const char* str2)
+{
+	return ::_stricmp(str1, str2) == 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::cformat(char* buffer, size_t bufferSize, const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+
+	size_t nbChars = cstring::cformat_va(buffer, bufferSize, format, args);
+	
+	va_end(args);
+
+	return nbChars;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args)
+{
+	int nbChars = ::vsprintf_s(buffer, bufferSize, format, args);
+
+    return nbChars >= 0 ? static_cast<size_t>(nbChars) : 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::length(const char* str)
+{
+    return ::strlen(str);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void cstring::truncated_copy(char* buffer, size_t bufferSize, const char* str)
+{
+    ::strncpy_s(buffer, bufferSize, str, bufferSize-1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void cstring::truncated_concatenate(char* buffer, size_t bufferSize, const char* str)
+{
+	::strncat_s(buffer, bufferSize, str, _TRUNCATE);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::truncated_cformat(char* buffer, size_t bufferSize, const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+
+	size_t nbChars = cstring::truncated_cformat_va(buffer, bufferSize, format, args);
+	
+	va_end(args);
+
+	return nbChars;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::truncated_cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args)
+{
+	int nbChars = ::vsnprintf_s(buffer, bufferSize, _TRUNCATE, format, args);
+    
+    return nbChars >= 0 ? static_cast<size_t>(nbChars) : (errno == 0 ? length(buffer) : 0);
+}
+
+}	// namespace bw

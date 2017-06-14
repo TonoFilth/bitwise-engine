@@ -1,5 +1,5 @@
-#include "bitwise/core.h"
-#include "bitwise/core/internal.h"
+#include "bitwise/math.h"
+#include "bitwise/math/internal.h"
 
 namespace bw
 {
@@ -7,16 +7,14 @@ namespace bw
 // -----------------------------------------------------------------------------
 //  Internal functions
 // -----------------------------------------------------------------------------
-void core::initialize(int argc, char** argv)
+void math::initialize(int argc, char** argv)
 {
-    log::initialize();
 }
 
 // -----------------------------------------------------------------------------
 
-void core::shutdown()
+void math::shutdown()
 {
-    log::shutdown();
 }
 
 }   // namespace bw

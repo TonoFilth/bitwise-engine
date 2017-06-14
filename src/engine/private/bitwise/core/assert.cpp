@@ -1,38 +1,40 @@
 #include "bitwise/core/assert.h"
-#include "bitwise/core/default_assert_handler.h"
-
-namespace bw
-{
+#include "bitwise/core/internal.h"
 
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
-static DefaultAssertHandler s_defaultAssertHandler;
-static AssertHandler*       s_currentAssertHandler = &s_defaultAssertHandler;
+static bw::assert::AssertHandler m_handler = bw::internal::default_assert_handler;
 
-// -----------------------------------------------------------------------------
-//  Public functions
-// -----------------------------------------------------------------------------
-AssertHandler& assert::get_handler()
+namespace bw
 {
-    return *s_currentAssertHandler;
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+assert::AssertHandler assert::get_handler()
+{
+    return m_handler;
 }
 
-// -----------------------------------------------------------------------------
-
-AssertHandler& assert::set_handler(AssertHandler* assertHandler)
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+assert::AssertHandler assert::set_handler(AssertHandler assertHandler)
 {
-    AssertHandler& prevHandler = *s_currentAssertHandler;
+    AssertHandler prevHandler = m_handler;
 
     // If 'assertHandler' var is null we set the current
     // assert handler to the default one
     if (assertHandler == nullptr)
     {
-        s_currentAssertHandler = &s_defaultAssertHandler;
+        m_handler = internal::default_assert_handler;
     }
     else
     {
-        s_currentAssertHandler = assertHandler;
+        m_handler = assertHandler;
     }
 
     return prevHandler;

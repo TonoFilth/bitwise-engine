@@ -1,31 +1,73 @@
 #pragma once
 
-#include <cstddef>  // size_t
-#include "bitwise/core/export.h"
+#include "bitwise/core/macros.h"
 
 namespace bw
 {
-
 ////////////////////////////////////////////////////////////////////////////////
-//  StackFrame
+/// \brief Brief description.
+/// \todo Write brief description.
 ////////////////////////////////////////////////////////////////////////////////
 struct StackFrame
 {
-    static const size_t MAX_FUNCTION_NAME = 128;
-    static const size_t MAX_FILE_NAME     = 256;
+    static const size_t kMaxFunctionName = 128;
+    static const size_t kMaxFileName     = 256;
 
-    char function[MAX_FUNCTION_NAME];
-    char filename[MAX_FILE_NAME];
+    char function[kMaxFunctionName];
+    char filename[kMaxFileName];
     unsigned line;
+    unsigned depth;
+    void* address;
     
-    StackFrame* next;
-    StackFrame* prev;
+    StackFrame* next;   ///< Points to the next stack frame
+    StackFrame* prev;   ///< Points to the previous stack frame
 };
 
+////////////////////////////////////////////////////////////////////////////////
+/// \brief Brief description.
+/// \todo Write brief description.
+////////////////////////////////////////////////////////////////////////////////
 namespace callstack
 {
-    BW_API StackFrame* walk(int skip = 0);
-    BW_API void        print(StackFrame* frame);
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    typedef size_t (*StackFrameFormatter)(StackFrame& stackFrame, char* buffer, size_t bufferSize);
 
-}   // namespace system
+    ////////////////////////////////////////////////////////////////////////////
+    /// \brief Brief description.
+    /// \todo Write brief description.
+    ////////////////////////////////////////////////////////////////////////////
+    BW_API StackFrameFormatter set_stack_frame_formatter(StackFrameFormatter formatter);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_API StackFrame* walk(int skip = 1);
+
+	////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_API size_t to_string(StackFrame& frame, char* buffer, size_t bufferSize);
+
+}   // namespace callstack
 }   // namespace bw
+
+////////////////////////////////////////////////////////////////////////////////
+/// \struct bw::StackFrame
+/// \ingroup core
+///
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////
+/// \namespace bw::callstack
+/// \ingroup core
+///
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////

@@ -1,5 +1,5 @@
-#include <iostream>
-#include <bitwise/math.h>
+#include "bitwise/core.h"
+#include "bitwise/math.h"
 
 int main(int argc, char** argv)
 {
@@ -8,8 +8,8 @@ int main(int argc, char** argv)
     vector.x = 10.0f;
     vector.y = 20.0f;
 
-    std::cout << vector.x << ", " << vector.y << std::endl;
-    std::cout << vector.unit().x << std::endl;
+    bw::console::write_format("({0}, {1})\n", vector.x, vector.y);;
+    bw::console::write_format("{0}\n", vector.unit().x);
     
     return 0;
 }

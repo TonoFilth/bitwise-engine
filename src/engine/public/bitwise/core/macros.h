@@ -1,14 +1,17 @@
 #pragma once
 
+#include <cstdint>  // size_t, uint8_t, ...
+#include <climits>  // CHAR_BIT
+
 // -----------------------------------------------------------------------------
-// Debug macro
+//  Debug macro
 // -----------------------------------------------------------------------------
 #if !defined(NDEBUG)
 #   define BW_DEBUG
 #endif
 
 // -----------------------------------------------------------------------------
-// Endianess (Reference: http://www.libsdl.org/)
+//  Endianess (Reference: http://www.libsdl.org/)
 // -----------------------------------------------------------------------------
 #define BW_PLATFORM_LE 1234
 #define BW_PLATFORM_BE 4321
@@ -27,7 +30,7 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// Compiler detection (Reference: http://goo.gl/2EVxN4)
+//  Compiler detection (Reference: http://goo.gl/2EVxN4)
 // -----------------------------------------------------------------------------
 #if defined(__clang__) //                                                  Clang
 #   define BW_COMPILER_CLANG
@@ -58,7 +61,7 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// System detection (Reference: http://goo.gl/8omej3)
+//  System detection (Reference: http://goo.gl/8omej3)
 // -----------------------------------------------------------------------------
 #if defined(__APPLE__) && defined(__MACH__) //                            Mac OS
 #   include <TargetConditionals.h>
@@ -101,10 +104,10 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// Processor detection (Reference: http://goo.gl/DS63L5)
+//  Processor detection (Reference: http://goo.gl/DS63L5)
 // -----------------------------------------------------------------------------
-#if !defined(BW_PLATFORM_WEB) && !defined(BW_PLATFORM_IOS)
-#   if defined(__x86_64__) || defined(_M_X64) //                      x86 64-bit
+#if !defined(BW_PLATFORM_WEB) && !defined(BW_PLATFORM_IOS) //         x86 64-bit
+#   if defined(__x86_64__) || defined(_M_X64)
 #       define BW_x86
 #       define BW_64BIT
 // -----------------------------------------------------------------------------
@@ -138,7 +141,7 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// Api visibility
+//  API visibility
 // -----------------------------------------------------------------------------
 #if !defined(BW_STATIC)
 #   if defined(BW_PLATFORM_WINDOWS)
@@ -163,9 +166,18 @@
 #endif
 
 // -----------------------------------------------------------------------------
-// Inline macros
+//  Export macro
 // -----------------------------------------------------------------------------
-#if defined(BW_PLATFORM_WINDOWS) //                                         Inline
+#if defined(BW_EXPORT)
+#   define BW_API BW_API_EXPORT
+#else
+#   define BW_API BW_API_IMPORT
+#endif
+
+// -----------------------------------------------------------------------------
+//  Inline macros
+// -----------------------------------------------------------------------------
+#if defined(BW_PLATFORM_WINDOWS) //                                       Inline
 #   define BW_INLINE inline
 #   pragma inline_depth( 255 )
 #else
@@ -180,27 +192,27 @@
 #   define BW_FORCE_INLINE inline
 #endif
 // -----------------------------------------------------------------------------
-#if defined(BW_PLATFORM_WINDOWS) //                                      No inline
-#   define BW_NOINLINE __declspec(noinline)
+#if defined(BW_PLATFORM_WINDOWS) //                                    No inline
+#   define BW_NO_INLINE __declspec(noinline)
 #elif defined(BW_COMPILER_GNU)
-#   define BW_NOINLINE __attribute__ ((noinline))
+#   define BW_NO_INLINE __attribute__ ((noinline))
 #else
-#   define BW_NOINLINE
+#   define BW_NO_INLINE
 #endif
 
 // -----------------------------------------------------------------------------
-// Token stringification
+//  Token stringification
 // -----------------------------------------------------------------------------
 #define BW_XSTR(str) BW_STR(str)
 #define BW_STR(str) #str
 
 // -----------------------------------------------------------------------------
-// This macro creates a version string
+//  This macro creates a version string
 // -----------------------------------------------------------------------------
 #define BW_GET_VERSION_STRING(prefix, major, minor, patch, postfix) prefix BW_XSTR(major) "." BW_XSTR(minor) "." BW_XSTR(patch) postfix
 
 // -----------------------------------------------------------------------------
-// Define a portable alignof macro
+//  Define a portable alignof macro
 // -----------------------------------------------------------------------------
 #if defined(BW_COMPILER_VC)
 #   if _MSC_VER >= 1700
@@ -210,3 +222,8 @@
 #       error "Bw: alignof() not defined"
 #   endif
 #endif
+
+// -----------------------------------------------------------------------------
+//  Confirm assumptions
+// -----------------------------------------------------------------------------
+static_assert(CHAR_BIT == 8, "char is not equal to 8 bits. Platform not supported");

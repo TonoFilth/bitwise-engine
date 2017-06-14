@@ -1,10 +1,20 @@
-// -----------------------------------------------------------------------------
-//  Inline functions
-// -----------------------------------------------------------------------------
+#if !defined(BW_DOXYPRESS)
 template<typename T, typename>
-T bw::bit::mask(T bit)
+T bw::bit::mask<T>(uint8_t bit)
 {
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
     return static_cast<T>(1) << bit;
+}
+
+// -----------------------------------------------------------------------------
+
+template <typename T, typename ...Args, typename>
+T bw::bit::mask<T>(uint8_t bit, Args&& ...args)
+{
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
+    return (static_cast<T>(1) << bit) | mask<T>(args...);
 }
 
 // -----------------------------------------------------------------------------
@@ -12,28 +22,34 @@ T bw::bit::mask(T bit)
 template<typename T, typename>
 T bw::bit::set(T bits, uint8_t bit)
 {
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
     return bits | (static_cast<T>(1) << bit);
 }
 
 // -----------------------------------------------------------------------------
 
-template<typename T, typename>
+template <typename T, typename>
 T bw::bit::unset(T bits, uint8_t bit)
 {
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
     return bits & ~(static_cast<T>(1) << bit);
 }
 
 // -----------------------------------------------------------------------------
 
-template<typename T, typename>
+template <typename T, typename>
 T bw::bit::toggle(T bits, uint8_t bit)
 {
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
     return is_set(bits, bit) ? unset(bits, bit) : set(bits, bit);
 }
 
 // -----------------------------------------------------------------------------
 
-template<typename T, typename>
+template <typename T, typename>
 T bw::bit::complement(T bits)
 {
     return ~bits;
@@ -41,49 +57,20 @@ T bw::bit::complement(T bits)
 
 // -----------------------------------------------------------------------------
 
-template<typename T, typename>
+template <typename T, typename>
 bool bw::bit::is_set(T bits, uint8_t bit)
 {
+    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+
     return ((static_cast<T>(1) << bit) & bits) != 0;
 }
 
 // -----------------------------------------------------------------------------
 
 template <typename T, typename>
-BW_FORCE_INLINE const char* bw::bit::to_string(T bits)
+void bw::bit::to_string(T bits, char* buffer, size_t bufferSize)
 {
-    static char buffer[sizeof(size_t)+1];   // 1 extra bit needed for the null terminating character
-
-    size_t size = sizeof(T) * 8;
-    uint8_t bit = 0;
-    char* c = buffer + size - 1;
-
-    while (c >= buffer)
-    {
-        *(c--) = is_set(bits, bit++) ? '1' : '0';
-    }
-
-    buffer[size] = '\0';
-    return buffer;
+    bw::cstring::to_string(bits, buffer, bufferSize, "b");
 }
 
-// -----------------------------------------------------------------------------
-
-template <typename T, typename>
-BW_FORCE_INLINE const char* bw::bit::to_string(char* buffer, size_t bufferSize, T bits)
-{
-    size_t size = sizeof(T) * 8;
-
-    BW_ASSERT(bufferSize >= size + 1);
-
-    uint8_t bit = 0;
-    char* c = buffer + size - 1;
-
-    while (c >= buffer)
-    {
-        *(c--) = is_set(bits, bit++) ? '1' : '0';
-    }
-
-    buffer[size] = '\0';
-    return buffer;
-}
+#endif

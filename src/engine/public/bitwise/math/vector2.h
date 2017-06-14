@@ -1,6 +1,6 @@
 #pragma once
 
-#include "bitwise/core/export.h"
+#include "bitwise/core/macros.h"
 
 namespace bw
 {

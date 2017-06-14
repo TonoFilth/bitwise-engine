@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdarg>
 #include <Windows.h>
+
 #include "bitwise/core/console.h"
 #include "bitwise/core/cstring.h"
 
@@ -33,14 +34,14 @@ void console::write_line(const char* str)
 
 // -----------------------------------------------------------------------------
 
-void console::write_format(const char* fmt, ...)
+void console::write_cformat(const char* fmt, ...)
 {
 	va_list args;
 	va_start(args, fmt);
 
 	char formattedOutput[512];
 	
-	int nbChars = cstring::format_va(formattedOutput, 512, fmt, args);
+	int nbChars = cstring::cformat_va(formattedOutput, 512, fmt, args);
 
 #if defined(BW_DEBUG)
 	OutputDebugString(formattedOutput);

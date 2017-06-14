@@ -30,6 +30,7 @@ macro(sample SAMPLE_NAME)
 	# Includes
 	include_directories("${BW_SRC_DIR}/engine/public")
 	include_directories("${SAMPLE_DIR}")
+	include_directories("${BW_SRC_DIR}/engine/private")	# Included for testing purposes
 
 	# Executable
 	add_executable(${SAMPLE_NAME} ${HEADERS} ${SOURCES})

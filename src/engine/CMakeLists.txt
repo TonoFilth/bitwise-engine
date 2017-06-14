@@ -10,9 +10,18 @@ set(SOURCE_FILES "")
 
 include_directories("${PROJ_DIR}/public" "${PROJ_DIR}/private")
 
+list(APPEND SOURCE_FILES
+	${PROJ_DIR}/public/bitwise.h
+	${PROJ_DIR}/private/bitwise.cpp)
+
+# Module source files
+add_subdirectory(${PRIVATE_DIR}/core)
+add_subdirectory(${PRIVATE_DIR}/math)
+
 # Engine headers and sources
-engine_module("core" SOURCE_FILES)
-engine_module("math" SOURCE_FILES)
+#engine_module("core"   SOURCE_FILES)
+#engine_module("memory" SOURCE_FILES)
+#engine_module("math"   SOURCE_FILES)
 
 # Set the library type
 if (BW_SHARED_LIBS)

@@ -1,6 +1,7 @@
-#include <iostream>
-#include <bitwise/core.h>
-#include <conio.h>
+#include "bitwise/core/bit.h"
+#include "bitwise/core/log.h"
+#include "bitwise/core/console.h"
+#include "bitwise/core/cstring.h"
 
 inline int sum(int a, int b)
 {
@@ -27,17 +28,16 @@ public:
 
         int num = 0;
         num = bw::bit::set(num, 0);
-        bw::console::write_format("%d\n", num);
+        bw::console::write_cformat("%d\n", num);
 
         num = bw::bit::set(num, 1);
-        bw::console::write_format("%d\n", num);
+        bw::console::write_cformat("%d\n", num);
 
         num = bw::bit::unset(num, 1);
-        bw::console::write_format("%d\n", num);
+        bw::console::write_cformat("%d\n", num);
 
-        bw::console::write_format("%d\n", bw::bit::complement(1));
-        bw::console::write_format("%d\n", bw::bit::complement(0));
-        bw::console::write_line(bw::bit::to_string((uint8_t)1));
+        bw::console::write_cformat("%d\n", bw::bit::complement(1));
+        bw::console::write_cformat("%d\n", bw::bit::complement(0));
     }
 };
 
@@ -51,13 +51,7 @@ void dummy()
 
 int main(int argc, char** argv)
 {
-    bw::initialize();
-
     dummy();
-    
-    bw::shutdown();
-
-    ::_getch();
 
     return 0;
 }

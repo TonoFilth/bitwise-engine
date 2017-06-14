@@ -47,3 +47,11 @@ bool bw::cstring::equals_ignore_case(const char* str1, const char* str2)
 {
 	return ::strcasecmp(str1, str2) == 0;
 }
+
+// -----------------------------------------------------------------------------
+
+template <typename ...Args>
+size_t bw::cstring::scan_format(const char* str, const char* format, Args&& ...args)
+{
+    return static_cast<size_t>(::sscanf(str, format, std::forward<Args>(args)...));
+}

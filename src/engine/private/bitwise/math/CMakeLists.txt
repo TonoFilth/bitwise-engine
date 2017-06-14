@@ -1,0 +1,19 @@
+set(MATH_PUBLIC      ${PUBLIC_DIR}/math)
+set(MATH_PRIVATE     ${PRIVATE_DIR}/math)
+set(PLATFORM_PUBLIC  ${MATH_PUBLIC}/platform/${BW_PLATFORM_DIR})
+set(PLATFORM_PRIVATE ${MATH_PRIVATE}/platform/${BW_PLATFORM_DIR})
+
+# Public
+list(APPEND SOURCE_FILES
+	${PUBLIC_DIR}/math.h
+	${MATH_PUBLIC}/vector2.h
+)
+
+# Private
+list(APPEND SOURCE_FILES
+	${PRIVATE_DIR}/math.cpp
+	${MATH_PRIVATE}/vector2.cpp
+	${MATH_PRIVATE}/internal.h
+)
+
+set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
