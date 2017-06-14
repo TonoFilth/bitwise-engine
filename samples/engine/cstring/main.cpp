@@ -77,5 +77,14 @@ int main(int argc, char** argv)
     bw::bit::to_string((uint8_t) 1, buffer2, kBuffer2Size);
     bw::console::write_cformat("%s\n", buffer2);
 
+    bw::console::write_format("Contains? {0}\n", bw::cstring::contains("abcd", 'c'));
+    bw::console::write_format("Contains? {0}\n", bw::cstring::contains("abcd", "bc"));
+
+    bw::console::write_format("Starts with? {0}\n", bw::cstring::starts_with("ab", 'b'));
+    bw::console::write_format("Starts with? {0}\n", bw::cstring::starts_with("ab", "ab"));
+
+    bw::console::write_format("Ends with? {0}\n", bw::cstring::ends_with("ab", 'a'));
+    bw::console::write_format("Ends with? {0}\n", bw::cstring::ends_with("a", "a"));
+
     return 0;
 }
