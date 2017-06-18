@@ -15,7 +15,9 @@ list(APPEND SOURCE_FILES
 
 # Module source files
 add_subdirectory(${PRIVATE_DIR}/core)
+add_subdirectory(${PRIVATE_DIR}/log)
 add_subdirectory(${PRIVATE_DIR}/math)
+add_subdirectory(${PRIVATE_DIR}/memory)
 
 # Set the library type
 if (BW_SHARED_LIBS)

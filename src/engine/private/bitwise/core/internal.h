@@ -13,16 +13,6 @@ namespace core
 
 }   // namespace core
 
-namespace log
-{
-    // -------------------------------------------------------------------------
-    //  Internal functions
-    // -------------------------------------------------------------------------
-    void initialize();
-    void shutdown();
-
-}   // namespace log
-
 struct StackFrame;
 
 namespace internal

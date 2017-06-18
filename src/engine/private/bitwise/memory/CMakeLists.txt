@@ -1,0 +1,20 @@
+set(MEMORY_PUBLIC    ${PUBLIC_DIR}/memory)
+set(MEMORY_PRIVATE   ${PRIVATE_DIR}/memory)
+set(PLATFORM_PUBLIC  ${MEMORY_PUBLIC}/platform/${BW_PLATFORM_DIR})
+set(PLATFORM_PRIVATE ${MEMORY_PRIVATE}/platform/${BW_PLATFORM_DIR})
+
+# Public
+list(APPEND SOURCE_FILES
+	${PUBLIC_DIR}/memory.h
+	${MEMORY_PUBLIC}/allocator.h
+	${MEMORY_PUBLIC}/allocator.inl
+)
+
+# Private
+list(APPEND SOURCE_FILES
+	${PRIVATE_DIR}/memory.cpp
+	${MEMORY_PRIVATE}/allocator.cpp
+	${MEMORY_PRIVATE}/internal.h
+)
+
+set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)

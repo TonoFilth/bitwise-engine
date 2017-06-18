@@ -1,7 +1,9 @@
 #pragma once
 
 #include "bitwise/core.h"
+#include "bitwise/log.h"
 #include "bitwise/math.h"
+#include "bitwise/memory.h"
 
 namespace bw
 {

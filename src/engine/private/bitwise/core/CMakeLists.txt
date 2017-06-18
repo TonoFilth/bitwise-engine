@@ -17,7 +17,6 @@ list(APPEND SOURCE_FILES
 	${CORE_PUBLIC}/fwd.h
 	${CORE_PUBLIC}/integer.h
 	${CORE_PUBLIC}/integer.inl
-	${CORE_PUBLIC}/log.h
 	${CORE_PUBLIC}/macros.h
 	${CORE_PUBLIC}/real.h
 	${CORE_PUBLIC}/real.inl
@@ -32,7 +31,6 @@ list(APPEND SOURCE_FILES
 	${CORE_PRIVATE}/cstring.cpp
 	${CORE_PRIVATE}/integer.cpp
 	${CORE_PRIVATE}/internal.h
-	${CORE_PRIVATE}/log.cpp
 	${CORE_PRIVATE}/real.cpp
 	${CORE_PRIVATE}/to_string.cpp
 )

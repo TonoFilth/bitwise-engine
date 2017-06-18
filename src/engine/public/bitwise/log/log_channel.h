@@ -1,0 +1,36 @@
+#pragma once
+
+namespace bw
+{
+////////////////////////////////////////////////////////////////////////////////
+/// \brief Brief description.
+/// \todo Write brief description.
+////////////////////////////////////////////////////////////////////////////////
+struct LogChannel
+{
+    enum Enum
+    {
+        eSYSTEM = 0,
+
+        eRESERVED0,
+        eRESERVED1,
+        eRESERVED2,
+        eRESERVED3,
+        eRESERVED4,
+        eRESERVED5,
+        eRESERVED6,
+        eRESERVED7,
+        
+        eUSER
+    };
+};
+
+}	// namespace bw
+
+////////////////////////////////////////////////////////////////////////////////
+/// \class bw::LogChannel
+/// \ingroup log
+///
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////

@@ -1,55 +1,43 @@
-#if defined(BW_PLATFORM_ANDROID)
-#   include <stdarg.h> // va_list
-#else
-#   include <cstdarg>  // va_list
-#endif
-
 #include "bitwise/core/assert.h"
-#include "bitwise/core/basic_types.h"
-#include "bitwise/core/log.h"
 #include "bitwise/core/console.h"
 #include "bitwise/core/cstring.h"
 #include "bitwise/core/bit.h"
-#include "bitwise/core/internal.h"
-
-namespace bw
-{
+#include "bitwise/log/log.h"
+#include "bitwise/log/internal.h"
 
 // -----------------------------------------------------------------------------
 //  Constants
 // -----------------------------------------------------------------------------
-static const size_t kMaxLogMessage    = 4096;
 static const size_t kMaxFormatMessage = 64;
 static const size_t kMaxChannelName   = 32;
 
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
-static char m_messageBuffer[kMaxLogMessage];
 static char m_formatBuffer[kMaxFormatMessage];
-static int m_priority = LogPriority::eVERBOSE;
+static bw::LogPriority::Enum m_priority     = bw::LogPriority::eVERBOSE;
 static uint32_t m_channelState = 0x0;
 
-static int      m_defaultUserPriority = LogPriority::eINFO;
-static uint32_t m_defaultUserChannel  = LogChannel::eUSER;
+static uint32_t              m_defaultUserChannel  = bw::LogChannel::eUSER;
+static bw::LogPriority::Enum m_defaultUserPriority = bw::LogPriority::eINFO;
 
-static char m_channelNames[log::kMaxChannels][kMaxChannelName];
+static char m_channelNames[bw::log::kMaxChannels][kMaxChannelName];
 
 // -----------------------------------------------------------------------------
 //  Private functions
 // -----------------------------------------------------------------------------
-static BW_INLINE bool filter(uint8_t channel, int priority)
+static BW_INLINE bool filter(uint8_t channel, bw::LogPriority::Enum priority)
 {
-    return !(bit::is_set(m_channelState, channel) && priority >= m_priority);
+    return !(bw::bit::is_set(m_channelState, channel) && priority >= m_priority);
 }
 
 // -----------------------------------------------------------------------------
 
-static const char* get_format(int channel, int priority, const char* function, const char* file, int line)
+static const char* get_format(uint8_t channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
 {
-    const char* priorityName = nullptr;
+    /*const char* priorityName = nullptr;
     
-    switch ((LogPriority::Enum) priority)
+    switch (priority)
     {
         case LogPriority::eVERBOSE : priorityName = "VERBOSE"; break;
         case LogPriority::eINFO    : priorityName = "INFO";    break;
@@ -60,24 +48,29 @@ static const char* get_format(int channel, int priority, const char* function, c
 
     cstring::cformat(m_formatBuffer, kMaxFormatMessage, "[%s] %%s\n", priorityName);
 
+    return m_formatBuffer;*/
+
+    bw::cstring::cformat(m_formatBuffer, kMaxFormatMessage, "[%s] %%s\n", bw::log::channel_name(channel));
+
     return m_formatBuffer;
 }
 
 // -----------------------------------------------------------------------------
 
-static void write_log_message(uint8_t channel, int priority, const char* function, const char* file, int line, const char* messageFormat, va_list args)
+static void write_log_message(const char* message, uint8_t channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
 {
-    cstring::cformat_va(m_messageBuffer, kMaxLogMessage, messageFormat, args);
-
     const char* format = get_format(channel, priority, function, file, line);
-    console::write_cformat(format, m_messageBuffer);
+    bw::console::write_cformat(format, message);
 }
+
+namespace bw
+{
 
 // -----------------------------------------------------------------------------
 //  Public functions
 // -----------------------------------------------------------------------------
 #if !defined(BW_DOXYPRESS)
-void log::initialize()
+void log::initialize(int argc, char** argv)
 {
     // Set engine channel names
     for (int i = 0; i < LogChannel::eUSER; ++i)
@@ -99,11 +92,13 @@ void log::initialize()
     // Set default user channel names
     for (int i = LogChannel::eUSER; i < kMaxChannels; ++i)
     {
-        cstring::cformat(m_channelNames[i], kMaxChannelName, "User Channel %d", i - LogChannel::eUSER);
+        cstring::cformat(m_channelNames[i], kMaxChannelName, "usr%d", i - LogChannel::eUSER);
     }
 
     enable_channel(LogChannel::eSYSTEM);
     enable_channel(LogChannel::eUSER);
+
+    priority(LogPriority::eVERBOSE);
 }
 
 // -----------------------------------------------------------------------------
@@ -118,14 +113,11 @@ void log::shutdown()
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::message(const char* function, const char* file, int line, const char* messageFormat, ...)
+void log::message(const char* message, const char* function, const char* file, int line)
 {
     if (!filter(m_defaultUserChannel, m_defaultUserPriority))
     {
-        va_list args;
-	    va_start(args, messageFormat);
-        write_log_message(m_defaultUserChannel, m_defaultUserPriority, function, file, line, messageFormat, args);
-        va_end(args);
+        write_log_message(message, m_defaultUserChannel, m_defaultUserPriority, function, file, line);
     }
 }
 
@@ -133,15 +125,12 @@ void log::message(const char* function, const char* file, int line, const char* 
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::message(uint8_t channel, int priority, const char* function, const char* file, int line, const char* messageFormat, ...)
+void log::message(const char* message, uint8_t channel, LogPriority::Enum priority, const char* function, const char* file, int line)
 {
     // Filter the message
     if (!filter(channel, priority))
     {
-        va_list args;
-	    va_start(args, messageFormat);
-        write_log_message(channel, priority, function, file, line, messageFormat, args);
-	    va_end(args);
+        write_log_message(message, channel, priority, function, file, line);
     }
 }
 
@@ -190,6 +179,27 @@ void log::channel_name(uint8_t channel, const char* name)
 {
     BW_ASSERT(channel < kMaxChannels);
     cstring::copy(m_channelNames[channel], kMaxChannelName, name);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description
+////////////////////////////////////////////////////////////////////////////////
+LogPriority::Enum log::priority()
+{
+    return m_priority;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description
+////////////////////////////////////////////////////////////////////////////////
+LogPriority::Enum log::priority(LogPriority::Enum newPriority)
+{
+    LogPriority::Enum prevPriority = m_priority;
+    m_priority = newPriority;
+
+    return prevPriority;
 }
 
 }	// namespace bw
