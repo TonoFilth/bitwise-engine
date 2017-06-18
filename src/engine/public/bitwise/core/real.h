@@ -1,6 +1,6 @@
 #pragma once
 
-#include <type_traits>  // enable_if_t, is_integral
+#include <type_traits>  // enable_if_t, is_floating_point
 #include <limits>       // numeric_limits
 
 #include "bitwise/core/macros.h"
@@ -11,50 +11,50 @@ namespace bw
 /// \brief Brief description.
 /// \todo Write brief description.
 ////////////////////////////////////////////////////////////////////////////////
-namespace integer
+namespace real
 {
-    ////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+    template <typename T, typename = std::enable_if_t<std::is_floating_point<T>::value>>
     constexpr T min();
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+    template <typename T, typename = std::enable_if_t<std::is_floating_point<T>::value>>
     constexpr T max();
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+    template <typename T, typename = std::enable_if_t<std::is_floating_point<T>::value>>
     BW_API T parse(const char* str);
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+    template <typename T, typename = std::enable_if_t<std::is_floating_point<T>::value>>
     BW_API bool try_parse(const char* str, T& out);
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
-    BW_FORCE_INLINE BW_API void to_string(T integer, char* buffer, size_t bufferSize);
+    template <typename T, typename = std::enable_if_t<std::is_floating_point<T>::value>>
+    BW_FORCE_INLINE BW_API void to_string(T real, char* buffer, size_t bufferSize, const char* formatOptions = "");
 
-}   // namespace integer
-}   // namespace bw
+}	// namespace real
+}	// namespace bw
 
-#include "bitwise/core/integer.inl"
+#include "bitwise/core/real.inl"
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \namespace bw::integer
+/// \namespace bw::real
 /// \ingroup core
 ///
 /// \details Detailed description.

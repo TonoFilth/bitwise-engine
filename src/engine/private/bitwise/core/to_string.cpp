@@ -78,6 +78,15 @@ static BW_FORCE_INLINE void real_to_str(T real, const char* format, char* buf, s
 
         default : bw::cstring::cformat(buf, bufSize, format, real); break;
     }
+
+    if (bw::cstring::starts_with(opts, "e"))
+    {
+        char f[4];
+        
+        bw::cstring::copy(f, 4, format);
+        bw::cstring::replace(f, 'f', 'e');
+        bw::cstring::cformat(buf, bufSize, f, real);
+    }
 }
 
 namespace bw
@@ -100,7 +109,7 @@ template <> BW_API void cstring::to_string(const unsigned long long& i, char* bu
 // -----------------------------------------------------------------------------
 template <> BW_API void cstring::to_string(const float&       r, char* buf, size_t bufSize, const char* opts) { real_to_str(r, "%f",  buf, bufSize, opts); }
 template <> BW_API void cstring::to_string(const double&      r, char* buf, size_t bufSize, const char* opts) { real_to_str(r, "%lf", buf, bufSize, opts); }
-template <> BW_API void cstring::to_string(const long double& r, char* buf, size_t bufSize, const char* opts) { real_to_str(r, "%LF", buf, bufSize, opts); }
+template <> BW_API void cstring::to_string(const long double& r, char* buf, size_t bufSize, const char* opts) { real_to_str(r, "%Lf", buf, bufSize, opts); }
 
 // -----------------------------------------------------------------------------
 //  Character conversions

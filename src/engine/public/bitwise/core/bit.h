@@ -4,7 +4,7 @@
 
 #include "bitwise/core/macros.h"
 #include "bitwise/core/assert.h"
-#include "bitwise/core/fwd.h"
+#include "bitwise/core/cstring.h"
 
 namespace bw
 {

@@ -7,7 +7,6 @@ set(PLATFORM_PRIVATE ${CORE_PRIVATE}/platform/${BW_PLATFORM_DIR})
 list(APPEND SOURCE_FILES
 	${PUBLIC_DIR}/core.h
 	${CORE_PUBLIC}/assert.h
-	${CORE_PUBLIC}/basic_types.h
 	${CORE_PUBLIC}/bit.h
 	${CORE_PUBLIC}/bit.inl
 	${CORE_PUBLIC}/callstack.h
@@ -17,8 +16,11 @@ list(APPEND SOURCE_FILES
 	${CORE_PUBLIC}/cstring.inl
 	${CORE_PUBLIC}/fwd.h
 	${CORE_PUBLIC}/integer.h
+	${CORE_PUBLIC}/integer.inl
 	${CORE_PUBLIC}/log.h
 	${CORE_PUBLIC}/macros.h
+	${CORE_PUBLIC}/real.h
+	${CORE_PUBLIC}/real.inl
 	${CORE_PUBLIC}/system.h
 )
 
@@ -26,12 +28,12 @@ list(APPEND SOURCE_FILES
 list(APPEND SOURCE_FILES
 	${PRIVATE_DIR}/core.cpp
 	${CORE_PRIVATE}/assert.cpp
-	${CORE_PRIVATE}/basic_types.cpp
 	${CORE_PRIVATE}/callstack.cpp
 	${CORE_PRIVATE}/cstring.cpp
 	${CORE_PRIVATE}/integer.cpp
 	${CORE_PRIVATE}/internal.h
 	${CORE_PRIVATE}/log.cpp
+	${CORE_PRIVATE}/real.cpp
 	${CORE_PRIVATE}/to_string.cpp
 )
 

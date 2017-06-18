@@ -10,6 +10,7 @@
 #include "bitwise/core/bit.h"
 #include "bitwise/core/basic_types.h"
 #include "bitwise/core/integer.h"
+#include "bitwise/core/real.h"
 
 ////////////////////////////////////////////////////////////
 /// \defgroup core Core module

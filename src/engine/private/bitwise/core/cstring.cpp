@@ -139,6 +139,26 @@ bool cstring::ends_with(const char* str, const char* needle)
 /// \details Detailed description.
 /// \todo Write detailed description.
 ////////////////////////////////////////////////////////////////////////////////
+bool cstring::replace(char* str, char needle, char replacement)
+{
+    bool replaced = false;
+
+    while (*str != '\0')
+    {
+        if (*str == needle)
+        {
+            *str = replacement;
+            replaced = true;
+        }
+
+        ++str;
+    }
+
+    return replaced;
+}
+
+// -----------------------------------------------------------------------------
+
 size_t internal::parse_arg_and_options(const char* c, int& argIndex, const char** optionsBuffer)
 {
     char argBuffer[3] { *c++, '\0', '\0' };

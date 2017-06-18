@@ -3,19 +3,6 @@
 #include "bitwise/core/integer.h"
 #include "bitwise/core/cstring.h"
 
-namespace bw
-{
-
-// -----------------------------------------------------------------------------
-//  Constants
-// -----------------------------------------------------------------------------
-static const size_t kStrBufferMax = 512;
-
-// -----------------------------------------------------------------------------
-//  Private variables
-// -----------------------------------------------------------------------------
-static char m_strBuffer[kStrBufferMax];
-
 // -----------------------------------------------------------------------------
 //  Private functions
 // -----------------------------------------------------------------------------
@@ -23,7 +10,7 @@ template <typename T>
 BW_FORCE_INLINE static T parse_integer(const char* str, const char* format)
 {
     T result;
-    cstring::scan_cformat(str, format, &result);
+    bw::cstring::scan_cformat(str, format, &result);
     return result;
 }
 
@@ -32,8 +19,11 @@ BW_FORCE_INLINE static T parse_integer(const char* str, const char* format)
 template <typename T>
 BW_FORCE_INLINE static bool try_parse_integer(const char* str, const char* format, T& out)
 {
-    return cstring::scan_cformat(str, format, &out) == 1;
+    return bw::cstring::scan_cformat(str, format, &out) == 1;
 }
+
+namespace bw
+{
 
 // -----------------------------------------------------------------------------
 //  Public functions
@@ -49,6 +39,24 @@ template <> BW_API unsigned long long integer::parse(const char* str) { return p
 
 // -----------------------------------------------------------------------------
 
-template <> BW_API bool integer::try_parse(const char* str, int& out) { return try_parse_integer(str, "%d", out); }
+template <> BW_API bool integer::try_parse(const char* str, short&              out) { return try_parse_integer<short>             (str, "%hd", out);  }
+template <> BW_API bool integer::try_parse(const char* str, int&                out) { return try_parse_integer<int>               (str, "%d",  out);  }
+template <> BW_API bool integer::try_parse(const char* str, long&               out) { return try_parse_integer<long>              (str, "%ld",  out); }
+template <> BW_API bool integer::try_parse(const char* str, long long&          out) { return try_parse_integer<long long>         (str, "%lld", out); }
+template <> BW_API bool integer::try_parse(const char* str, unsigned short&     out) { return try_parse_integer<unsigned short>    (str, "%hu",  out); }
+template <> BW_API bool integer::try_parse(const char* str, unsigned&           out) { return try_parse_integer<unsigned>          (str, "%u",   out); }
+template <> BW_API bool integer::try_parse(const char* str, unsigned long&      out) { return try_parse_integer<unsigned long>     (str, "%lu",  out); }
+template <> BW_API bool integer::try_parse(const char* str, unsigned long long& out) { return try_parse_integer<unsigned long long>(str, "%llu", out); }
+
+// -----------------------------------------------------------------------------
+
+template <> BW_API void integer::to_string(short              i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(int                i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(long               i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(long long          i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(unsigned short     i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(unsigned           i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(unsigned long      i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
+template <> BW_API void integer::to_string(unsigned long long i, char* buf, size_t bufSize) { cstring::to_string(i, buf, bufSize); }
 
 }   // namespace bw
