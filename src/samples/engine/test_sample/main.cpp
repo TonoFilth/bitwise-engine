@@ -7,6 +7,8 @@ int main(int argc, char** argv)
     bw::console::write_line("Hello Sample");
     BW_LOG("Hello Sample");
 
+    bw::Allocator& alloc = bw::memory::generic_allocator();
+
     bw::shutdown();
 
     return 0;

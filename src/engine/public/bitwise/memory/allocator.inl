@@ -7,11 +7,11 @@ T* bw::Allocator::allocateObject(Args&& ...args)
 // -----------------------------------------------------------------------------
 
 template <class T>
-void bw::Allocator::deallocateObject(T* ptr)
+void bw::Allocator::deallocateObject(T* memory)
 {
-    if (ptr)
+    if (memory != nullptr)
     {
-        ptr->~T();
-        deallocate(ptr);
+        memory->~T();
+        deallocate(memory);
     }
 }

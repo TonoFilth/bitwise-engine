@@ -7,6 +7,7 @@
 #include "bitwise/core/cstring.h"
 #include "bitwise/core/integer.h"
 #include "bitwise/core/macros.h"
+#include "bitwise/core/pointer.h"
 #include "bitwise/core/real.h"
 #include "bitwise/core/system.h"
 

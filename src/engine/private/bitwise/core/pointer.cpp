@@ -1,0 +1,88 @@
+#include "bitwise/core/pointer.h"
+
+namespace bw
+{
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void* pointer::align_forward(void* ptr, size_t alignment)
+{
+    uintptr_t p = uintptr_t(ptr);
+    size_t mod = p % alignment;
+
+    if (mod)
+    {
+        p += (alignment - mod);
+    }
+
+    return (void*) p;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void* pointer::align_forward(void* ptr, size_t alignment, uint8_t& usedAlignmentBytes)
+{
+    uintptr_t p = uintptr_t(ptr);
+    usedAlignmentBytes = 0;
+
+    size_t mod = p % alignment;
+
+    if (mod)
+    {
+        usedAlignmentBytes = static_cast<uint8_t>(alignment - mod);
+        p += usedAlignmentBytes;
+    }
+
+    return (void*) p;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void* pointer::add(void* ptr, size_t bytes)
+{
+    return (void*) ((uintptr_t) ptr + bytes);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void* pointer::sub(void* ptr, size_t bytes)
+{
+    return (void*) ((uintptr_t) ptr - bytes);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+const void* pointer::add(const void* ptr, size_t bytes)
+{
+    return (const void*) ((const uintptr_t) ptr + bytes);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+const void* pointer::sub(const void* ptr, size_t bytes)
+{
+    return (const void*) ((const uintptr_t) ptr - bytes);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+bool pointer::is_aligned(const void* addr, size_t alignment)
+{
+    return ((uintptr_t(addr) & (alignment - 1)) == 0);
+}
+
+}	// namespace bw

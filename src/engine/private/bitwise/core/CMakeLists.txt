@@ -18,6 +18,7 @@ list(APPEND SOURCE_FILES
 	${CORE_PUBLIC}/integer.h
 	${CORE_PUBLIC}/integer.inl
 	${CORE_PUBLIC}/macros.h
+	${CORE_PUBLIC}/pointer.h
 	${CORE_PUBLIC}/real.h
 	${CORE_PUBLIC}/real.inl
 	${CORE_PUBLIC}/system.h
@@ -31,6 +32,7 @@ list(APPEND SOURCE_FILES
 	${CORE_PRIVATE}/cstring.cpp
 	${CORE_PRIVATE}/integer.cpp
 	${CORE_PRIVATE}/internal.h
+	${CORE_PRIVATE}/pointer.cpp
 	${CORE_PRIVATE}/real.cpp
 	${CORE_PRIVATE}/to_string.cpp
 )

@@ -8,6 +8,10 @@ list(APPEND SOURCE_FILES
 	${PUBLIC_DIR}/memory.h
 	${MEMORY_PUBLIC}/allocator.h
 	${MEMORY_PUBLIC}/allocator.inl
+	${MEMORY_PUBLIC}/fwd.h
+	${MEMORY_PUBLIC}/global_allocators.h
+	${MEMORY_PUBLIC}/heap_allocator.h
+	${MEMORY_PUBLIC}/page_allocator.h
 )
 
 # Private
@@ -15,6 +19,9 @@ list(APPEND SOURCE_FILES
 	${PRIVATE_DIR}/memory.cpp
 	${MEMORY_PRIVATE}/allocator.cpp
 	${MEMORY_PRIVATE}/internal.h
+	${MEMORY_PRIVATE}/global_allocators.cpp
+	${MEMORY_PRIVATE}/heap_allocator.cpp
+	${MEMORY_PRIVATE}/page_allocator.cpp
 )
 
 set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
