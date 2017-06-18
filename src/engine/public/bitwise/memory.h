@@ -4,6 +4,7 @@
 #include "bitwise/memory/global_allocators.h"
 #include "bitwise/memory/heap_allocator.h"
 #include "bitwise/memory/page_allocator.h"
+#include "bitwise/memory/scope_allocator.h"
 
 ////////////////////////////////////////////////////////////
 /// \defgroup memory Memory module

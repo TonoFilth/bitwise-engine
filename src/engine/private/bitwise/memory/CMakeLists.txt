@@ -12,6 +12,8 @@ list(APPEND SOURCE_FILES
 	${MEMORY_PUBLIC}/global_allocators.h
 	${MEMORY_PUBLIC}/heap_allocator.h
 	${MEMORY_PUBLIC}/page_allocator.h
+	${MEMORY_PUBLIC}/scope_allocator.h
+	${MEMORY_PUBLIC}/scope_allocator.inl
 )
 
 # Private
