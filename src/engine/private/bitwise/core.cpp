@@ -9,14 +9,14 @@ namespace bw
 // -----------------------------------------------------------------------------
 void core::initialize(int argc, char** argv)
 {
-
+    system::initialize(argc, argv);
 }
 
 // -----------------------------------------------------------------------------
 
 void core::shutdown()
 {
-
+    system::shutdown();
 }
 
 }   // namespace bw

@@ -1,8 +1,23 @@
 #include <Windows.h>
 #include "bitwise/core/system.h"
+#include "bitwise/core/internal.h"
+#include "bitwise/core/assert.h"
 
 namespace bw
 {
+
+// -----------------------------------------------------------------------------
+//  Internal functions
+// -----------------------------------------------------------------------------
+void system::initialize(int argc, char** argv)
+{
+}
+
+// -----------------------------------------------------------------------------
+
+void system::shutdown()
+{
+}
 
 // -----------------------------------------------------------------------------
 //  Public functions
@@ -16,7 +31,7 @@ int system::exec(const char* program, const char* args)
 
 size_t system::page_size()
 {
-	SYSTEM_INFO info;
+    SYSTEM_INFO info;
 	GetSystemInfo(&info);
 
 	return info.dwPageSize;

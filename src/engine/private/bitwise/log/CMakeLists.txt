@@ -8,8 +8,9 @@ list(APPEND SOURCE_FILES
 	${PUBLIC_DIR}/log.h
 	${LOG_PUBLIC}/log.h
 	${LOG_PUBLIC}/log.inl
-	${LOG_PUBLIC}/log_channel.h
-	${LOG_PUBLIC}/log_priority.h
+	${LOG_PUBLIC}/channel.h
+	${LOG_PUBLIC}/output.h
+	${LOG_PUBLIC}/priority.h
 )
 
 # Private

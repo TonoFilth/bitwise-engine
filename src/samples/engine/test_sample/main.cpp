@@ -1,18 +1,26 @@
 #include "bitwise.h"
 
+#include <list>
+
 int main(int argc, char** argv)
 {
     bw::initialize(argc, argv);
 
-    bw::console::write_line("Hello Sample");
-    BW_LOG("Hello Sample");
+    std::list<void*> addresses;
 
-    bw::ScopeAllocator32 scopeAlloc;
+    bw::TraceAllocator tracer(bw::memory::page_allocator(), "PageAllocator");
 
-    int* i = (int*) scopeAlloc.allocate(sizeof(int));
-    *i = 5;
+    for (int i = 0; i < 1024; ++i)
+    {
+        addresses.push_back(tracer.allocate(4096));
+    }
 
-    bw::console::write_format("{0}\n", i);
+    bw::console::write_format("{0} kb.\n", bw::memory::page_allocator().allocatedSize() / 1024);
+
+    for (void* address : addresses)
+    {
+        tracer.deallocate(address);
+    }
 
     bw::shutdown();
 

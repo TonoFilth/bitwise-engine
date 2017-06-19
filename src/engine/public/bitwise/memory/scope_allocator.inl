@@ -11,7 +11,7 @@ void* bw::ScopeAllocator<N>::allocate(size_t size, size_t alignment)
 	size_t totalSize = size + alignment;
 
 	// Buffer exhausted
-	BW_ASSERT(m_size + totalSize < m_capacity);
+    BW_ASSERT(m_size + totalSize < m_capacity, "Not enough capacity");
 
 	void* data = bw::pointer::align_forward(m_top, alignment);
 	m_top   = bw::pointer::add(m_top, totalSize);

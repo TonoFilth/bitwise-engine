@@ -25,7 +25,7 @@ static bw::Allocator* m_genericAllocator = nullptr;
 // -----------------------------------------------------------------------------
 //  Private functions
 // -----------------------------------------------------------------------------
-void bw::memory::initialize_global_allocators()
+void bw::memory::create_global_allocators()
 {
     static_assert(sizeof(PageAllocator) + sizeof(HeapAllocator) < kMaxGlobalAllocatorBuffer, "Buffer too small");
 
@@ -36,6 +36,17 @@ void bw::memory::initialize_global_allocators()
     m_heapAllocator = (bw::Allocator*) new (memory) HeapAllocator();
 
     m_genericAllocator = m_heapAllocator;
+}
+
+// -----------------------------------------------------------------------------
+
+void bw::memory::delete_global_allocators()
+{
+    m_pageAllocator->~Allocator();
+    m_heapAllocator->~Allocator();
+
+    m_pageAllocator = nullptr;
+    m_heapAllocator = nullptr;
 }
 
 namespace bw

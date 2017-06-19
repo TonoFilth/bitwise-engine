@@ -2,7 +2,7 @@
 template<typename T, typename>
 T bw::bit::mask<T>(uint8_t bit)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return static_cast<T>(1) << bit;
 }
@@ -12,7 +12,7 @@ T bw::bit::mask<T>(uint8_t bit)
 template <typename T, typename ...Args, typename>
 T bw::bit::mask<T>(uint8_t bit, Args&& ...args)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return (static_cast<T>(1) << bit) | mask<T>(args...);
 }
@@ -22,7 +22,7 @@ T bw::bit::mask<T>(uint8_t bit, Args&& ...args)
 template<typename T, typename>
 T bw::bit::set(T bits, uint8_t bit)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return bits | (static_cast<T>(1) << bit);
 }
@@ -32,7 +32,7 @@ T bw::bit::set(T bits, uint8_t bit)
 template <typename T, typename>
 T bw::bit::unset(T bits, uint8_t bit)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return bits & ~(static_cast<T>(1) << bit);
 }
@@ -42,7 +42,7 @@ T bw::bit::unset(T bits, uint8_t bit)
 template <typename T, typename>
 T bw::bit::toggle(T bits, uint8_t bit)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return is_set(bits, bit) ? unset(bits, bit) : set(bits, bit);
 }
@@ -60,7 +60,7 @@ T bw::bit::complement(T bits)
 template <typename T, typename>
 bool bw::bit::is_set(T bits, uint8_t bit)
 {
-    BW_ASSERTF(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
+    BW_ASSERT(bit < sizeof(T) * 8, "Mask bit out of range. Bit={0:n} Range=[0, {1}]", bit, sizeof(T) * 8 -1);
 
     return ((static_cast<T>(1) << bit) & bits) != 0;
 }

@@ -3,19 +3,24 @@
 #include "bitwise/core/cstring.h"
 #include "bitwise/core/bit.h"
 #include "bitwise/log/log.h"
+#include "bitwise/log/output.h"
 #include "bitwise/log/internal.h"
 
 // -----------------------------------------------------------------------------
 //  Constants
 // -----------------------------------------------------------------------------
+static const size_t kMaxLogMessage    = 4096;
 static const size_t kMaxFormatMessage = 64;
 static const size_t kMaxChannelName   = 32;
+static const size_t kMaxLogOutputs    = 4;
 
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
+static char m_messageBuffer[kMaxLogMessage];
 static char m_formatBuffer[kMaxFormatMessage];
-static bw::LogPriority::Enum m_priority     = bw::LogPriority::eVERBOSE;
+
+static bw::LogPriority::Enum m_priority = bw::LogPriority::eVERBOSE;
 static uint32_t m_channelState = 0x0;
 
 static uint32_t              m_defaultUserChannel  = bw::LogChannel::eUSER;
@@ -23,9 +28,18 @@ static bw::LogPriority::Enum m_defaultUserPriority = bw::LogPriority::eINFO;
 
 static char m_channelNames[bw::log::kMaxChannels][kMaxChannelName];
 
+static bw::LogOutput m_output[kMaxLogOutputs];
+
 // -----------------------------------------------------------------------------
 //  Private functions
 // -----------------------------------------------------------------------------
+static void default_output_function(const char* message, bw::LogChannel::Enum channel, bw::LogPriority::Enum priority, void* userData)
+{
+    bw::console::write(message);
+}
+
+// -----------------------------------------------------------------------------
+
 static BW_INLINE bool filter(uint8_t channel, bw::LogPriority::Enum priority)
 {
     return !(bw::bit::is_set(m_channelState, channel) && priority >= m_priority);
@@ -50,7 +64,7 @@ static const char* get_format(uint8_t channel, bw::LogPriority::Enum priority, c
 
     return m_formatBuffer;*/
 
-    bw::cstring::cformat(m_formatBuffer, kMaxFormatMessage, "[%s] %%s\n", bw::log::channel_name(channel));
+    bw::cstring::format(m_formatBuffer, kMaxFormatMessage, "[{0}] {{0}}\n", bw::log::channel_name(channel));
 
     return m_formatBuffer;
 }
@@ -60,7 +74,15 @@ static const char* get_format(uint8_t channel, bw::LogPriority::Enum priority, c
 static void write_log_message(const char* message, uint8_t channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
 {
     const char* format = get_format(channel, priority, function, file, line);
-    bw::console::write_cformat(format, message);
+    bw::cstring::format(m_messageBuffer, kMaxLogMessage, format, message);
+
+    bw::LogOutput* output = m_output;
+
+    while (output != nullptr)
+    {
+        output->function(m_messageBuffer, (bw::LogChannel::Enum) channel, priority, output->userData);
+        output = output->next;
+    }
 }
 
 namespace bw
@@ -99,6 +121,15 @@ void log::initialize(int argc, char** argv)
     enable_channel(LogChannel::eUSER);
 
     priority(LogPriority::eVERBOSE);
+
+    // Default output function
+    LogOutput* defaultOutput = m_output;
+
+    defaultOutput->userData = nullptr;
+    defaultOutput->next     = nullptr;
+    defaultOutput->prev     = nullptr;
+    defaultOutput->function = default_output_function;
+
 }
 
 // -----------------------------------------------------------------------------
@@ -167,7 +198,7 @@ bool log::channel_enabled(uint8_t channel)
 ////////////////////////////////////////////////////////////////////////////////
 const char* log::channel_name(uint8_t channel)
 {
-    BW_ASSERT(channel < kMaxChannels);
+    BW_ASSERT(channel < kMaxChannels, "Invalid channel '{0:n}'. Max channels {1}.", channel, kMaxChannels);
     return m_channelNames[channel];
 }
 
@@ -177,7 +208,7 @@ const char* log::channel_name(uint8_t channel)
 ////////////////////////////////////////////////////////////////////////////////
 void log::channel_name(uint8_t channel, const char* name)
 {
-    BW_ASSERT(channel < kMaxChannels);
+    BW_ASSERT(channel < kMaxChannels, "Invalid channel '{0:n}'. Max channels {1}.", channel, kMaxChannels);
     cstring::copy(m_channelNames[channel], kMaxChannelName, name);
 }
 

@@ -20,7 +20,7 @@ namespace system
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API size_t page_size();
+    BW_FORCE_INLINE BW_API size_t page_size();
 
 }   // namespace system
 }   // namespace bw

@@ -171,7 +171,7 @@ size_t internal::parse_arg_and_options(const char* c, int& argIndex, const char*
     }
     
     // Bad argument format
-    BW_ASSERT(*c == '}' || *c == ':');
+    BW_ASSERT(*c == '}' || *c == ':', "Unexpected character '{0}'", *c);
 
     if (*c == ':')
     {
@@ -195,7 +195,7 @@ size_t internal::parse_arg_and_options(const char* c, int& argIndex, const char*
         ++nbChars;
 
         // Format options too big
-        BW_ASSERT(osize < kFormatOptionsBufferSize);
+        BW_ASSERT(osize < kFormatOptionsBufferSize, "Format options buffer too small ({0})", kFormatOptionsBufferSize);
     }
 
     m_formatOptionsBuffer[osize] = '\0';

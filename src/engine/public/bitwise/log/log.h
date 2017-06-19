@@ -4,8 +4,8 @@
 
 #include "bitwise/core/macros.h"
 #include "bitwise/core/fwd.h"
-#include "bitwise/log/log_channel.h"
-#include "bitwise/log/log_priority.h"
+#include "bitwise/log/channel.h"
+#include "bitwise/log/priority.h"
 
 namespace bw
 {

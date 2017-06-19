@@ -5,6 +5,7 @@
 #include "bitwise/memory/heap_allocator.h"
 #include "bitwise/memory/page_allocator.h"
 #include "bitwise/memory/scope_allocator.h"
+#include "bitwise/memory/trace_allocator.h"
 
 ////////////////////////////////////////////////////////////
 /// \defgroup memory Memory module

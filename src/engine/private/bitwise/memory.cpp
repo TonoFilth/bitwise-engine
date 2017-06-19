@@ -9,14 +9,14 @@ namespace bw
 // -----------------------------------------------------------------------------
 void memory::initialize(int argc, char** argv)
 {
-    initialize_global_allocators();
+    create_global_allocators();
 }
 
 // -----------------------------------------------------------------------------
 
 void memory::shutdown()
 {
-
+    delete_global_allocators();
 }
 
 }   // namespace bw

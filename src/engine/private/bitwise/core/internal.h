@@ -13,6 +13,15 @@ namespace core
 
 }   // namespace core
 
+namespace system
+{
+    // -------------------------------------------------------------------------
+    //  Internal functions
+    // -------------------------------------------------------------------------
+    void initialize(int argc, char** argv);
+    void shutdown();
+}
+
 struct StackFrame;
 
 namespace internal

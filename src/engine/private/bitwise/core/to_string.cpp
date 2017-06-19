@@ -9,7 +9,7 @@ static void bits_to_str(T bits, char* buf, size_t bufSize)
 {
     size_t size = sizeof(T) * 8;
 
-    BW_ASSERT(bufSize >= size + 1);
+    BW_ASSERT(bufSize >= size + 1, "Buffer too small");
 
     uint8_t bit = 0;
     char* c = buf + size - 1;
@@ -27,7 +27,7 @@ static void bits_to_str(T bits, char* buf, size_t bufSize)
 template <typename T>
 static void char_to_str(T c, char* buf, size_t bufSize, const char* opts)
 {
-    BW_ASSERT(bufSize >= 2);
+    BW_ASSERT(bufSize >= 2, "Buffer too small");
 
     switch (*opts)
     {
@@ -114,35 +114,10 @@ template <> BW_API void cstring::to_string(const long double& r, char* buf, size
 // -----------------------------------------------------------------------------
 //  Character conversions
 // -----------------------------------------------------------------------------
-template <>
-BW_API void cstring::to_string(const char& c, char* buf, size_t bufSize, const char* opts)
-{
-    char_to_str(c, buf, bufSize, opts);
-}
-
-// -----------------------------------------------------------------------------
-
-template <>
-BW_API void cstring::to_string(const signed char& c, char* buf, size_t bufSize, const char* opts)
-{
-    char_to_str(c, buf, bufSize, opts);
-}
-
-// -----------------------------------------------------------------------------
-
-template <>
-BW_API void cstring::to_string(const unsigned char& c, char* buf, size_t bufSize, const char* opts)
-{
-    char_to_str(c, buf, bufSize, opts);
-}
-
-// -----------------------------------------------------------------------------
-
-template <>
-BW_API void cstring::to_string(const char* str, char* buf, size_t bufSize, const char* opts)
-{
-    copy(buf, bufSize, str);
-}
+template <> BW_API void cstring::to_string(const char& c,          char* buf, size_t bufSize, const char* opts) { char_to_str(c, buf, bufSize, opts); }
+template <> BW_API void cstring::to_string(const signed char& c,   char* buf, size_t bufSize, const char* opts) { char_to_str(c, buf, bufSize, opts); }
+template <> BW_API void cstring::to_string(const unsigned char& c, char* buf, size_t bufSize, const char* opts) { char_to_str(c, buf, bufSize, opts); }
+template <> BW_API void cstring::to_string(const char* str,        char* buf, size_t bufSize, const char* opts) { copy(buf, bufSize, str);            }
 
 // -----------------------------------------------------------------------------
 //  Other conversions

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "bitwise/core/macros.h"
 #include "bitwise/memory/allocator.h"
 
 namespace bw
@@ -9,20 +8,22 @@ namespace bw
 /// \brief Brief description.
 /// \todo Write brief description.
 ////////////////////////////////////////////////////////////////////////////////
-class BW_API PageAllocator : public Allocator
+class BW_API TraceAllocator : public Allocator
 {
+    static const size_t kMaxAllocatorName = 32;
+
 public:
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    PageAllocator();
+    TraceAllocator(Allocator& allocator, const char* allocatorName);
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    virtual ~PageAllocator() override;
+    virtual ~TraceAllocator() override;
 
 	////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.
@@ -49,13 +50,15 @@ public:
     virtual size_t allocatedSize(void* memory) const override;
 
 private:
-    void* m_data = nullptr;
+    char m_name[kMaxAllocatorName];
+    Allocator* m_allocator;
+    size_t m_allocationCount;
 };
 
 }	// namespace bw
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \class bw::PageAllocator
+/// \class bw::TraceAllocator
 /// \ingroup memory
 ///
 /// \details Detailed description.

@@ -77,8 +77,7 @@ BW_API bool validate_format(const char* format);
 
 BW_INLINE void parse_arg(size_t argi, size_t argIndex, const char* formatOptions, char* buffer, size_t bufferSize)
 {
-    // Argument index out of bounds
-    BW_ASSERT(false);
+    BW_ASSERT(false, "Format argument {0} missing!", argIndex);
 }
 
 template <typename Arg, typename ...Args>
@@ -103,7 +102,7 @@ BW_INLINE void parse_arg(size_t argi, size_t argIndex, const char* formatOptions
 template <typename ...Args>
 size_t bw::cstring::format(char* buffer, size_t bufferSize, const char* format, Args&& ...args)
 {
-    BW_ASSERT(bw::internal::validate_format(format));
+    BW_ASSERT(bw::internal::validate_format(format), "Invalid format string \"{0}\". Make sure open/close braces are correct.", format);
 
     char* c = buffer;
     const char* f = format;

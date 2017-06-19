@@ -14,6 +14,7 @@ list(APPEND SOURCE_FILES
 	${MEMORY_PUBLIC}/page_allocator.h
 	${MEMORY_PUBLIC}/scope_allocator.h
 	${MEMORY_PUBLIC}/scope_allocator.inl
+	${MEMORY_PUBLIC}/trace_allocator.h
 )
 
 # Private
@@ -24,6 +25,16 @@ list(APPEND SOURCE_FILES
 	${MEMORY_PRIVATE}/global_allocators.cpp
 	${MEMORY_PRIVATE}/heap_allocator.cpp
 	${MEMORY_PRIVATE}/page_allocator.cpp
+	${MEMORY_PRIVATE}/trace_allocator.cpp
 )
+
+# Platform sources
+if (BW_PLATFORM_WINDOWS)
+
+	list(APPEND SOURCE_FILES
+		${PLATFORM_PRIVATE}/windows_alloc.cpp
+	)
+
+endif()
 
 set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)
