@@ -7,7 +7,7 @@ namespace bw
 /// \details Detailed description.
 /// \todo Write detailed description.
 ////////////////////////////////////////////////////////////////////////////////
-void* HeapAllocator::allocate(size_t size, size_t alignment)
+void* HeapAllocator::allocate(size_t size, size_t* allocatedSize, size_t alignment)
 {
     return nullptr;
 }

@@ -20,6 +20,8 @@ namespace system
     // -------------------------------------------------------------------------
     void initialize(int argc, char** argv);
     void shutdown();
+
+    const char* get_last_error_message();
 }
 
 struct StackFrame;

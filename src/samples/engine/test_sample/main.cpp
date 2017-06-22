@@ -12,7 +12,7 @@ int main(int argc, char** argv)
 
     for (int i = 0; i < 1024; ++i)
     {
-        addresses.push_back(tracer.allocate(4096));
+        addresses.push_back(tracer.allocate(4097));
     }
 
     bw::console::write_format("{0} kb.\n", bw::memory::page_allocator().allocatedSize() / 1024);

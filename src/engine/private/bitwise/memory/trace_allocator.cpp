@@ -27,10 +27,10 @@ TraceAllocator::~TraceAllocator()
 /// \details Detailed description.
 /// \todo Write detailed description.
 ////////////////////////////////////////////////////////////////////////////////
-void* TraceAllocator::allocate(size_t size, size_t alignment)
+void* TraceAllocator::allocate(size_t size, size_t* allocatedSize, size_t alignment)
 {
     ++m_allocationCount;
-    return m_allocator->allocate(size, alignment);
+    return m_allocator->allocate(size, allocatedSize, alignment);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

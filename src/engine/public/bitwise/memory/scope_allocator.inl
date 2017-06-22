@@ -6,7 +6,7 @@ bw::ScopeAllocator<N>::ScopeAllocator() : m_size(0), m_capacity(N), m_top(m_memo
 // -----------------------------------------------------------------------------
 
 template <unsigned N>
-void* bw::ScopeAllocator<N>::allocate(size_t size, size_t alignment)
+void* bw::ScopeAllocator<N>::allocate(size_t size, size_t* allocatedSize, size_t alignment)
 {
 	size_t totalSize = size + alignment;
 
@@ -16,6 +16,11 @@ void* bw::ScopeAllocator<N>::allocate(size_t size, size_t alignment)
 	void* data = bw::pointer::align_forward(m_top, alignment);
 	m_top   = bw::pointer::add(m_top, totalSize);
 	m_size += totalSize;
+
+    if (allocatedSize != nullptr)
+    {
+        *allocatedSize = totalSize;
+    }
 
 	return data;
 }

@@ -1,7 +1,15 @@
 template <class T, class ...Args>
 T* bw::Allocator::allocateObject(Args&& ...args)
 {
-    return new (allocate(sizeof(T), alignof(T))) T(std::forward<Args>(args)...);
+    return new (allocate(sizeof(T), nullptr, alignof(T))) T(std::forward<Args>(args)...);
+}
+
+// -----------------------------------------------------------------------------
+
+template <class T, class ...Args>
+T* bw::Allocator::allocateObject(size_t* allocatedSize, Args&& ...args)
+{
+    return new (allocate(sizeof(T), allocatedSize, alignof(T))) T(std::forward<Args>(args)...);
 }
 
 // -----------------------------------------------------------------------------

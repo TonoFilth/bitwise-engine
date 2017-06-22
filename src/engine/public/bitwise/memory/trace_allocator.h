@@ -29,7 +29,7 @@ public:
     /// \brief Brief description.
     /// \todo Write brief description.
     ////////////////////////////////////////////////////////////////////////////
-    virtual void* allocate(size_t size, size_t alignment = kDefaultAlignment) override;
+    virtual void* allocate(size_t size, size_t* allocatedSize = nullptr, size_t alignment = kDefaultAlignment) override;
 
     ////////////////////////////////////////////////////////////////////////////
     /// \brief Brief description.

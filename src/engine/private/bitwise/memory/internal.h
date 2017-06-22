@@ -3,6 +3,12 @@
 
 namespace bw
 {
+
+// -----------------------------------------------------------------------------
+//  Forward declarations
+// -----------------------------------------------------------------------------
+class PageAllocator;
+
 namespace memory
 {
     // -------------------------------------------------------------------------
@@ -13,7 +19,11 @@ namespace memory
     void create_global_allocators();
     void delete_global_allocators();
     void* alloc(size_t sizeBytes);
-    void free(void* data, size_t sizeBytes);
+    void free(void* memory, size_t sizeBytes);
+
+    void   save_size  (PageAllocator& allocator, void* memory, size_t size);
+    void   delete_size(PageAllocator& allocator, void* memory);
+    size_t size       (const PageAllocator& allocator, void* memory);
 
 }   // namespace memory
 }   // namespace bw
