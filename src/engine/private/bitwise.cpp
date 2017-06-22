@@ -3,6 +3,7 @@
 #include "bitwise/math/internal.h"
 #include "bitwise/log/internal.h"
 #include "bitwise/memory/internal.h"
+#include "bitwise/collections/internal.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \details Detailed description.
@@ -18,6 +19,7 @@ void bw::initialize(int argc, char** argv)
 
     bw::internal::core::initialize(argc, argv);
     bw::internal::memory::initialize(argc, argv);
+    bw::internal::collections::initialize(argc, argv);
     bw::internal::math::initialize(argc, argv);
 
     BW_LOG_INFO(LogChannel::eSYSTEM, "Bitwise engine initialized");
@@ -34,6 +36,7 @@ void bw::shutdown()
     BW_LOG_INFO(LogChannel::eSYSTEM, "Shutting down bitwise engine");
 
     bw::internal::math::shutdown();
+    bw::internal::collections::shutdown();
     bw::internal::memory::shutdown();
     bw::internal::core::shutdown();
     bw::internal::log::shutdown();

@@ -1,0 +1,19 @@
+set(COLLECTIONS_PUBLIC  ${PUBLIC_DIR}/collections)
+set(COLLECTIONS_PRIVATE ${PRIVATE_DIR}/collections)
+set(PLATFORM_PUBLIC     ${COLLECTIONS_PUBLIC}/platform/${BW_PLATFORM_DIR})
+set(PLATFORM_PRIVATE    ${COLLECTIONS_PRIVATE}/platform/${BW_PLATFORM_DIR})
+
+# Public
+list(APPEND SOURCE_FILES
+	${PUBLIC_DIR}/collections.h
+	${COLLECTIONS_PUBLIC}/array/array.h
+	${COLLECTIONS_PUBLIC}/array/array.inl
+)
+
+# Private
+list(APPEND SOURCE_FILES
+	${PRIVATE_DIR}/collections.cpp
+	${COLLECTIONS_PRIVATE}/internal.h
+)
+
+set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)

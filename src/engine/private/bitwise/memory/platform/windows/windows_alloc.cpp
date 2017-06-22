@@ -28,4 +28,18 @@ void internal::memory::vfree(void* memory, size_t sizeBytes)
 	::VirtualFree(memory, sizeBytes, MEM_RELEASE);
 }
 
+// -----------------------------------------------------------------------------
+
+void* bw::internal::memory::malloc(size_t sizeBytes, size_t alignment)
+{
+    return _aligned_malloc(sizeBytes, alignment);
+}
+
+// -----------------------------------------------------------------------------
+
+void bw::internal::memory::mfree(void* memory)
+{
+    _aligned_free(memory);
+}
+
 }	// namespace bw

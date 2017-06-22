@@ -1,5 +1,6 @@
 #pragma once
 
+#include "bitwise/collections.h"
 #include "bitwise/core.h"
 #include "bitwise/log.h"
 #include "bitwise/math.h"

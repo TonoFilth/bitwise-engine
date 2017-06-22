@@ -1,0 +1,10 @@
+#pragma once
+
+#include "bitwise/collections/array/array.h"
+
+////////////////////////////////////////////////////////////
+/// \defgroup collections Collections module
+///
+/// The collections module contains a set of general purpose
+/// collection data types.
+////////////////////////////////////////////////////////////

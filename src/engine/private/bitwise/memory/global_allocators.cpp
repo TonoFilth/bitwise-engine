@@ -9,7 +9,7 @@
 // -----------------------------------------------------------------------------
 //  Constants
 // -----------------------------------------------------------------------------
-static const size_t kMaxGlobalAllocatorBuffer = 16;
+static const size_t kMaxGlobalAllocatorBuffer = 20;
 
 // -----------------------------------------------------------------------------
 //  Private variables
@@ -45,8 +45,9 @@ void bw::internal::memory::delete_global_allocators()
     m_pageAllocator->~Allocator();
     m_heapAllocator->~Allocator();
 
-    m_pageAllocator = nullptr;
-    m_heapAllocator = nullptr;
+    m_pageAllocator    = nullptr;
+    m_heapAllocator    = nullptr;
+    m_genericAllocator = nullptr;
 }
 
 namespace bw

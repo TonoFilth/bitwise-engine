@@ -31,8 +31,8 @@ list(APPEND SOURCE_FILES
 if (BW_PLATFORM_WINDOWS)
 
 	list(APPEND SOURCE_FILES
+		${PLATFORM_PRIVATE}/windows_alloc.cpp
 		${PLATFORM_PRIVATE}/windows_page_allocator.cpp
-		${PLATFORM_PRIVATE}/windows_valloc.cpp
 	)
 
 endif()
