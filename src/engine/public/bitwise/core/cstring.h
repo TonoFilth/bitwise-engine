@@ -1,21 +1,12 @@
 #pragma once
 
-#include <cstdio>   // sscanf
-#include <cstring>  // strcpy
-#include <utility>  // std::forward
-
 #if defined(BW_PLATFORM_ANDROID)
     #include <stdarg.h> // va_list
 #else
     #include <cstdarg>  // va_list
 #endif
 
-#if defined(BW_PLATFORM_LINUX) || defined(BW_PLATFORM_WEB)
-#   include <strings.h> // strcasecmp()
-#endif
-
 #include "bitwise/core/macros.h"
-#include "bitwise/core/assert.h"
 
 namespace bw
 {
@@ -65,20 +56,13 @@ namespace cstring
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    template <typename ...Args>
-    size_t format(char* buffer, size_t bufferSize, const char* format, Args&& ...args);
-
-    ////////////////////////////////////////////////////////////////////////////
-	/// \brief Brief description.
-	/// \todo Write brief description.
-	////////////////////////////////////////////////////////////////////////////
-    BW_INLINE BW_API size_t cformat(char* buffer, size_t bufferSize, const char* format, ...);
+    BW_INLINE BW_API size_t format(char* buffer, size_t bufferSize, const char* format, ...);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_INLINE BW_API size_t cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args);
+    BW_INLINE BW_API size_t format_va_list(char* buffer, size_t bufferSize, const char* format, va_list args);
 
     ////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
@@ -96,8 +80,13 @@ namespace cstring
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    template <typename ...Args>
-    BW_INLINE BW_API size_t scan_cformat(const char* str, const char* format, Args&& ...args);
+    BW_API size_t scan_format(const char* str, const char* format, ...);
+
+    ////////////////////////////////////////////////////////////////////////////
+	/// \brief Brief description.
+	/// \todo Write brief description.
+	////////////////////////////////////////////////////////////////////////////
+    BW_API size_t scan_format_va_list(const char* str, const char* format, va_list args);
 
     ////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
@@ -127,20 +116,6 @@ namespace cstring
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    void to_string(const T& value, char* buffer, size_t bufferSize, const char* formatOptions = "");
-
-    ////////////////////////////////////////////////////////////////////////////
-	/// \brief Brief description.
-	/// \todo Write brief description.
-	////////////////////////////////////////////////////////////////////////////
-    template <typename T>
-    void to_string(const T* value, char* buffer, size_t bufferSize, const char* formatOptions = "");
-
-    ////////////////////////////////////////////////////////////////////////////
-	/// \brief Brief description.
-	/// \todo Write brief description.
-	////////////////////////////////////////////////////////////////////////////
     BW_INLINE BW_API void truncated_copy(char* buffer, size_t bufferSize, const char* str);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -153,30 +128,16 @@ namespace cstring
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_INLINE BW_API size_t truncated_cformat(char* buffer, size_t bufferSize, const char* format, ...);
+    BW_INLINE BW_API size_t truncated_format(char* buffer, size_t bufferSize, const char* format, ...);
 
     ////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_INLINE BW_API size_t truncated_cformat_va(char* buffer, size_t bufferSize, const char* format, va_list args);
+    BW_INLINE BW_API size_t truncated_format_va_list(char* buffer, size_t bufferSize, const char* format, va_list args);
 
 }   // namespace cstring
 }   // namespace bw
-
-// -----------------------------------------------------------------------------
-//  Inline functions
-// -----------------------------------------------------------------------------
-#include "bitwise/core/cstring.inl"
-
-// -----------------------------------------------------------------------------
-//  Platform implementation
-// -----------------------------------------------------------------------------
-#if defined(BW_PLATFORM_WINDOWS)
-#   include "bitwise/core/platform/windows/cstring.inl"
-#else
-#   include "bitwise/core/platform/unix/cstring.inl"
-#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \namespace bw::cstring

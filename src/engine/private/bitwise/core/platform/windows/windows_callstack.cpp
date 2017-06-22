@@ -106,7 +106,7 @@ StackFrame* callstack::walk(int skip)
         prevFrame = frame;
         ++frame;
 
-        BW_ASSERT(frame < m_stackFrames + kMaxDepth, "Stack frame out of bounds");
+        BW_ASSERT(frame < m_stackFrames + kMaxDepth, "Stack frame max depth reached %zu", kMaxDepth);
     }
  
     ::SymCleanup( ::GetCurrentProcess() );

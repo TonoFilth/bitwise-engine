@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bitwise/core/macros.h"
-#include "bitwise/core/fwd.h"
+#include "bitwise/core/cstring.h"
 
 namespace bw
 {
@@ -47,29 +47,29 @@ namespace assert
 //  Macros
 // -----------------------------------------------------------------------------
 #if defined(BW_DEBUG)
-#   define BW_ASSERT(expr, fmt, ...)                                               \
-{                                                                                  \
-    if (!(expr))                                                                   \
-    {                                                                              \
-        char buffer[1024];                                                         \
-        bw::cstring::format(buffer, 1024, fmt, __VA_ARGS__);                       \
-        bw::assert::get_handler()(#expr, buffer, __FILE__, __LINE__, true, true);  \
-    }                                                                              \
+#   define BW_ASSERT(expr, fmt, ...)                                              \
+{                                                                                 \
+    if (!(expr))                                                                  \
+    {                                                                             \
+        char buffer[4096];                                                        \
+        bw::cstring::format(buffer, 4096, fmt, __VA_ARGS__);                      \
+        bw::assert::get_handler()(#expr, buffer, __FILE__, __LINE__, true, true); \
+    }                                                                             \
 }
-#   define BW_CALL_ONCE()                                                 \
-{                                                                         \
-    static bool __callOnce = false;                                       \
-    BW_ASSERT(!__callOnce, "Enclosing block was called more than once");  \
-    __callOnce = true;                                                    \
+#   define BW_CALL_ONCE()                                                \
+{                                                                        \
+    static bool __callOnce = false;                                      \
+    BW_ASSERT(!__callOnce, "Enclosing block was called more than once"); \
+    __callOnce = true;                                                   \
 }
 #
-#   define BW_NO_RECURSION()                                                        \
-    static unsigned __recursionCounter = 0;                                         \
-    BW_ASSERT(__recursionCounter == 0, "Enclosing block was entered recursively");  \
+#   define BW_NO_RECURSION()                                                       \
+    static unsigned __recursionCounter = 0;                                        \
+    BW_ASSERT(__recursionCounter == 0, "Enclosing block was entered recursively"); \
     const bw::assert::RecursionScopeMarker __scopeMarker(__recursionCounter)
 #
-#   define BW_NO_ENTRY()      { BW_ASSERTM(false, "Unexpected code path reached");  }
-#   define BW_UNIMPLEMENTED() { BW_ASSERTM(false, "Unimplemented function called"); }
+#   define BW_NO_ENTRY()      { BW_ASSERT(false, "Unexpected code path reached");  }
+#   define BW_UNIMPLEMENTED() { BW_ASSERT(false, "Unimplemented function called"); }
 #
 #else
 #   define BW_ASSERT(expr, fmt, ...)

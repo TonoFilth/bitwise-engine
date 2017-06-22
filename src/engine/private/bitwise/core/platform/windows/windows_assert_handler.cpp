@@ -19,11 +19,11 @@ void internal::default_assert_handler(const char* expression, const char* messag
 
     if (message != nullptr)
     {
-        cstring::format(output, kAssertBufferLength, "Assertion failed: ( {0} )\nMessage: \"{1}\"\nFile: {2}:{3}", expression, message, file, line);
+        bw::cstring::format(output, kAssertBufferLength, "Assertion failed: ( {%s} )\nMessage: \"{%s}\"\nFile: {%s}:{%d}", expression, message, file, line);
     }
     else
     {
-        cstring::format(output, kAssertBufferLength, "Assertion failed: ( {0} )\nFile: {1}:{2}", expression, file, line);
+        bw::cstring::format(output, kAssertBufferLength, "Assertion failed: ( {%s} )\nFile: {%s}:{%d}", expression, file, line);
     }
 
     if (callstack)

@@ -11,10 +11,7 @@ list(APPEND SOURCE_FILES
 	${CORE_PUBLIC}/bit.inl
 	${CORE_PUBLIC}/callstack.h
 	${CORE_PUBLIC}/console.h
-	${CORE_PUBLIC}/console.inl
 	${CORE_PUBLIC}/cstring.h
-	${CORE_PUBLIC}/cstring.inl
-	${CORE_PUBLIC}/fwd.h
 	${CORE_PUBLIC}/integer.h
 	${CORE_PUBLIC}/integer.inl
 	${CORE_PUBLIC}/macros.h
@@ -34,15 +31,10 @@ list(APPEND SOURCE_FILES
 	${CORE_PRIVATE}/internal.h
 	${CORE_PRIVATE}/pointer.cpp
 	${CORE_PRIVATE}/real.cpp
-	${CORE_PRIVATE}/to_string.cpp
 )
 
 # Platform sources
 if (BW_PLATFORM_WINDOWS)
-
-	list(APPEND SOURCE_FILES
-		${PLATFORM_PUBLIC}/cstring.inl
-	)
 
 	list(APPEND SOURCE_FILES
 		${PLATFORM_PRIVATE}/windows_assert_handler.cpp

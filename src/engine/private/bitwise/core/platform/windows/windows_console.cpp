@@ -1,15 +1,25 @@
 #include <cstdio>
-#include <cstdarg>
 #include <Windows.h>
 
 #include "bitwise/core/console.h"
 #include "bitwise/core/cstring.h"
 
+// -----------------------------------------------------------------------------
+//  Constants
+// -----------------------------------------------------------------------------
+static const size_t kMaxFormatMessage = 4096;
+
+// -----------------------------------------------------------------------------
+//  Private variables
+// -----------------------------------------------------------------------------
+static char m_formatMessage[kMaxFormatMessage];
+
 namespace bw
 {
 
 ////////////////////////////////////////////////////////////////////////////////
-//  Public functions
+/// \details Detailed description.
+/// \todo Write detailed description.
 ////////////////////////////////////////////////////////////////////////////////
 void console::write(const char* str)
 {
@@ -20,8 +30,10 @@ void console::write(const char* str)
 	::fputs(str, stdout);
 }
 
-// -----------------------------------------------------------------------------
-
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
 void console::write_line(const char* str)
 {
 #if defined(BW_DEBUG)
@@ -30,24 +42,25 @@ void console::write_line(const char* str)
 #endif
 
 	::puts(str);
+    ::puts("\n");
 }
 
-// -----------------------------------------------------------------------------
-
-void console::write_cformat(const char* fmt, ...)
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+void console::write_format2(const char* format, ...)
 {
 	va_list args;
-	va_start(args, fmt);
+	va_start(args, format);
 
-	char formattedOutput[512];
-	
-	int nbChars = cstring::cformat_va(formattedOutput, 512, fmt, args);
+	int nbChars = bw::cstring::format_va_list(m_formatMessage, kMaxFormatMessage, format, args);
 
 #if defined(BW_DEBUG)
-	OutputDebugString(formattedOutput);
+	OutputDebugString(m_formatMessage);
 #endif
 
-	::fputs(formattedOutput, stdout);
+	::fputs(m_formatMessage, stdout);
 	
 	va_end(args);
 }

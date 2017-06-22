@@ -9,24 +9,31 @@
 // -----------------------------------------------------------------------------
 //  Constants
 // -----------------------------------------------------------------------------
-static const size_t kMaxLogMessage    = 4096;
-static const size_t kMaxFormatMessage = 64;
+static const size_t kMaxFormatBuffer  = 64;
+static const size_t kMaxOutputBuffer  = 4096;
+static const size_t kMaxMessageBuffer = kMaxOutputBuffer - kMaxFormatBuffer;
 static const size_t kMaxChannelName   = 32;
 static const size_t kMaxLogOutputs    = 4;
 
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
-static char m_messageBuffer[kMaxLogMessage];
-static char m_formatBuffer[kMaxFormatMessage];
+static char m_formatBuffer [kMaxFormatBuffer];
+static char m_messageBuffer[kMaxMessageBuffer];
+static char m_outputBuffer [kMaxOutputBuffer];
+static char m_channelNames [bw::log::kMaxChannels][kMaxChannelName];
 
-static bw::LogPriority::Enum m_priority = bw::LogPriority::eVERBOSE;
-static uint32_t m_channelState = 0x0;
+// -----------------------------------------------------------------------------
 
-static uint32_t              m_defaultUserChannel  = bw::LogChannel::eUSER;
+static bw::LogPriority::Enum m_priority     = bw::LogPriority::eVERBOSE;
+static uint32_t              m_channelState = 0;
+
+// -----------------------------------------------------------------------------
+
+static bw::LogChannel::Enum  m_defaultUserChannel  = bw::LogChannel::eUSER;
 static bw::LogPriority::Enum m_defaultUserPriority = bw::LogPriority::eINFO;
 
-static char m_channelNames[bw::log::kMaxChannels][kMaxChannelName];
+// -----------------------------------------------------------------------------
 
 static bw::LogOutput m_output[kMaxLogOutputs];
 
@@ -40,47 +47,48 @@ static void default_output_function(const char* message, bw::LogChannel::Enum ch
 
 // -----------------------------------------------------------------------------
 
-static BW_INLINE bool filter(uint8_t channel, bw::LogPriority::Enum priority)
+static BW_INLINE bool filter(bw::LogChannel::Enum channel, bw::LogPriority::Enum priority)
 {
     return !(bw::bit::is_set(m_channelState, channel) && priority >= m_priority);
 }
 
 // -----------------------------------------------------------------------------
 
-static const char* get_format(uint8_t channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
+static const char* get_priority_name(bw::LogPriority::Enum priority)
 {
-    /*const char* priorityName = nullptr;
-    
     switch (priority)
     {
-        case LogPriority::eVERBOSE : priorityName = "VERBOSE"; break;
-        case LogPriority::eINFO    : priorityName = "INFO";    break;
-        case LogPriority::eWARNING : priorityName = "WARNING"; break;
-        case LogPriority::eERROR   : priorityName = "ERROR";   break;
-        case LogPriority::eFATAL   : priorityName = "FATAL";   break;
+        case bw::LogPriority::eVERBOSE : return "VERBOSE";
+        case bw::LogPriority::eINFO    : return "INFO";
+        case bw::LogPriority::eWARNING : return "WARNING";
+        case bw::LogPriority::eERROR   : return "ERROR";
+        case bw::LogPriority::eFATAL   : return "FATAL";
     }
 
-    cstring::cformat(m_formatBuffer, kMaxFormatMessage, "[%s] %%s\n", priorityName);
+    BW_NO_ENTRY();
+    return nullptr;
+}
 
-    return m_formatBuffer;*/
+// -----------------------------------------------------------------------------
 
-    bw::cstring::format(m_formatBuffer, kMaxFormatMessage, "[{0}] {{0}}\n", bw::log::channel_name(channel));
-
+static const char* get_format(bw::LogChannel::Enum channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
+{
+    bw::cstring::format(m_formatBuffer, kMaxFormatBuffer, "[%s] %%s\n", bw::log::channel_name(channel));
     return m_formatBuffer;
 }
 
 // -----------------------------------------------------------------------------
 
-static void write_log_message(const char* message, uint8_t channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
+static void write_log_message(const char* message, bw::LogChannel::Enum channel, bw::LogPriority::Enum priority, const char* function, const char* file, int line)
 {
     const char* format = get_format(channel, priority, function, file, line);
-    bw::cstring::format(m_messageBuffer, kMaxLogMessage, format, message);
+    bw::cstring::format(m_outputBuffer, kMaxOutputBuffer, format, message);
 
     bw::LogOutput* output = m_output;
 
     while (output != nullptr)
     {
-        output->function(m_messageBuffer, (bw::LogChannel::Enum) channel, priority, output->userData);
+        output->function(m_outputBuffer, channel, priority, output->userData);
         output = output->next;
     }
 }
@@ -114,7 +122,7 @@ void log::initialize(int argc, char** argv)
     // Set default user channel names
     for (int i = LogChannel::eUSER; i < kMaxChannels; ++i)
     {
-        cstring::cformat(m_channelNames[i], kMaxChannelName, "usr%d", i - LogChannel::eUSER);
+        bw::cstring::format(m_channelNames[i], kMaxChannelName, "usr%d", i - LogChannel::eUSER);
     }
 
     enable_channel(LogChannel::eSYSTEM);
@@ -144,11 +152,18 @@ void log::shutdown()
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::message(const char* message, const char* function, const char* file, int line)
+void log::message(const char* function, const char* file, int line, const char* format, ...)
 {
     if (!filter(m_defaultUserChannel, m_defaultUserPriority))
     {
-        write_log_message(message, m_defaultUserChannel, m_defaultUserPriority, function, file, line);
+        va_list args;
+	    va_start(args, format);
+
+	    size_t nbChars = bw::cstring::format_va_list(m_messageBuffer, kMaxMessageBuffer, format, args);
+	
+	    va_end(args);
+
+        write_log_message(m_messageBuffer, m_defaultUserChannel, m_defaultUserPriority, function, file, line);
     }
 }
 
@@ -156,12 +171,19 @@ void log::message(const char* message, const char* function, const char* file, i
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::message(const char* message, uint8_t channel, LogPriority::Enum priority, const char* function, const char* file, int line)
+void log::message(LogChannel::Enum channel, LogPriority::Enum priority, const char* function, const char* file, int line, const char* format, ...)
 {
     // Filter the message
     if (!filter(channel, priority))
     {
-        write_log_message(message, channel, priority, function, file, line);
+        va_list args;
+	    va_start(args, format);
+
+	    size_t nbChars = bw::cstring::format_va_list(m_messageBuffer, kMaxMessageBuffer, format, args);
+	
+	    va_end(args);
+
+        write_log_message(m_messageBuffer, channel, priority, function, file, line);
     }
 }
 
@@ -169,36 +191,36 @@ void log::message(const char* message, uint8_t channel, LogPriority::Enum priori
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::enable_channel(uint8_t channel)
+void log::enable_channel(LogChannel::Enum channel)
 {
-    m_channelState = bit::set(m_channelState, channel);
+    m_channelState = bit::set(m_channelState, static_cast<uint8_t>(channel));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::disable_channel(uint8_t channel)
+void log::disable_channel(LogChannel::Enum channel)
 {
-    m_channelState = bit::unset(m_channelState, channel);
+    m_channelState = bit::unset(m_channelState, static_cast<uint8_t>(channel));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-bool log::channel_enabled(uint8_t channel)
+bool log::channel_enabled(LogChannel::Enum channel)
 {
-    return bit::is_set(m_channelState, channel);
+    return bit::is_set(m_channelState, static_cast<uint8_t>(channel));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-const char* log::channel_name(uint8_t channel)
+const char* log::channel_name(LogChannel::Enum channel)
 {
-    BW_ASSERT(channel < kMaxChannels, "Invalid channel '{0:n}'. Max channels {1}.", channel, kMaxChannels);
+    BW_ASSERT(static_cast<size_t>(channel) < kMaxChannels, "Invalid channel '%hu'. Max channels %zu.", channel, kMaxChannels);
     return m_channelNames[channel];
 }
 
@@ -206,9 +228,9 @@ const char* log::channel_name(uint8_t channel)
 /// \details Detailed description.
 /// \todo Write detailed description
 ////////////////////////////////////////////////////////////////////////////////
-void log::channel_name(uint8_t channel, const char* name)
+void log::channel_name(LogChannel::Enum channel, const char* name)
 {
-    BW_ASSERT(channel < kMaxChannels, "Invalid channel '{0:n}'. Max channels {1}.", channel, kMaxChannels);
+    BW_ASSERT(static_cast<size_t>(channel) < kMaxChannels, "Invalid channel '%hu'. Max channels %zu.", channel, kMaxChannels);
     cstring::copy(m_channelNames[channel], kMaxChannelName, name);
 }
 

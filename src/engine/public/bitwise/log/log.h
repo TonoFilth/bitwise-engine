@@ -1,9 +1,6 @@
 #pragma once
 
-#include <utility>  // forward
-
 #include "bitwise/core/macros.h"
-#include "bitwise/core/fwd.h"
 #include "bitwise/log/channel.h"
 #include "bitwise/log/priority.h"
 
@@ -23,43 +20,43 @@ namespace log
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void message(const char* message, const char* function, const char* file, int line);
+    BW_API void message(const char* function, const char* file, int line, const char* format, ...);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void message(const char* message, uint8_t channel, LogPriority::Enum priority, const char* function, const char* file, int line);
+    BW_API void message(LogChannel::Enum channel, LogPriority::Enum priority, const char* function, const char* file, int line, const char* format, ...);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void enable_channel(uint8_t channel);
+    BW_API void enable_channel(LogChannel::Enum channel);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void disable_channel(uint8_t channel);
+    BW_API void disable_channel(LogChannel::Enum channel);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API bool channel_enabled(uint8_t channel);
+    BW_API bool channel_enabled(LogChannel::Enum channel);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API const char* channel_name(uint8_t channel);
+    BW_API const char* channel_name(LogChannel::Enum channel);
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void channel_name(uint8_t channel, const char* name);
+    BW_API void channel_name(LogChannel::Enum channel, const char* name);
 
     ////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.
@@ -74,16 +71,7 @@ namespace log
     BW_API LogPriority::Enum priority(LogPriority::Enum newPriority);
 
 }   // namespace log
-
-namespace internal
-{
-    template <typename ...Args>
-    BW_FORCE_INLINE BW_API const char* format_log_message(const char* format, Args&& ...args);
-
-}   // namespace internal
 }	// namespace bw
-
-#include "bitwise/log/log.inl"
 
 #define BW_LOGGING
 
@@ -91,12 +79,12 @@ namespace internal
 //  Macros
 // -----------------------------------------------------------------------------
 #if defined(BW_LOGGING)
-    #define BW_LOG(format, ...)                  { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), __func__, __FILE__, __LINE__);                                     }
-    #define BW_LOG_VERBOSE(channel, format, ...) { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), channel, bw::LogPriority::eVERBOSE, __func__, __FILE__, __LINE__); }
-    #define BW_LOG_INFO(channel, format, ...)    { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), channel, bw::LogPriority::eINFO,    __func__, __FILE__, __LINE__); }
-    #define BW_LOG_WARNING(channel, format, ...) { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), channel, bw::LogPriority::eWARNING, __func__, __FILE__, __LINE__); }
-    #define BW_LOG_ERROR(channel, format, ...)   { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), channel, bw::LogPriority::eERROR,   __func__, __FILE__, __LINE__); }
-    #define BW_LOG_FATAL(channel, format, ...)   { bw::log::message(bw::internal::format_log_message(format, __VA_ARGS__), channel, bw::LogPriority::eFATAL,   __func__, __FILE__, __LINE__); }
+    #define BW_LOG(format, ...)                  { bw::log::message(__func__, __FILE__, __LINE__, format, __VA_ARGS__);                                     }
+    #define BW_LOG_VERBOSE(channel, format, ...) { bw::log::message(channel, bw::LogPriority::eVERBOSE, __func__, __FILE__, __LINE__, format, __VA_ARGS__); }
+    #define BW_LOG_INFO(channel, format, ...)    { bw::log::message(channel, bw::LogPriority::eINFO,    __func__, __FILE__, __LINE__, format, __VA_ARGS__); }
+    #define BW_LOG_WARNING(channel, format, ...) { bw::log::message(channel, bw::LogPriority::eWARNING, __func__, __FILE__, __LINE__, format, __VA_ARGS__); }
+    #define BW_LOG_ERROR(channel, format, ...)   { bw::log::message(channel, bw::LogPriority::eERROR,   __func__, __FILE__, __LINE__, format, __VA_ARGS__); }
+    #define BW_LOG_FATAL(channel, format, ...)   { bw::log::message(channel, bw::LogPriority::eFATAL,   __func__, __FILE__, __LINE__, format, __VA_ARGS__); }
 #else
     #define BW_LOG(format, ...)
     #define BW_LOG_VERBOSE(channel, format, ...)

@@ -1,8 +1,11 @@
+#include <cstdio>   // sscanf
+#include <cstring>  // strcpy
+
+#if defined(BW_PLATFORM_LINUX) || defined(BW_PLATFORM_WEB)
+#   include <strings.h> // strcasecmp()
+#endif
+
 #include "bitwise/core/cstring.h"
-
-static const size_t kFormatOptionsBufferSize = 8;
-
-static char m_formatOptionsBuffer[kFormatOptionsBufferSize];
 
 namespace bw
 {
@@ -157,95 +160,61 @@ bool cstring::replace(char* str, char needle, char replacement)
     return replaced;
 }
 
-// -----------------------------------------------------------------------------
-
-size_t internal::parse_arg_and_options(const char* c, int& argIndex, const char** optionsBuffer)
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::format(char* buffer, size_t bufferSize, const char* format, ...)
 {
-    char argBuffer[3] { *c++, '\0', '\0' };
-    size_t nbChars = 1;
-    
-    if (*c >= '0' && *c <= '9')
-    {
-        argBuffer[1] = *c++;
-        ++nbChars;
-    }
-    
-    // Bad argument format
-    BW_ASSERT(*c == '}' || *c == ':', "Unexpected character '{0}'", *c);
+	va_list args;
+	va_start(args, format);
 
-    if (*c == ':')
-    {
-        ++c;
-        ++nbChars;
-    }
-    else
-    {
-        *m_formatOptionsBuffer = '\0';
-    }
+	size_t nbChars = bw::cstring::format_va_list(buffer, bufferSize, format, args);
+	
+	va_end(args);
 
-    bw::cstring::scan_cformat(argBuffer, "%d", &argIndex);
-
-    char* oc = m_formatOptionsBuffer;
-    size_t osize = 0;
-
-    while (*c != '}' && *c != '\0')
-    {
-        *oc++ = *c++;
-        ++osize;
-        ++nbChars;
-
-        // Format options too big
-        BW_ASSERT(osize < kFormatOptionsBufferSize, "Format options buffer too small ({0})", kFormatOptionsBufferSize);
-    }
-
-    m_formatOptionsBuffer[osize] = '\0';
-    *optionsBuffer = m_formatOptionsBuffer;
-
-    return nbChars + 1;
+	return nbChars;
 }
 
-// -----------------------------------------------------------------------------
-
-bool internal::validate_format(const char* format)
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::truncated_format(char* buffer, size_t bufferSize, const char* format, ...)
 {
-    size_t count = 0;
-    
-    const char* c = format;
+	va_list args;
+	va_start(args, format);
 
-    while (*c != '\0')
-    {
-        switch (*c)
-        {
-            case '{' :
-            {
-                if (*(c+1) == '{')
-                {
-                    ++c;
-                }
-                else
-                {
-                    ++count;
-                }
+	size_t nbChars = cstring::truncated_format_va_list(buffer, bufferSize, format, args);
+	
+	va_end(args);
 
-                break;
-            }
-            case '}' :
-            {
-                if (*(c+1) == '}')
-                {
-                    ++c;
-                }
-                else
-                {
-                    --count;
-                }
-            }
-        }
+	return nbChars;
+}
 
-        ++c;
-    }
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t bw::cstring::scan_format(const char* str, const char* format, ...)
+{
+    va_list args;
+	va_start(args, format);
 
-    return count == 0;
+	size_t nbChars = bw::cstring::scan_format_va_list(str, format, args);
+	
+	va_end(args);
+
+	return nbChars;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
+size_t cstring::length(const char* str)
+{
+    return ::strlen(str);
 }
 
 }	// namespace bw

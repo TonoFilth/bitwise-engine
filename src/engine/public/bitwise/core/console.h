@@ -1,9 +1,6 @@
 #pragma once
 
-#include <utility> // std::forward
-
 #include "bitwise/core/macros.h"
-#include "bitwise/core/fwd.h"
 
 namespace bw
 {
@@ -29,19 +26,10 @@ namespace console
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    template <typename ...Args>
-    void write_format(const char* format, Args&& ...args);
-
-	////////////////////////////////////////////////////////////////////////////
-	/// \brief Brief description.
-	/// \todo Write brief description.
-	////////////////////////////////////////////////////////////////////////////
-    BW_API void write_cformat(const char* format, ...);
+    BW_API void write_format2(const char* format, ...);
 
 }   // namespace console
 }   // namespace bw
-
-#include "bitwise/core/console.inl"
 
 ////////////////////////////////////////////////////////////////////////////////
 /// \namespace bw::console

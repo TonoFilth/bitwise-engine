@@ -13,7 +13,7 @@ static bw::callstack::StackFrameFormatter m_formatter = bw::internal::default_st
 // -----------------------------------------------------------------------------
 static size_t bw::internal::default_stack_frame_formatter(bw::StackFrame& frame, char* buffer, size_t bufferSize)
 {
-    return cstring::format(buffer, bufferSize, "#{0} | {1} {2}:{3}\n", frame.depth, frame.function, frame.filename, frame.line);
+    return bw::cstring::format(buffer, bufferSize, "#%u | %s %s:%u\n", frame.depth, frame.function, frame.filename, frame.line);
 }
 
 namespace bw
