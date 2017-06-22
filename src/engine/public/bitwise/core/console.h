@@ -26,7 +26,7 @@ namespace console
 	/// \brief Brief description.
 	/// \todo Write brief description.
 	////////////////////////////////////////////////////////////////////////////
-    BW_API void write_format2(const char* format, ...);
+    BW_API void write_format(const char* format, ...);
 
 }   // namespace console
 }   // namespace bw

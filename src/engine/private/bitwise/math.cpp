@@ -7,13 +7,13 @@ namespace bw
 // -----------------------------------------------------------------------------
 //  Internal functions
 // -----------------------------------------------------------------------------
-void math::initialize(int argc, char** argv)
+void internal::math::initialize(int argc, char** argv)
 {
 }
 
 // -----------------------------------------------------------------------------
 
-void math::shutdown()
+void internal::math::shutdown()
 {
 }
 

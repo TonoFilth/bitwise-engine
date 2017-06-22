@@ -37,7 +37,7 @@ list(APPEND SOURCE_FILES
 if (BW_PLATFORM_WINDOWS)
 
 	list(APPEND SOURCE_FILES
-		${PLATFORM_PRIVATE}/windows_assert_handler.cpp
+		${PLATFORM_PRIVATE}/windows_assert.cpp
 		${PLATFORM_PRIVATE}/windows_callstack.cpp
 		${PLATFORM_PRIVATE}/windows_console.cpp
 		${PLATFORM_PRIVATE}/windows_cstring.cpp

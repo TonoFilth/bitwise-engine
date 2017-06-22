@@ -97,10 +97,10 @@ namespace bw
 {
 
 // -----------------------------------------------------------------------------
-//  Public functions
+//  Internal functions
 // -----------------------------------------------------------------------------
 #if !defined(BW_DOXYPRESS)
-void log::initialize(int argc, char** argv)
+void internal::log::initialize(int argc, char** argv)
 {
     // Set engine channel names
     for (int i = 0; i < LogChannel::eUSER; ++i)
@@ -120,15 +120,15 @@ void log::initialize(int argc, char** argv)
     }
 
     // Set default user channel names
-    for (int i = LogChannel::eUSER; i < kMaxChannels; ++i)
+    for (int i = LogChannel::eUSER; i < bw::log::kMaxChannels; ++i)
     {
         bw::cstring::format(m_channelNames[i], kMaxChannelName, "usr%d", i - LogChannel::eUSER);
     }
 
-    enable_channel(LogChannel::eSYSTEM);
-    enable_channel(LogChannel::eUSER);
+    bw::log::enable_channel(LogChannel::eSYSTEM);
+    bw::log::enable_channel(LogChannel::eUSER);
 
-    priority(LogPriority::eVERBOSE);
+    bw::log::priority(LogPriority::eVERBOSE);
 
     // Default output function
     LogOutput* defaultOutput = m_output;
@@ -142,7 +142,7 @@ void log::initialize(int argc, char** argv)
 
 // -----------------------------------------------------------------------------
 
-void log::shutdown()
+void internal::log::shutdown()
 {
 
 }

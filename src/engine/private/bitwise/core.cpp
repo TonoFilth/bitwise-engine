@@ -7,16 +7,16 @@ namespace bw
 // -----------------------------------------------------------------------------
 //  Internal functions
 // -----------------------------------------------------------------------------
-void core::initialize(int argc, char** argv)
+void internal::core::initialize(int argc, char** argv)
 {
-    system::initialize(argc, argv);
+    bw::internal::system::initialize(argc, argv);
 }
 
 // -----------------------------------------------------------------------------
 
-void core::shutdown()
+void internal::core::shutdown()
 {
-    system::shutdown();
+    bw::internal::system::shutdown();
 }
 
 }   // namespace bw

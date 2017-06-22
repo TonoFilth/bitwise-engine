@@ -11,7 +11,8 @@ static const size_t kMaxErrorBuffer = 2048;
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
-static char m_errorBuffer[kMaxErrorBuffer];
+static char   m_errorBuffer[kMaxErrorBuffer];
+static size_t m_pageSize = 0;
 
 namespace bw
 {
@@ -19,19 +20,19 @@ namespace bw
 // -----------------------------------------------------------------------------
 //  Internal functions
 // -----------------------------------------------------------------------------
-void system::initialize(int argc, char** argv)
+void internal::system::initialize(int argc, char** argv)
 {
 }
 
 // -----------------------------------------------------------------------------
 
-void system::shutdown()
+void internal::system::shutdown()
 {
 }
 
 // -----------------------------------------------------------------------------
 
-const char* system::get_last_error_message()
+const char* internal::system::get_last_error_message()
 {
     size_t errorCode = ::GetLastError();
 
@@ -52,22 +53,31 @@ const char* system::get_last_error_message()
     return "";
 }
 
-// -----------------------------------------------------------------------------
-//  Public functions
-// -----------------------------------------------------------------------------
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
 int system::exec(const char* program, const char* args)
 {
 	return -1;
 }
 
-// -----------------------------------------------------------------------------
-
+////////////////////////////////////////////////////////////////////////////////
+/// \details Detailed description.
+/// \todo Write detailed description.
+////////////////////////////////////////////////////////////////////////////////
 size_t system::page_size()
 {
+    if (m_pageSize != 0)
+    {
+        return m_pageSize;
+    }
+
     SYSTEM_INFO info;
 	GetSystemInfo(&info);
 
-	return info.dwPageSize;
+	m_pageSize = info.dwPageSize;
+    return m_pageSize;
 }
 
 // -----------------------------------------------------------------------------

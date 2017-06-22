@@ -3,15 +3,18 @@
 
 namespace bw
 {
+// -----------------------------------------------------------------------------
+//  Internal namespace
+// -----------------------------------------------------------------------------
+namespace internal
+{
 namespace log
 {
-    // -------------------------------------------------------------------------
-    //  Internal functions
-    // -------------------------------------------------------------------------
+    // Defined in "bitwise/log.cpp"
     void initialize(int argc, char** argv);
     void shutdown();
-
-}   // namespace log
+}
+}   // namespace internal
 }   // namespace bw
 
 #endif

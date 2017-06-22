@@ -14,7 +14,6 @@ namespace log
 {
     const size_t kMaxChannels     = sizeof(uint32_t) * 8;               ///< TODO
     const size_t kMaxUserChannels = kMaxChannels - LogChannel::eUSER;   ///< TODO
-    const size_t kMaxLogMessage   = 4096;                               ///< TODO
 
 	////////////////////////////////////////////////////////////////////////////
 	/// \brief Brief description.

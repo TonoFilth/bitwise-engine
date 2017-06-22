@@ -25,7 +25,7 @@ static bw::Allocator* m_genericAllocator = nullptr;
 // -----------------------------------------------------------------------------
 //  Private functions
 // -----------------------------------------------------------------------------
-void bw::memory::create_global_allocators()
+void bw::internal::memory::create_global_allocators()
 {
     static_assert(sizeof(PageAllocator) + sizeof(HeapAllocator) < kMaxGlobalAllocatorBuffer, "Buffer too small");
 
@@ -40,7 +40,7 @@ void bw::memory::create_global_allocators()
 
 // -----------------------------------------------------------------------------
 
-void bw::memory::delete_global_allocators()
+void bw::internal::memory::delete_global_allocators()
 {
     m_pageAllocator->~Allocator();
     m_heapAllocator->~Allocator();

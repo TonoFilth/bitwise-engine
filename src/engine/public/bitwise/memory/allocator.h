@@ -15,7 +15,7 @@ namespace bw
 class BW_API Allocator
 {
 public:
-	static const size_t kSizeNotTracked   = integer::max<size_t>();
+	static const size_t kSizeNotTracked   = bw::integer::max<size_t>();
     static const size_t kDefaultAlignment = 4;
 
     ////////////////////////////////////////////////////////////////////////////

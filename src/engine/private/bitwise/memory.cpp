@@ -3,20 +3,19 @@
 
 namespace bw
 {
-
 // -----------------------------------------------------------------------------
 //  Internal functions
 // -----------------------------------------------------------------------------
-void memory::initialize(int argc, char** argv)
+void internal::memory::initialize(int argc, char** argv)
 {
-    create_global_allocators();
+    bw::internal::memory::create_global_allocators();
 }
 
 // -----------------------------------------------------------------------------
 
-void memory::shutdown()
+void internal::memory::shutdown()
 {
-    delete_global_allocators();
+    bw::internal::memory::delete_global_allocators();
 }
 
 }   // namespace bw

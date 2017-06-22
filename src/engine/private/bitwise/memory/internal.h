@@ -3,29 +3,26 @@
 
 namespace bw
 {
-
 // -----------------------------------------------------------------------------
-//  Forward declarations
+//  Internal namespace
 // -----------------------------------------------------------------------------
-class PageAllocator;
-
+namespace internal
+{
 namespace memory
 {
-    // -------------------------------------------------------------------------
-    //  Internal functions
-    // -------------------------------------------------------------------------
+    // Defined in "bitwise/memory.cpp"
     void initialize(int argc, char** argv);
     void shutdown();
+
+    // Defined in "bitwise/memory/global_allocators.cpp"
     void create_global_allocators();
     void delete_global_allocators();
-    void* alloc(size_t sizeBytes);
-    void free(void* memory, size_t sizeBytes);
 
-    void   save_size  (PageAllocator& allocator, void* memory, size_t size);
-    void   delete_size(PageAllocator& allocator, void* memory);
-    size_t size       (const PageAllocator& allocator, void* memory);
-
-}   // namespace memory
+    // Defined in "bitwise/memory/platform/<platform>_valloc.cpp"
+    void* valloc(size_t sizeBytes);
+    void  vfree(void* memory, size_t sizeBytes);
+}
+}   // namespace internal
 }   // namespace bw
 
 #endif

@@ -49,7 +49,7 @@ void console::write_line(const char* str)
 /// \details Detailed description.
 /// \todo Write detailed description.
 ////////////////////////////////////////////////////////////////////////////////
-void console::write_format2(const char* format, ...)
+void console::write_format(const char* format, ...)
 {
 	va_list args;
 	va_start(args, format);

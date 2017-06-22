@@ -4,7 +4,7 @@
 // -----------------------------------------------------------------------------
 //  Private variables
 // -----------------------------------------------------------------------------
-static bw::assert::AssertHandler m_handler = bw::internal::default_assert_handler;
+static bw::assert::AssertHandler m_handler = bw::internal::assert::default_handler;
 
 namespace bw
 {
@@ -30,7 +30,7 @@ assert::AssertHandler assert::set_handler(AssertHandler assertHandler)
     // assert handler to the default one
     if (assertHandler == nullptr)
     {
-        m_handler = internal::default_assert_handler;
+        m_handler = bw::internal::assert::default_handler;
     }
     else
     {

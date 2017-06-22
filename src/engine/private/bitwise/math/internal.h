@@ -3,15 +3,18 @@
 
 namespace bw
 {
+// -----------------------------------------------------------------------------
+//  Internal namespace
+// -----------------------------------------------------------------------------
+namespace internal
+{
 namespace math
 {
-// -----------------------------------------------------------------------------
-//  Internal functions
-// -----------------------------------------------------------------------------
-void initialize(int argc, char** argv);
-void shutdown();
-
-}   // namespace math
+    // Defined in "bitwise/math.cpp"
+    void initialize(int argc, char** argv);
+    void shutdown();
+}
+}   // namespace internal
 }   // namespace bw
 
 #endif

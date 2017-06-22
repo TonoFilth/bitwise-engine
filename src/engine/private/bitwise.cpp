@@ -12,13 +12,13 @@ void bw::initialize(int argc, char** argv)
 {
     BW_CALL_ONCE();
 
-    log::initialize(argc, argv);
+    bw::internal::log::initialize(argc, argv);
 
     BW_LOG_INFO(LogChannel::eSYSTEM, "Initializing bitwise engine");
 
-    core::initialize(argc, argv);
-    memory::initialize(argc, argv);
-    math::initialize(argc, argv);
+    bw::internal::core::initialize(argc, argv);
+    bw::internal::memory::initialize(argc, argv);
+    bw::internal::math::initialize(argc, argv);
 
     BW_LOG_INFO(LogChannel::eSYSTEM, "Bitwise engine initialized");
 }
@@ -33,10 +33,10 @@ void bw::shutdown()
 
     BW_LOG_INFO(LogChannel::eSYSTEM, "Shutting down bitwise engine");
 
-    math::shutdown();
-    memory::shutdown();
-    core::shutdown();
-    log::shutdown();
+    bw::internal::math::shutdown();
+    bw::internal::memory::shutdown();
+    bw::internal::core::shutdown();
+    bw::internal::log::shutdown();
 
     BW_LOG_INFO(LogChannel::eSYSTEM, "Bitwise engine shutted down");
 }

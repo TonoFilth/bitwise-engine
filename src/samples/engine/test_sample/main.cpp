@@ -15,7 +15,7 @@ int main(int argc, char** argv)
         addresses.push_back(tracer.allocate(4097));
     }
 
-    bw::console::write_format2("%zu kb.\n", bw::memory::page_allocator().allocatedSize() / 1024);
+    bw::console::write_format("%zu kb.\n", bw::memory::page_allocator().allocatedSize() / 1024);
 
     for (void* address : addresses)
     {

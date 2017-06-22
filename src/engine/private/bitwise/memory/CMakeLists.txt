@@ -20,7 +20,6 @@ list(APPEND SOURCE_FILES
 # Private
 list(APPEND SOURCE_FILES
 	${PRIVATE_DIR}/memory.cpp
-	${MEMORY_PRIVATE}/allocator.cpp
 	${MEMORY_PRIVATE}/internal.h
 	${MEMORY_PRIVATE}/global_allocators.cpp
 	${MEMORY_PRIVATE}/heap_allocator.cpp
@@ -32,7 +31,8 @@ list(APPEND SOURCE_FILES
 if (BW_PLATFORM_WINDOWS)
 
 	list(APPEND SOURCE_FILES
-		${PLATFORM_PRIVATE}/windows_alloc.cpp
+		${PLATFORM_PRIVATE}/windows_page_allocator.cpp
+		${PLATFORM_PRIVATE}/windows_valloc.cpp
 	)
 
 endif()
