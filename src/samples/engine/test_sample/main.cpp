@@ -67,6 +67,9 @@ int main(int argc, char** argv)
 
     it0.swap(it1);
 
+    int& first = mylist.first();
+    const int& cfirst = mylist.last();
+
     if (mylist.begin())
     {
         bw::console::write_line("yes");

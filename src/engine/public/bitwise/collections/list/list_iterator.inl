@@ -46,7 +46,7 @@ template <class I, class U>
 template <class OtherType>
 bool bw::ListIterator<I,U>::operator==(const ListIterator<OtherType>& other) const
 {
-    return m_node == other.constNode();
+    return m_node == other.cnode();
 }
 
 // -----------------------------------------------------------------------------
@@ -55,7 +55,7 @@ template <class I, class U>
 template <class OtherType>
 bool bw::ListIterator<I,U>::operator!=(const ListIterator<OtherType>& other) const
 {
-    return m_node != other.constNode();
+    return m_node != other.cnode();
 }
 
 // -----------------------------------------------------------------------------
@@ -139,7 +139,7 @@ typename bw::ListIterator<I,U>::Node* bw::ListIterator<I,U>::node() const
 // -----------------------------------------------------------------------------
 
 template <class I, class U>
-typename const bw::ListIterator<I,U>::Node* bw::ListIterator<I,U>::constNode() const
+typename const bw::ListIterator<I,U>::Node* bw::ListIterator<I,U>::cnode() const
 {
     return m_node;
 }
