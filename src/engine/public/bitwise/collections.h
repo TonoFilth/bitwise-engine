@@ -1,6 +1,7 @@
 #pragma once
 
-#include "bitwise/collections/array/array.h"
+#include "bitwise/collections/array.h"
+#include "bitwise/collections/list.h"
 
 ////////////////////////////////////////////////////////////
 /// \defgroup collections Collections module

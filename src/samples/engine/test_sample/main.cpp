@@ -58,6 +58,31 @@ int main(int argc, char** argv)
         bw::console::write_format("[%d] = %d\n", i, intArray[i].value);
     }
 
+    bw::List<int> mylist;
+    mylist.add(1);
+    mylist.insert(mylist.begin(), 5);
+
+    bw::List<int>::iterator it0 = mylist.begin();
+    bw::List<int>::iterator it1 = mylist.end();
+
+    it0.swap(it1);
+
+    if (mylist.begin())
+    {
+        bw::console::write_line("yes");
+    }
+
+    for (auto it = mylist.cbegin(); it != mylist.cend(); ++it)
+    {
+        bw::console::write_format("List %d\n", *it);
+    }
+
+    for (auto it = mylist.begin(); it != mylist.end(); )
+    {
+        bw::console::write_format("List %d\n", *it);
+        it = mylist.remove(it);
+    }
+
     bw::shutdown();
 
     return 0;

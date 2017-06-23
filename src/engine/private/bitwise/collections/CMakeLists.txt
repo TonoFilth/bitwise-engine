@@ -6,8 +6,13 @@ set(PLATFORM_PRIVATE    ${COLLECTIONS_PRIVATE}/platform/${BW_PLATFORM_DIR})
 # Public
 list(APPEND SOURCE_FILES
 	${PUBLIC_DIR}/collections.h
-	${COLLECTIONS_PUBLIC}/array/array.h
+	${COLLECTIONS_PUBLIC}/array.h
 	${COLLECTIONS_PUBLIC}/array/array.inl
+	${COLLECTIONS_PUBLIC}/list.h
+	${COLLECTIONS_PUBLIC}/list/list.inl
+	${COLLECTIONS_PUBLIC}/list/list_iterator.h
+	${COLLECTIONS_PUBLIC}/list/list_iterator.inl
+	${COLLECTIONS_PUBLIC}/list/list_node.h
 )
 
 # Private
