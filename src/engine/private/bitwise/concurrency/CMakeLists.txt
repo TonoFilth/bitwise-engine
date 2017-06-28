@@ -1,5 +1,5 @@
 # Module config
-set(MODULE_NAME      math)
+set(MODULE_NAME      concurrency)
 set(MODULE_PUBLIC    ${PUBLIC_DIR}/${MODULE_NAME})
 set(MODULE_PRIVATE   ${PRIVATE_DIR}/${MODULE_NAME})
 set(PLATFORM_PUBLIC  ${MODULE_PUBLIC}/platform/${BW_PLATFORM_DIR})
@@ -8,13 +8,11 @@ set(PLATFORM_PRIVATE ${MODULE_PRIVATE}/platform/${BW_PLATFORM_DIR})
 # Public
 list(APPEND SOURCE_FILES
 	${PUBLIC_DIR}/${MODULE_NAME}.h
-	${MODULE_PUBLIC}/vector2.h
 )
 
 # Private
 list(APPEND SOURCE_FILES
 	${PRIVATE_DIR}/${MODULE_NAME}.cpp
-	${MODULE_PRIVATE}/vector2.cpp
 	${MODULE_PRIVATE}/internal.h
 )
 

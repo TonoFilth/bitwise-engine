@@ -1,36 +1,26 @@
 #pragma once
 
+#include "bitwise/core/macros.h"
+
 namespace bw
 {
 ////////////////////////////////////////////////////////////////////////////////
 /// \brief Brief description.
 /// \todo Write brief description.
 ////////////////////////////////////////////////////////////////////////////////
-struct LogChannel
+struct BW_API TcpClientConfig
 {
-    enum Enum
-    {
-        eSYSTEM = 0,
-		eNET,
+	static const size_t kAddressSize = 64;
 
-        eRESERVED0,
-        eRESERVED1,
-        eRESERVED2,
-        eRESERVED3,
-        eRESERVED4,
-        eRESERVED5,
-        eRESERVED6,
-        eRESERVED7,
-        
-        eUSER
-    };
+	char hostAddress[kAddressSize];
+	unsigned port;
 };
 
 }	// namespace bw
 
 ////////////////////////////////////////////////////////////////////////////////
-/// \class bw::LogChannel
-/// \ingroup log
+/// \class bw::TcpClientConfig
+/// \ingroup network
 ///
 /// \details Detailed description.
 /// \todo Write detailed description.

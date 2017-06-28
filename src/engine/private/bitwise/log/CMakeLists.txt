@@ -1,22 +1,24 @@
-set(LOG_PUBLIC       ${PUBLIC_DIR}/log)
-set(LOG_PRIVATE      ${PRIVATE_DIR}/log)
-set(PLATFORM_PUBLIC  ${LOG_PUBLIC}/platform/${BW_PLATFORM_DIR})
-set(PLATFORM_PRIVATE ${LOG_PRIVATE}/platform/${BW_PLATFORM_DIR})
+# Module config
+set(MODULE_NAME      log)
+set(MODULE_PUBLIC    ${PUBLIC_DIR}/${MODULE_NAME})
+set(MODULE_PRIVATE   ${PRIVATE_DIR}/${MODULE_NAME})
+set(PLATFORM_PUBLIC  ${MODULE_PUBLIC}/platform/${BW_PLATFORM_DIR})
+set(PLATFORM_PRIVATE ${MODULE_PRIVATE}/platform/${BW_PLATFORM_DIR})
 
 # Public
 list(APPEND SOURCE_FILES
-	${PUBLIC_DIR}/log.h
-	${LOG_PUBLIC}/log.h
-	${LOG_PUBLIC}/channel.h
-	${LOG_PUBLIC}/output.h
-	${LOG_PUBLIC}/priority.h
+	${PUBLIC_DIR}/${MODULE_NAME}.h
+	${MODULE_PUBLIC}/log.h
+	${MODULE_PUBLIC}/channel.h
+	${MODULE_PUBLIC}/output.h
+	${MODULE_PUBLIC}/priority.h
 )
 
 # Private
 list(APPEND SOURCE_FILES
-	${PRIVATE_DIR}/log.cpp
-	${LOG_PRIVATE}/log.cpp
-	${LOG_PRIVATE}/internal.h
+	${PRIVATE_DIR}/${MODULE_NAME}.cpp
+	${MODULE_PRIVATE}/log.cpp
+	${MODULE_PRIVATE}/internal.h
 )
 
 set(SOURCE_FILES ${SOURCE_FILES} PARENT_SCOPE)

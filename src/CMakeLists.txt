@@ -18,3 +18,9 @@ if (BW_BUILD_SAMPLES)
     set(BW_SAMPLES_SRC_DIR "${BW_SRC_DIR}/samples")
     add_subdirectory("samples")
 endif()
+
+# ===============================================================================
+#  Apps
+# ===============================================================================
+set(BW_APPS_SRC_DIR "${BW_SRC_DIR}/apps")
+add_subdirectory("apps")

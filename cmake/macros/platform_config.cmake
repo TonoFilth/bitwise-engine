@@ -5,8 +5,13 @@ macro(configure_platform TARGET)
 
 	if (${BW_PLATFORM_WINDOWS})
 
+		#add_definitions(-DUNICODE)
+
 		if (${CMAKE_BUILD_TYPE} MATCHES "Debug")
-			target_link_libraries(bitwise "dbghelp")
+			target_link_libraries(bitwise
+				"dbghelp"
+				"Ws2_32"
+				"mswsock")
 		endif()
 
 	# -------------------------------------------------------------------------------

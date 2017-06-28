@@ -10,7 +10,7 @@ struct LogPriority
 {
     enum Enum
     {
-        eVERBOSE,
+        eVERBOSE = 0,
         eINFO,
         eWARNING,
         eERROR,

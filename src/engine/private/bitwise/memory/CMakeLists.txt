@@ -1,30 +1,32 @@
-set(MEMORY_PUBLIC    ${PUBLIC_DIR}/memory)
-set(MEMORY_PRIVATE   ${PRIVATE_DIR}/memory)
-set(PLATFORM_PUBLIC  ${MEMORY_PUBLIC}/platform/${BW_PLATFORM_DIR})
-set(PLATFORM_PRIVATE ${MEMORY_PRIVATE}/platform/${BW_PLATFORM_DIR})
+# Module config
+set(MODULE_NAME      memory)
+set(MODULE_PUBLIC    ${PUBLIC_DIR}/${MODULE_NAME})
+set(MODULE_PRIVATE   ${PRIVATE_DIR}/${MODULE_NAME})
+set(PLATFORM_PUBLIC  ${MODULE_PUBLIC}/platform/${BW_PLATFORM_DIR})
+set(PLATFORM_PRIVATE ${MODULE_PRIVATE}/platform/${BW_PLATFORM_DIR})
 
 # Public
 list(APPEND SOURCE_FILES
-	${PUBLIC_DIR}/memory.h
-	${MEMORY_PUBLIC}/allocator.h
-	${MEMORY_PUBLIC}/allocator.inl
-	${MEMORY_PUBLIC}/fwd.h
-	${MEMORY_PUBLIC}/global_allocators.h
-	${MEMORY_PUBLIC}/heap_allocator.h
-	${MEMORY_PUBLIC}/page_allocator.h
-	${MEMORY_PUBLIC}/scope_allocator.h
-	${MEMORY_PUBLIC}/scope_allocator.inl
-	${MEMORY_PUBLIC}/trace_allocator.h
+	${PUBLIC_DIR}/${MODULE_NAME}.h
+	${MODULE_PUBLIC}/allocator.h
+	${MODULE_PUBLIC}/allocator.inl
+	${MODULE_PUBLIC}/fwd.h
+	${MODULE_PUBLIC}/global_allocators.h
+	${MODULE_PUBLIC}/heap_allocator.h
+	${MODULE_PUBLIC}/page_allocator.h
+	${MODULE_PUBLIC}/scope_allocator.h
+	${MODULE_PUBLIC}/scope_allocator.inl
+	${MODULE_PUBLIC}/trace_allocator.h
 )
 
 # Private
 list(APPEND SOURCE_FILES
-	${PRIVATE_DIR}/memory.cpp
-	${MEMORY_PRIVATE}/internal.h
-	${MEMORY_PRIVATE}/global_allocators.cpp
-	${MEMORY_PRIVATE}/heap_allocator.cpp
-	${MEMORY_PRIVATE}/page_allocator.cpp
-	${MEMORY_PRIVATE}/trace_allocator.cpp
+	${PRIVATE_DIR}/${MODULE_NAME}.cpp
+	${MODULE_PRIVATE}/internal.h
+	${MODULE_PRIVATE}/global_allocators.cpp
+	${MODULE_PRIVATE}/heap_allocator.cpp
+	${MODULE_PRIVATE}/page_allocator.cpp
+	${MODULE_PRIVATE}/trace_allocator.cpp
 )
 
 # Platform sources

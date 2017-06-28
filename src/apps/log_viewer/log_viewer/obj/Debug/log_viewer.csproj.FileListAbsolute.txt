@@ -1,0 +1,6 @@
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\bin\Debug\log_viewer.exe.config
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\bin\Debug\log_viewer.exe
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\bin\Debug\log_viewer.pdb
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\obj\Debug\log_viewer.csprojResolveAssemblyReference.cache
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\obj\Debug\log_viewer.exe
+C:\cygwin64\home\TonoFilth\dev\bitwise-engine\src\apps\log_viewer\log_viewer\obj\Debug\log_viewer.pdb

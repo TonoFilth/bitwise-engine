@@ -42,7 +42,14 @@ static bw::LogOutput m_output[kMaxLogOutputs];
 // -----------------------------------------------------------------------------
 static void default_output_function(const char* message, bw::LogChannel::Enum channel, bw::LogPriority::Enum priority, void* userData)
 {
-    bw::console::write(message);
+	if (priority < bw::LogPriority::eERROR)
+	{
+		bw::console::write(message);
+	}
+	else
+	{
+		bw::console::error::write(message);
+	}
 }
 
 // -----------------------------------------------------------------------------
@@ -107,15 +114,18 @@ void internal::log::initialize(int argc, char** argv)
     {
         switch ((LogChannel::Enum) i)
         {
-            case LogChannel::eSYSTEM    : cstring::copy(m_channelNames[i], kMaxChannelName, "system");    break;
-            case LogChannel::eRESERVED0 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved0"); break;
-            case LogChannel::eRESERVED1 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved1"); break;
-            case LogChannel::eRESERVED2 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved2"); break;
-            case LogChannel::eRESERVED3 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved3"); break;
-            case LogChannel::eRESERVED4 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved4"); break;
-            case LogChannel::eRESERVED5 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved5"); break;
-            case LogChannel::eRESERVED6 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved6"); break;
-            case LogChannel::eRESERVED7 : cstring::copy(m_channelNames[i], kMaxChannelName, "reserved7"); break;
+            case LogChannel::eSYSTEM    : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "system");    break;
+			case LogChannel::eNET       : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "net");       break;
+            case LogChannel::eRESERVED0 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved0"); break;
+            case LogChannel::eRESERVED1 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved1"); break;
+            case LogChannel::eRESERVED2 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved2"); break;
+            case LogChannel::eRESERVED3 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved3"); break;
+            case LogChannel::eRESERVED4 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved4"); break;
+            case LogChannel::eRESERVED5 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved5"); break;
+            case LogChannel::eRESERVED6 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved6"); break;
+            case LogChannel::eRESERVED7 : bw::cstring::copy(m_channelNames[i], kMaxChannelName, "reserved7"); break;
+
+			default : BW_NO_ENTRY(); break;
         }
     }
 
@@ -126,6 +136,7 @@ void internal::log::initialize(int argc, char** argv)
     }
 
     bw::log::enable_channel(LogChannel::eSYSTEM);
+	bw::log::enable_channel(LogChannel::eNET);
     bw::log::enable_channel(LogChannel::eUSER);
 
     bw::log::priority(LogPriority::eVERBOSE);

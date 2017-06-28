@@ -14,11 +14,13 @@ list(APPEND SOURCE_FILES
 	${PROJ_DIR}/private/bitwise.cpp)
 
 # Module source files
+add_subdirectory(${PRIVATE_DIR}/collections)
+add_subdirectory(${PRIVATE_DIR}/concurrency)
 add_subdirectory(${PRIVATE_DIR}/core)
 add_subdirectory(${PRIVATE_DIR}/log)
-add_subdirectory(${PRIVATE_DIR}/memory)
-add_subdirectory(${PRIVATE_DIR}/collections)
 add_subdirectory(${PRIVATE_DIR}/math)
+add_subdirectory(${PRIVATE_DIR}/memory)
+add_subdirectory(${PRIVATE_DIR}/network)
 
 # Set the library type
 if (BW_SHARED_LIBS)

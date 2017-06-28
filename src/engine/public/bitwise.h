@@ -1,10 +1,12 @@
 #pragma once
 
 #include "bitwise/collections.h"
+#include "bitwise/concurrency.h"
 #include "bitwise/core.h"
 #include "bitwise/log.h"
 #include "bitwise/math.h"
 #include "bitwise/memory.h"
+#include "bitwise/network.h"
 
 namespace bw
 {
